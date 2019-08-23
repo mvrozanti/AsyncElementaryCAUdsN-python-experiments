@@ -72,23 +72,22 @@
 % \newcommand{\abnTeX}{}
 % \newcommand{\abnTeXForum}{}
 \newcommand{\abnTeXSite}{}
-\title{Conservabilidade de estados de autômatos celulares elementares com 
-\\
-\\
-atualizações assíncronas por prioridade da vizinhança}
+
+\title{\protect\parbox{\textwidth}{\protect\centering \textbf{Conservabilidade de estados de autômatos celulares elementares com atualizações assíncronas por prioridade da vizinhança}}}
 
 %   \thanks{Este documento
 %   se referete ao \textsf{abntex2} versão \fileversion,
 %   de \filedate.}
   
+
 \author{Marcelo Vironda Rozanti\\\abnTeXSite Felipe Stefanelli de Aguiar Silva\\\abnTeXSite} 
 
 \date{\today}
 
 \hypersetup{
 		pdftitle={Conservabilidade de estados de autômatos celulares elementares com atualizações assíncronas por prioridade da vizinhança},
-		pdfauthor={Marcelo Vironda Rozanti},
-        pdfkeywords={Cellular Automaton} {Finite Configuration} {HPC} {AVX-512} {Optimization}, 
+                pdfauthor={Marcelo Vironda Rozanti}{Felipe Stefanelli de Aguiar Silva},
+        pdfkeywords={SIMD} {Euclidean Distance} {HPC} {AVX-512} {Optimization}, 
 		pdfproducer={Marcelo Vironda Rozanti},
 	    pdfcreator={vim+LaTeX+abnTeX2},
     	colorlinks=true,
@@ -149,7 +148,7 @@ Orientador: \orientador
 \maketitle
 
 \begin{abstract}
-A combinação de recentes avanços em computadores, o fenômeno Big Data e o uso de algoritmos de Machine Learning, clássicos ou contemporâneos, permitem produzir uma gama de novos dispositivos de impacto significativo na vida humana. Estes algoritmos comumente requerem alto custo computacional e são compostos por sub-algoritmos que realizam operações mais especializadas. Este projeto visa otimizar um pequeno conjunto destes sub-algoritmos destinados ao cálculo de distância euclidiana em diversas arquiteturas com suporte a paralelismo computacional. O código correspondende a este trabalho pode ser acessado no repositório \url{https://github.com/hpc-fci-mackenzie/edcalc} do Grupo de HPC da Universidade Presbiteriana Mackenzie. O presente trabalho pode ser útil a estudantes, cientistas e profissionais das áreas de Computação de Alta Performance e Inteligência Artificial.
+% A combinação de recentes avanços em computadores, o fenômeno Big Data e o uso de algoritmos de Machine Learning, clássicos ou contemporâneos, permitem produzir uma gama de novos dispositivos de impacto significativo na vida humana. Estes algoritmos comumente requerem alto custo computacional e são compostos por sub-algoritmos que realizam operações mais especializadas. Este projeto visa otimizar um pequeno conjunto destes sub-algoritmos destinados ao cálculo de distância euclidiana em diversas arquiteturas com suporte a paralelismo computacional. O código correspondende a este trabalho pode ser acessado no repositório \url{https://github.com/hpc-fci-mackenzie/edcalc} do Grupo de HPC da Universidade Presbiteriana Mackenzie. O presente trabalho pode ser útil a estudantes, cientistas e profissionais das áreas de Computação de Alta Performance e Inteligência Artificial.
 \end{abstract}
 Palavras-chave: SIMD Distância Euclidiana HPC AVX-512 Otimização
 
@@ -176,7 +175,8 @@ Keywords: \@pdfkeywords
 
 \section{INTRODUÇÃO}
 
-\tab Este projeto teve como objetivo otimizar algoritmos de cálculo de distância em arquiteturas com suporte a instruções dos conjuntos MMX (\textit{Multimedia Extensions}), SSE  (\textit{Streaming SIMD Extensions}) e AVX (\textit{Advanced Vector Extensions}) para a arquitetura de processadores com registradores de 512-bit de largura. Ao utilizar funções nativas do processador alvo, é possível atingir graus maiores de eficiência para uma determinada arquitetura. No entanto, segundo \citeonline{fast-sorting}: ``From one CPU generation to the next, improvements and changes are made at various levels. Some modifications are hidden from the programmer and might improve existing codes without any update. This includes the low-level modules (speculation, out-of-order execution, etc.) but also the CPU’s clock frequency. On the other hand, some new features and improvements require to be explicitly used''. O que é possível interpretar deste trecho é que determinadas modificações não necessitam de atualização no código. No entanto, outras melhorias devem ser necessariamente explicitadas para atingir ganhos mensuráveis.
+
+\tab Este projeto teve como objetivo otimizar algoritmos de \citeonline{overeinder1993application} cálculo de distância em arquiteturas com suporte a instruções dos conjuntos MMX (\textit{Multimedia Extensions}), SSE  (\textit{Streaming SIMD Extensions}) e AVX (\textit{Advanced Vector Extensions}) para a arquitetura de processadores com registradores de 512-bit de largura. Ao utilizar funções nativas do processador alvo, é possível atingir graus maiores de eficiência para uma determinada arquitetura. No entanto, segundo \citeonline{fast-sorting}: ``From one CPU generation to the next, improvements and changes are made at various levels. Some modifications are hidden from the programmer and might improve existing codes without any update. This includes the low-level modules (speculation, out-of-order execution, etc.) but also the CPU’s clock frequency. On the other hand, some new features and improvements require to be explicitly used''. O que é possível interpretar deste trecho é que determinadas modificações não necessitam de atualização no código. No entanto, outras melhorias devem ser necessariamente explicitadas para atingir ganhos mensuráveis.
 
 \tab No caso do uso de supercomputadores, essa explicitação é essencial, tal como esclarece \cite[Abstract]{code-opt-simd}: ``One frequent concern about retargetable compilers, though, is their lack of machine-specific code optimization techniques in order to achieve highest code quality. While this problem is partially inherent to the retargetable compilation approach, it can be circumvented by designing flexible, configurable code optimization techniques that apply to a certain range of target architectures.''
 
@@ -429,6 +429,6 @@ Assim, pode-se dizer que as etapas desenvolvidas neste estudo foram:
 % \break
 
 \addcontentsline{toc}{section}{Referências}
-\bibliography{simd} \label{bib}
+\bibliography{cellz} \label{bib}
 
 \end{document}
