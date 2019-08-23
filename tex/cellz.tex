@@ -34,7 +34,8 @@
 \definecolor{theshade}{rgb}{1,1,0.97}
 \definecolor{theframe}{gray}{0.6}
 \definecolor{blue}{RGB}{41,5,195}
-\newcommand{\orientador}{Prof. Dr. Calebe de Paula Bianchini}
+% \newcommand{\orientador}{Prof. Dr. Calebe de Paula Bianchini}
+\newcommand{\orientador}{Prof. Dr. Pedro Paulo Balbi de Oliveira}
 \newcommand\tab[1][1cm]{\hspace*{#1}}
 \IfFileExists{listings.sty}{
   \usepackage{listings}
@@ -71,20 +72,23 @@
 % \newcommand{\abnTeX}{}
 % \newcommand{\abnTeXForum}{}
 \newcommand{\abnTeXSite}{}
-\title{\textbf{Otimização de cálculos de distância em arquiteturas SIMD} \\ \Large{}}
+\title{Conservabilidade de estados de autômatos celulares elementares com 
+\\
+\\
+atualizações assíncronas por prioridade da vizinhança}
 
 %   \thanks{Este documento
 %   se referete ao \textsf{abntex2} versão \fileversion,
 %   de \filedate.}
   
-\author{Marcelo Vironda Rozanti\\\abnTeXSite} 
+\author{Marcelo Vironda Rozanti\\\abnTeXSite Felipe Stefanelli de Aguiar Silva\\\abnTeXSite} 
 
 \date{\today}
 
 \hypersetup{
-		pdftitle={Otimização de cálculos de distância em arquiteturas SIMD},
+		pdftitle={Conservabilidade de estados de autômatos celulares elementares com atualizações assíncronas por prioridade da vizinhança},
 		pdfauthor={Marcelo Vironda Rozanti},
-        pdfkeywords={SIMD} {Euclidean Distance} {HPC} {AVX-512} {Optimization}, 
+        pdfkeywords={Cellular Automaton} {Finite Configuration} {HPC} {AVX-512} {Optimization}, 
 		pdfproducer={Marcelo Vironda Rozanti},
 	    pdfcreator={vim+LaTeX+abnTeX2},
     	colorlinks=true,
@@ -114,7 +118,8 @@
 
 \vspace*{\fill}
 
-\large{\centerline{Otimização de cálculos de distância em arquiteturas SIMD}}
+\large{Conservabilidade de estados de autômatos celulares elementares com}
+\large{\centerline{atualizações assíncronas por prioridade da vizinhança}}
 
 \vspace*{\fill}
 \large{\centerline{SÃO PAULO}}
@@ -138,7 +143,7 @@ Orientador: \orientador
 \large{\centerline{2019}}
 
 \begin{textblock}{6}(9,9)
-Projeto do Trabalho de Conclusão de Curso apresentado à Faculdade de Computação e Informática da Universidade Presbiteriana, desenvolvida como requisito parcial para aprovação na disciplina de Metodologia da Pesquisa em Computação, ministrada pelo professor Dr. Everton Knihs, do curso de Ciência da Computação.
+% Projeto do Trabalho de Conclusão de Curso apresentado à Faculdade de Computação e Informática da Universidade Presbiteriana, desenvolvida como requisito parcial para aprovação na disciplina de Metodologia da Pesquisa em Computação, ministrada pelo professor Dr. Everton Knihs, do curso de Ciência da Computação.
 \end{textblock}
 
 \maketitle
@@ -234,7 +239,7 @@ Compiladores atuais não otimizam todos os trechos críticos com o mesmo desempe
 \tab Visualização:
 
 \begin{figure}[!htbp]
-\centerline{\includegraphics[width=\linewidth/3]{images/distances.png}}
+% \centerline{\includegraphics[width=\linewidth/3]{images/distances.png}}
 \caption{Ilustração das métricas}
 \end{figure}
 
