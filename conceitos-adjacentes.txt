@@ -1,1 +1,4 @@
 https://en.wikipedia.org/wiki/Edge_of_chaos
+
+Jornal de Autômatos Celulares:
+https://dblp.org/db/journals/jca/jca13.html

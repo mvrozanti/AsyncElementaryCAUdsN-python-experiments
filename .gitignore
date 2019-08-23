@@ -2,3 +2,14 @@ vgcore*
 *.log
 *.blg
 *.synctex.gz
+vgcore*
+*.log
+*.blg
+*.aux
+*.idx
+*.out
+*.lof
+*.lot
+*.toc
+*.bbl
+*.synctex.gz
