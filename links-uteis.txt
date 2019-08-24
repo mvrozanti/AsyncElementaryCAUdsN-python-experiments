@@ -1,0 +1,15 @@
+https://en.wikipedia.org/wiki/Edge_of_chaos
+
+Jornal de Autômatos Celulares:
+https://dblp.org/db/journals/jca/jca13.html
+
+https://en.wikipedia.org/wiki/Entropy_(information_theory)
+
+Sistema de nomenclatura usado para descrever ACEs:
+https://en.wikipedia.org/wiki/Wolfram_code
+
+Pequeno programa que mede entropia em ACEs
+https://demonstrations.wolfram.com/CellularAutomataEntropy/
+
+Página de citações do Prof PP:
+https://scholar.google.com/citations?user=CupHjzcAAAAJ&hl=en&oi=sra
