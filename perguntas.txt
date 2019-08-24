@@ -4,5 +4,8 @@ Marcelo:
 
 R: Podem ser projetados de forma a serem capazes de fazer operações computacionais e são tanto modelos genéricos de complexidade quanto representações específicas de dinâmicas não-lineares numa variedade de campos científicos. (...)
 
+- Quais são as possíveis aplicações de sistemas com propriedades conservativas? Isso é uma pergunta razoável?
+R:
+
 Pipo:
 
