@@ -13,5 +13,7 @@ R:
 - Como detectar um sistema com "propriedades conservativas"?
 R:
 
+- A conservabilidade de um sistema está associada à sua entropia?
+
 Pipo:
 
