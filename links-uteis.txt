@@ -16,3 +16,6 @@ https://scholar.google.com/citations?user=CupHjzcAAAAJ&hl=en&oi=sra
 
 Simulador de autômatos celulares elementares:
 https://github.com/ghjansen/cas/tree/1.0.1
+
+O que é um AC universal:
+http://mathworld.wolfram.com/UniversalCellularAutomaton.html

@@ -1,3 +1,1 @@
-epidemiology: the branch of medicine which deals with the incidence, distribution, and possible control of diseases and other factors relating to health.
-
-
+AC: autômato celular; (em inglês: CA)
