@@ -13,3 +13,6 @@ https://demonstrations.wolfram.com/CellularAutomataEntropy/
 
 Página de citações do Prof PP:
 https://scholar.google.com/citations?user=CupHjzcAAAAJ&hl=en&oi=sra
+
+Simulador de autômatos celulares elementares:
+https://github.com/ghjansen/cas/tree/1.0.1
