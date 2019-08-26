@@ -7,5 +7,11 @@ R: Podem ser projetados de forma a serem capazes de fazer operações computacio
 - Quais são as possíveis aplicações de sistemas com propriedades conservativas? Isso é uma pergunta razoável?
 R:
 
+- Está certo falar "propriedades conservativas"?
+R:
+
+- Como detectar um sistema com "propriedades conservativas"?
+R:
+
 Pipo:
 
