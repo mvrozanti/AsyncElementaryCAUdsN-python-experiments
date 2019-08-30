@@ -19,3 +19,6 @@ https://github.com/ghjansen/cas/tree/1.0.1
 
 O que é um AC universal:
 http://mathworld.wolfram.com/UniversalCellularAutomaton.html
+
+A library for working with Cellular Automata, for Python:
+https://github.com/lantunes/cellpylib
