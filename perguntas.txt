@@ -11,9 +11,16 @@ R:
 R:
 
 - Como detectar um sistema com "propriedades conservativas"?
-R:
+R: conte a quantidade de estados distintos em cada timestep: se for igual para todos, é conservativo
+  - Mas e só for igual para as primeiras N iterações? Há como provar conservabilidade?
 
 - A conservabilidade de um sistema está associada à sua entropia?
+R:
+
+- O que significa "quiescency"?
+R:
+
+____________________________________________________________________________
 
 Pipo:
 
