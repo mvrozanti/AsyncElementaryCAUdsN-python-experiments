@@ -7,30 +7,30 @@ def print_spacetime(spacetime, zero, one):
         [print(one if c else zero, end='') for c in timestep]
         print()
 
-def run_sync(rule, t, w):
-    # rule set:
+def get_rule_transitions(rule):
+    # rule transitions:
     # 111 110 101 100 011 010 001 000
-    #  y   y   y   y   y   y   y   y
-    rule_transitions = [int(y) for y in format(rule,'#010b')[2:]]
+    #  y0  y1  y2  y3  y4  y5  y6  y7
+    return [int(y) for y in format(rule,'#010b')[2:]]
+
+def run_sync(rule, t, w):
+    rule_transitions = get_rule_transitions(rule)
     spacetime = [[0]*w]; spacetime[-1][w//2-1] = 1
     for i in range(t):
         future_space = []
-        space = spacetime[-1]
-        for x in range(len(space)):
-            ln = space[x-1]
-            mn = space[x]
-            rn = space[(x+1)%w]
-            ix = 7 - ((ln << 2) + ((mn << 1) + rn))
-            y = rule_transitions[ix]
+        space = spacetime[-1]           # get last iteration's space
+        for x in range(len(space)):         # iterate over the present space
+            ln = space[x-1]                         # get neighbours
+            mn = space[x]                           # <^
+            rn = space[(x+1)%w]                     # <^
+            ix = 7 - ((ln << 2) + ((mn << 1) + rn)) # get transition index
+            y = rule_transitions[ix]                # get next cell state
             future_space += [y]
         spacetime += [future_space]
     return spacetime
 
 def run_async(rule, t, w, scheme):
-    # rule set:
-    # 111 110 101 100 011 010 001 000
-    #  y   y   y   y   y   y   y   y
-    rule_transitions = [int(y) for y in format(rule,'#010b')[2:]]
+    rule_transitions = get_rule_transitions(rule)
     spacetime = [[0]*w]; spacetime[-1][w//2-1] = 1
     for i in range(t):
         future_space = []
