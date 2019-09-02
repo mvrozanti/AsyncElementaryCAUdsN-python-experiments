@@ -27,8 +27,15 @@ def get_rule_transitions(rule):
     """
     return [int(y) for y in format(rule,'#010b')[2:]]
 
+def is_conservative(spacetime):
+    energy = spacetime[0].count(1)
+    for space in spacetime[1:]:
+        if space.count(1) != energy:
+            return False
+    return True
+
 def get_neighbors(x, space):
-    return space[c-1], space[c], space[(c+1)%len(space)]
+    return space[x-1], space[x], space[(x+1)%len(space)]
 
 def get_rule_ix(ln,mn,rn):
     return 7 - ((ln << 2) + ((mn << 1) + rn))
@@ -82,6 +89,7 @@ def main(args):
     else:
         spacetime = run_sync(args.rule, args.timesteps, args.width)
         print_spacetime(spacetime, args.zero, args.one)
+        # print('Is conservative:', is_conservative(spacetime))
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(prog='aeca', description='Asynchronous Elementary Cellular Automata')
