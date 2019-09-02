@@ -25,3 +25,6 @@ https://github.com/lantunes/cellpylib
 
 Visualizações das 256 regras:
 https://plato.stanford.edu/entries/cellular-automata/supplement.html
+
+Grafos de de Bruijn
+https://pdfs.semanticscholar.org/5252/bfa354d9ea37a1b93f1dd19143cfdde4abf2.pdf
