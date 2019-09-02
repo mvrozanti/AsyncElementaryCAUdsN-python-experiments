@@ -26,16 +26,6 @@ def get_rule_transitions(rule):
     """
     return [int(y) for y in format(rule,'#010b')[2:]]
 
-# def get_ranked_transitions(transitions, scheme):
-#     """
-#     returns a matrix of the transitions indexed by transition ranking
-#     """
-#     ranked_transitions = {}
-#     for ix,rank in enumerate(scheme):
-#         ranked_transitions[rank] = ix,transitions[ix]
-#     code.interact(local=globals().update(locals()) or globals())
-#     return ranked_transitions
-
 def run_sync(rule, t, w):
     """
     returns spacetime after executing the rule synchronously for t steps in a w-wide space
@@ -45,13 +35,13 @@ def run_sync(rule, t, w):
     for _ in range(t):
         future_space = []
         space = spacetime[-1]           # get last iteration's space
-        for x in range(len(space)):         # iterate over the present space
-            ln = space[x-1]                         # get neighbours
-            mn = space[x]                           # <^
-            rn = space[(x+1)%w]                     # <^
-            ix = 7 - ((ln << 2) + ((mn << 1) + rn)) # get transition index
-            y = rule_transitions[ix]                # get next cell state
-            future_space += [y]                     # add to future space
+        for c in range(w):              # iterate over the present space's cells
+            ln = space[c-1]                                    # get neighbours
+            mn = space[c]                                      # <^
+            rn = space[(c+1)%w]                                # <^
+            ix_transition = 7 - ((ln << 2) + ((mn << 1) + rn)) # get transition index
+            y = rule_transitions[ix_transition]                # get next cell state
+            future_space += [y]                                # add to future space
         spacetime += [future_space]     # update spacetime
     return spacetime
 
@@ -59,29 +49,24 @@ def run_async(rule, t, w, ranks):
     rule_transitions = get_rule_transitions(rule)
     spacetime = gen_spacetime(w)
     for _ in range(t):
-        future_space = [0]*w
         space = spacetime[-1]
-        for rank_ix in range(8): # iterate over ranks
-            i_priority_transition_indexes = [i for i,ix_rank in enumerate(ranks) if ix_rank==ranks[rank_ix]]
-            for tran_ix in i_priority_transition_indexes:
-                for x in range(len(space)):
-                    ln = space[x-1]
-                    mn = space[x]
-                    rn = space[(x+1)%w]
-                    ix = 7 - ((ln << 2) + ((mn << 1) + rn))
-                    if ix == tran_ix:
-                        y = rule_transitions[ix]
-                        future_space[x] = y
-            # print(future_space)
-            # code.interact(local=globals().update(locals()) or globals())
+        grouped_index_of_transitions_by_rank = [[ix for ix,r in enumerate(ranks) if r == i] for i in range(8)] 
+        giotbr = grouped_index_of_transitions_by_rank 
+        future_space = list(space)
+        for transition_indexes in giotbr:
+            for ci,c in enumerate(future_space):
+                ln = future_space[ci-1]
+                mn = future_space[ci]
+                rn = future_space[(ci+1)%w]
+                ix = 7 - ((ln << 2) + ((mn << 1) + rn))
+                if ix in transition_indexes:
+                    future_space[ci] = rule_transitions[ix]
         spacetime += [future_space]
     return spacetime
 
 def main(args):
     if args.scheme:
-        scheme = eval(args.scheme)
-        assert len(scheme) == 8
-        spacetime = run_async(args.rule, args.timesteps, args.width, scheme)
+        spacetime = run_async(args.rule, args.timesteps, args.width, eval(args.scheme))
     else:
         spacetime = run_sync(args.rule, args.timesteps, args.width)
     print_spacetime(spacetime, args.zero, args.one)
@@ -89,7 +74,7 @@ def main(args):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(prog='aeca', description='Asynchronous Elementary Cellular Automata')
     parser.add_argument('-s', '--scheme',    default=None,   metavar='ASYNCHRONOUS-SCHEME', help='async scheme to run (x0,x1,x2,x3,x4,x5,x6,x7) for xn in [1,7]')
-    parser.add_argument('-r', '--rule',      default=30,     metavar='RULE ID',             help='rule in the Wolfram classification scheme', type=int)
+    parser.add_argument('-r', '--rule',      default=30,     metavar='RULE-ID',             help='rule in the Wolfram classification scheme', type=int)
     parser.add_argument('-t', '--timesteps', default=30,     metavar='TIMESTEPS',           help='timesteps to run (space height)', type=int)
     parser.add_argument('-w', '--width',     default=30,     metavar='WIDTH',               help='space width', type=int)
     parser.add_argument('-0', '--zero',      default='0',    metavar='CHAR',                help='replace zeroes by CHAR')
