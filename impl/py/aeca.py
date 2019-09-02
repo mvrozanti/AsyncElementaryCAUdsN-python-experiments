@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import code
 import argparse
+import json
 
 def gen_spacetime(w): 
     """
@@ -26,6 +27,12 @@ def get_rule_transitions(rule):
     """
     return [int(y) for y in format(rule,'#010b')[2:]]
 
+def get_neighbors(x, space):
+    return space[c-1], space[c], space[(c+1)%len(space)]
+
+def get_rule_ix(ln,mn,rn):
+    return 7 - ((ln << 2) + ((mn << 1) + rn))
+
 def run_sync(rule, t, w):
     """
     returns spacetime after executing the rule synchronously for t steps in a w-wide space
@@ -34,18 +41,16 @@ def run_sync(rule, t, w):
     spacetime = gen_spacetime(w)
     for _ in range(t):
         future_space = []
-        space = spacetime[-1]           # get last iteration's space
-        for c in range(w):              # iterate over the present space's cells
-            ln = space[c-1]                                    # get neighbours
-            mn = space[c]                                      # <^
-            rn = space[(c+1)%w]                                # <^
-            ix_transition = 7 - ((ln << 2) + ((mn << 1) + rn)) # get transition index
-            y = rule_transitions[ix_transition]                # get next cell state
-            future_space += [y]                                # add to future space
-        spacetime += [future_space]     # update spacetime
+        space = spacetime[-1]                 # get last iteration's space
+        for ci in range(w):                       # iterate over the present space's cells
+            ln,mn,rn = get_neighbors(ci, space)     # get neighborhood
+            ix_transition = get_rule_ix(ln,mn,rn)   # get transition ix
+            y = rule_transitions[ix_transition]     # get next cell state
+            future_space += [y]                     # add to future space
+        spacetime += [future_space]           # update spacetime
     return spacetime
 
-def run_async(rule, t, w, ranks):
+def run_async(rule, t, w, ranks): # interpretacao 1
     rule_transitions = get_rule_transitions(rule)
     spacetime = gen_spacetime(w)
     for _ in range(t):
@@ -66,10 +71,17 @@ def run_async(rule, t, w, ranks):
 
 def main(args):
     if args.scheme:
-        spacetime = run_async(args.rule, args.timesteps, args.width, eval(args.scheme))
+        if args.scheme[0] == '(' and args.scheme[-1] == ')':
+            spacetime = run_async(args.rule, args.timesteps, args.width, eval(args.scheme))
+            print_spacetime(spacetime, args.zero, args.one)
+        else:
+            schemes = json.load(open(args.scheme))
+            for scheme in schemes:
+                spacetime = run_async(args.rule, args.timesteps, args.width, scheme)
+                print_spacetime(spacetime, args.zero, args.one)
     else:
         spacetime = run_sync(args.rule, args.timesteps, args.width)
-    print_spacetime(spacetime, args.zero, args.one)
+        print_spacetime(spacetime, args.zero, args.one)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(prog='aeca', description='Asynchronous Elementary Cellular Automata')
