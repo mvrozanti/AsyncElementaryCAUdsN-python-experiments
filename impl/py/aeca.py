@@ -37,8 +37,8 @@ def is_conservative(spacetime):
 def get_neighbors(x, space):
     return space[x-1], space[x], space[(x+1)%len(space)]
 
-def get_rule_ix(ln,mn,rn):
-    return 7 - ((ln << 2) + ((mn << 1) + rn))
+def get_transition_ix(ln,mn,rn):
+    return 7 - ((ln << 2) + (mn << 1) + rn)
 
 def run_sync(rule, t, w):
     """
@@ -51,7 +51,7 @@ def run_sync(rule, t, w):
         space = spacetime[-1]                 # get last iteration's space
         for ci in range(w):                       # iterate over the present space's cells
             ln,mn,rn = get_neighbors(ci, space)     # get neighborhood
-            ix_transition = get_rule_ix(ln,mn,rn)   # get transition ix
+            ix_transition = get_transition_ix(ln,mn,rn)   # get transition ix
             y = rule_transitions[ix_transition]     # get next cell state
             future_space += [y]                     # add to future space
         spacetime += [future_space]           # update spacetime
@@ -62,15 +62,12 @@ def run_async(rule, t, w, ranks): # interpretacao 1
     spacetime = gen_spacetime(w)
     for _ in range(t):
         space = spacetime[-1]
-        grouped_index_of_transitions_by_rank = [[ix for ix,r in enumerate(ranks) if r == i] for i in range(8)] 
-        giotbr = grouped_index_of_transitions_by_rank 
+        giotbr = grouped_indexes_of_transitions_by_rank = [[ix for ix,r in enumerate(ranks) if r == i] for i in range(8)] 
         future_space = list(space)
         for transition_indexes in giotbr:
             for ci,c in enumerate(future_space):
-                ln = future_space[ci-1]
-                mn = future_space[ci]
-                rn = future_space[(ci+1)%w]
-                ix = 7 - ((ln << 2) + ((mn << 1) + rn))
+                ln,mn,rn = get_neighbors(ci, future_space)
+                ix = get_transition_ix(ln,mn,rn)
                 if ix in transition_indexes:
                     future_space[ci] = rule_transitions[ix]
         spacetime += [future_space]
@@ -81,23 +78,29 @@ def main(args):
         if args.scheme[0] == '(' and args.scheme[-1] == ')':
             spacetime = run_async(args.rule, args.timesteps, args.width, eval(args.scheme))
             print_spacetime(spacetime, args.zero, args.one)
+            if args.conservative_check:
+                print('Is conservative:', is_conservative(spacetime))
         else:
             schemes = json.load(open(args.scheme))
             for scheme in schemes:
                 spacetime = run_async(args.rule, args.timesteps, args.width, scheme)
                 print_spacetime(spacetime, args.zero, args.one)
+                if args.conservative_check:
+                    print('Is conservative:', is_conservative(spacetime))
     else:
         spacetime = run_sync(args.rule, args.timesteps, args.width)
         print_spacetime(spacetime, args.zero, args.one)
-        # print('Is conservative:', is_conservative(spacetime))
+        if args.conservative_check:
+            print('Is conservative:', is_conservative(spacetime))
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(prog='aeca', description='Asynchronous Elementary Cellular Automata')
-    parser.add_argument('-s', '--scheme',    default=None,   metavar='ASYNCHRONOUS-SCHEME', help='async scheme to run (x0,x1,x2,x3,x4,x5,x6,x7) for xn in [1,7]')
-    parser.add_argument('-r', '--rule',      default=30,     metavar='RULE-ID',             help='rule in the Wolfram classification scheme', type=int)
-    parser.add_argument('-t', '--timesteps', default=30,     metavar='TIMESTEPS',           help='timesteps to run (space height)', type=int)
-    parser.add_argument('-w', '--width',     default=30,     metavar='WIDTH',               help='space width', type=int)
-    parser.add_argument('-0', '--zero',      default='0',    metavar='CHAR',                help='replace zeroes by CHAR')
-    parser.add_argument('-1', '--one',       default='1',    metavar='CHAR',                help='replace ones by CHAR')
+    parser.add_argument('-s', '--scheme',               default=None,   metavar='ASYNCHRONOUS-SCHEME', help='async scheme to run (x0,x1,x2,x3,x4,x5,x6,x7) for xn in [1,7]')
+    parser.add_argument('-r', '--rule',                 default=30,     metavar='RULE-ID',             help='rule in the Wolfram classification scheme', type=int)
+    parser.add_argument('-t', '--timesteps',            default=30,     metavar='TIMESTEPS',           help='timesteps to run (space height)', type=int)
+    parser.add_argument('-w', '--width',                default=30,     metavar='WIDTH',               help='space width', type=int)
+    parser.add_argument('-0', '--zero',                 default='0',    metavar='CHAR',                help='replace zeroes by CHAR')
+    parser.add_argument('-1', '--one',                  default='1',    metavar='CHAR',                help='replace ones by CHAR')
+    parser.add_argument('-c', '--conservative-check',   action='store_true',default=False,             help='at the end of execution show whether automaton is conservative')
     args = parser.parse_args()
     main(args)
