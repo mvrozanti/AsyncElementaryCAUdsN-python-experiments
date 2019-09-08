@@ -126,6 +126,5 @@ if __name__ == '__main__':
     parser.add_argument('-1', '--one',                  default='1',    metavar='CHAR',                help='replace ones by CHAR')
     parser.add_argument('-c', '--conservative-check',   action='store_true',                           help='at the end of execution show whether automaton is conservative')
     parser.add_argument('-R', '--dont-render',          action='store_true',                           help='toggle rendering')
-    # parser.add_argument('-d', '--debug',                action='store_true',                           help='toggle debugging')
     args = parser.parse_args()
     main(args)
