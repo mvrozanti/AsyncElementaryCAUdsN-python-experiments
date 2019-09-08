@@ -23,6 +23,9 @@ R:
 - O espaço elementar é circular?
 R:
 
+- É possível gerar um mesmo estado final a partir de esquemas de atualização diferentes, dado que os esquemas estão inclusos no conjunto de esquemas que o prof mandou?
+R:
+
 ____________________________________________________________________________
 
 Pipo:
