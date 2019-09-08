@@ -3,9 +3,11 @@ import code
 import argparse
 import json
 import os
+import itertools
 LINES, COLS = [int(d) for d in os.popen('stty size', 'r').read().split()]
+DEBUG = True
 
-def gen_spacetime(w): 
+def gen_mid_spacetime(w): 
     """
     for w=3 return [0, 1, 0]
     for w=4 return [0, 1, 0, 0]
@@ -15,6 +17,9 @@ def gen_spacetime(w):
     spacetime = [[0]*w]
     spacetime[0][w//2-1] = 1
     return spacetime
+
+def gen_spacetime_combo(w):
+    return list(itertools.product([0, 1], repeat=w))
 
 def print_spacetime(spacetime, zero, one):
     for space in spacetime:
@@ -29,10 +34,18 @@ def get_rule_transitions(rule):
     """
     return [int(y) for y in format(rule,'#010b')[2:]]
 
-def is_conservative(spacetime):
+def is_spacetime_conservative(spacetime):
     energy = spacetime[0].count(1)
     for space in spacetime[1:]:
         if space.count(1) != energy:
+            return False
+    return True
+
+def is_rule_conservative(rule, t, w, ranks):
+    init_spacetimes = gen_spacetime_combo(w)
+    for init_spacetime in init_spacetimes:
+        final_spacetime = run_async(rule, t, w, ranks, spacetime=init_spacetime)
+        if not is_spacetime_conservative(final_spacetime):
             return False
     return True
 
@@ -47,46 +60,47 @@ def run_sync(rule, t, w):
     returns spacetime after executing the rule synchronously for t steps in a w-wide space
     """
     rule_transitions = get_rule_transitions(rule)
-    spacetime = gen_spacetime(w)
+    spacetime = gen_mid_spacetime(w)
     for _ in range(t):
-        future_space = []
-        space = spacetime[-1]                 # get last iteration's space
-        # print(space)
-        for ci in range(w):                       # iterate over the present space's cells
-            ln,mn,rn = get_neighbors(ci, space)     # get neighborhood
-            ix_transition = get_transition_ix(ln,mn,rn)   # get transition ix
-            y = rule_transitions[ix_transition]     # get next cell state
-            future_space += [y]                     # add to future space
-        spacetime += [future_space]           # update spacetime
+        space = spacetime[-1]                           # get last iteration's space
+        future_space = list(space)
+        for ci in range(w):                             # iterate over the present space's cells
+            ln,mn,rn = get_neighbors(ci, space)         # get neighborhood
+            ix_transition = get_transition_ix(ln,mn,rn) # get transition ix
+            y = rule_transitions[ix_transition]         # get next cell state
+            future_space[ci] = y
+        spacetime += [future_space]                     # update spacetime
     return spacetime
 
-def run_async(rule, t, w, ranks):
+def run_async(rule, t, w, ranks, spacetime=None):
     rule_transitions = get_rule_transitions(rule)
-    spacetime = gen_spacetime(w)
+    assert len(ranks) == 8
+    spacetime = spacetime if spacetime else gen_mid_spacetime(w)
     for _ in range(t):
         space = spacetime[-1]
-        # print(space)
         giotbr = grouped_indexes_of_transitions_by_rank = [[ix for ix,rank in enumerate(ranks) if rank == i] \
                 for i in range(1,8)] 
         future_space = list(space)
         for transition_indexes in giotbr:
-            for ci in range(w):
-                ln,mn,rn = get_neighbors(ci, future_space)
-                ix = get_transition_ix(ln,mn,rn)
-                if ix in transition_indexes:
-                    future_space[ci] = rule_transitions[ix]
+            if transition_indexes:
+                for ci in range(w):
+                    ln,mn,rn = get_neighbors(ci, space)
+                    ix = get_transition_ix(ln,mn,rn)
+                    if ix in transition_indexes:
+                        future_space[ci] = rule_transitions[ix]
+                space = future_space
         spacetime += [future_space]
-    # assert spacetime == run_sync(rule,t,w)
     return spacetime
 
 def main(args):
     if args.scheme:
         if args.scheme[0] == '(' and args.scheme[-1] == ')':
-            spacetime = run_async(args.rule, args.timesteps-1, args.width-1, eval(args.scheme))
+            scheme = eval(args.scheme)
+            spacetime = run_async(args.rule, args.timesteps, args.width, scheme)
             if not args.dont_render:
                 print_spacetime(spacetime, args.zero, args.one)
             if args.conservative_check:
-                print('Is conservative:', is_conservative(spacetime))
+                print('Is conservative:', is_spacetime_conservative(spacetime))
         else:
             schemes = json.load(open(args.scheme))
             for scheme in schemes:
@@ -94,13 +108,13 @@ def main(args):
                 if not args.dont_render:
                     print_spacetime(spacetime, args.zero, args.one)
                 if args.conservative_check:
-                    print('Is conservative:', is_conservative(spacetime))
+                    print('Is conservative:', is_spacetime_conservative(spacetime))
     else:
         spacetime = run_sync(args.rule, args.timesteps, args.width)
         if not args.dont_render:
             print_spacetime(spacetime, args.zero, args.one)
         if args.conservative_check:
-            print('Is conservative:', is_conservative(spacetime))
+            print('Is conservative:', is_spacetime_conservative(spacetime))
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(prog='aeca', description='Asynchronous Elementary Cellular Automata')
@@ -112,5 +126,6 @@ if __name__ == '__main__':
     parser.add_argument('-1', '--one',                  default='1',    metavar='CHAR',                help='replace ones by CHAR')
     parser.add_argument('-c', '--conservative-check',   action='store_true',                           help='at the end of execution show whether automaton is conservative')
     parser.add_argument('-R', '--dont-render',          action='store_true',                           help='toggle rendering')
+    # parser.add_argument('-d', '--debug',                action='store_true',                           help='toggle debugging')
     args = parser.parse_args()
     main(args)
