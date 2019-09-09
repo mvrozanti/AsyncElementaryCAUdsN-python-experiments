@@ -4,7 +4,10 @@ import code
 import itertools
 import json
 import os
-LINES, COLS = [int(d) for d in os.popen('stty size', 'r').read().split()]
+try:
+    LINES, COLS = [int(d) for d in os.popen('stty size', 'r').read().split()]
+except:
+    LINES,COLS = 30,30
 DEBUG = True
 
 """
