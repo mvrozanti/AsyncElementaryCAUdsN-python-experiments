@@ -20,7 +20,7 @@ def gen_mid_spacetime(w):
 
 read_schemes_from_file = lambda fp: json.load(open(fp))
 
-gen_spacetime_combo = lambda w: list(itertools.product([0, 1], repeat=w))       # all possible configurations for w-wide space
+gen_space_combo = lambda w: list(itertools.product([0, 1], repeat=w))       # all possible configurations for w-wide space
 
 """
 get rule transitions as an array indexed by neighbor configuration, like so:
@@ -47,22 +47,23 @@ def run_sync(rule, t, w):
     """
     rule_transitions = get_rule_transitions(rule)
     space = list(gen_mid_spacetime(w)[0])
+    yield space
     for _ in range(t):
         future_space = list(space)
         for ci in range(w):                             # iterate over the present space's cells
             ln,mn,rn = get_neighbors(ci, space)         # get neighborhood
             ix_transition = get_transition_ix(ln,mn,rn) # get transition ix
             y = rule_transitions[ix_transition]         # get next cell state
-            future_space[ci] = y
-        space = list(future_space)
+            future_space[ci] = y                        # update cell
+        space = list(future_space)                      # update space
         yield future_space
 
-def run_async(rule, t, w, ranks, spacetime=None):
+def run_async(rule, t, w, ranks, init_space=None):
     rule_transitions = get_rule_transitions(rule)
     assert len(ranks) == 8
-    spacetime = spacetime if spacetime else gen_mid_spacetime(w)
+    space = init_space if init_space else list(gen_mid_spacetime(w)[0])
+    yield space
     for _ in range(t):
-        space = spacetime[-1]
         giotbr = grouped_indexes_of_transitions_by_rank = [[ix for ix,rank in enumerate(ranks) if rank == i] \
                 for i in range(1,8)] 
         future_space = list(space)
@@ -74,8 +75,7 @@ def run_async(rule, t, w, ranks, spacetime=None):
                     if ix in transition_indexes:
                         future_space[ci] = rule_transitions[ix]
                 space = future_space
-        spacetime += [future_space]
-    return spacetime
+        yield future_space
 
 def is_spacetime_conservative(spacetime):
     energy = spacetime[0].count(1)
@@ -85,7 +85,7 @@ def is_spacetime_conservative(spacetime):
     return True
 
 def is_rule_conservative(rule, t, w, ranks):
-    init_spacetimes = gen_spacetime_combo(w)
+    init_spacetimes = gen_space_combo(w)
     for init_spacetime in init_spacetimes:
         final_spacetime = run_async(rule, t, w, ranks, spacetime=init_spacetime)
         if not is_spacetime_conservative(final_spacetime):

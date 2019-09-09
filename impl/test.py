@@ -2,6 +2,7 @@
 from aeca import *
 import pytest
 import sys
+import unittest
 
 sync_priority = [1]*8
 
@@ -12,6 +13,7 @@ def test_normal_sync_on_async_context():
         assert spacetime_async == spacetime_sync
 
 @pytest.mark.skipif(sys.maxsize < 0xffffffff, reason='Py_ssize_t too small for this test')
+@unittest.skip("too costly")
 def test_for_conservative_rule_with_scheme():
     schemes = read_schemes_from_file('async-update-schemes.json')
     for rule in range(1,255):
