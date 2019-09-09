@@ -120,7 +120,7 @@ if __name__ == '__main__':
     parser.add_argument('-w', '--width',                default=COLS,   metavar='WIDTH',               help='space width', type=int)
     parser.add_argument('-0', '--zero',                 default='0',    metavar='CHAR',                help='replace zeroes by CHAR')
     parser.add_argument('-1', '--one',                  default='1',    metavar='CHAR',                help='replace ones by CHAR')
-    parser.add_argument('-c', '--conservative-check',   action='store_true',                           help='at the end of execution show whether automaton is conservative')
+    parser.add_argument('-c', '--conservative-check',   action='store_true',                           help='show whether automata generated are conservative')
     parser.add_argument('-R', '--dont-render',          action='store_true',                           help='toggle rendering')
     args = parser.parse_args()
     main(args)

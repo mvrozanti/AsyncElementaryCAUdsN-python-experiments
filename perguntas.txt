@@ -27,6 +27,9 @@ R:
 - É possível gerar um mesmo estado final a partir de esquemas de atualização diferentes, dado que os esquemas estão inclusos no conjunto de esquemas que o prof mandou?
 R:
 
+- Qual são os critérios de aceitação da implementação?
+R:
+
 ____________________________________________________________________________
 
 Pipo:
