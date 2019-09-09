@@ -18,6 +18,8 @@ def gen_mid_spacetime(w):
     spacetime[0][w//2-1] = 1
     return spacetime
 
+read_schemes_from_file = lambda fp: json.load(open(fp))
+
 gen_spacetime_combo = lambda w: list(itertools.product([0, 1], repeat=w))       # all possible configurations for w-wide space
 
 """
@@ -44,17 +46,16 @@ def run_sync(rule, t, w):
     returns spacetime after executing the rule synchronously for t steps in a w-wide space
     """
     rule_transitions = get_rule_transitions(rule)
-    spacetime = gen_mid_spacetime(w)
+    space = list(gen_mid_spacetime(w)[0])
     for _ in range(t):
-        space = spacetime[-1]                           # get last iteration's space
         future_space = list(space)
         for ci in range(w):                             # iterate over the present space's cells
             ln,mn,rn = get_neighbors(ci, space)         # get neighborhood
             ix_transition = get_transition_ix(ln,mn,rn) # get transition ix
             y = rule_transitions[ix_transition]         # get next cell state
             future_space[ci] = y
-        spacetime += [future_space]                     # update spacetime
-    return spacetime
+        space = list(future_space)
+        yield future_space
 
 def run_async(rule, t, w, ranks, spacetime=None):
     rule_transitions = get_rule_transitions(rule)
@@ -90,8 +91,6 @@ def is_rule_conservative(rule, t, w, ranks):
         if not is_spacetime_conservative(final_spacetime):
             return False
     return True
-
-read_schemes_from_file = lambda fp: json.load(open(fp))
 
 def main(args):
     if args.scheme:
