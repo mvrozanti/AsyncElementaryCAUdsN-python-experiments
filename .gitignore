@@ -1,10 +1,6 @@
 vgcore*
 *.log
 *.blg
-*.synctex.gz
-vgcore*
-*.log
-*.blg
 *.aux
 *.idx
 *.out
@@ -13,3 +9,5 @@ vgcore*
 *.toc
 *.bbl
 *.synctex.gz
+*.pyc
+*.coverage

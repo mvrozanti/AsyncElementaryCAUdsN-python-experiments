@@ -7,7 +7,7 @@ import os
 try:
     LINES, COLS = [int(d) for d in os.popen('stty size', 'r').read().split()]
 except:
-    LINES,COLS = 30,30
+    LINES, COLS = 30,30
 DEBUG = True
 
 """
@@ -38,21 +38,6 @@ def print_spacetime(spacetime, zero=0, one=1):
     for space in spacetime:
         [print(one if cell else zero, end='') for cell in space]
         print()
-
-def is_spacetime_conservative(spacetime):
-    energy = spacetime[0].count(1)
-    for space in spacetime[1:]:
-        if space.count(1) != energy:
-            return False
-    return True
-
-def is_rule_conservative(rule, t, w, ranks):
-    init_spacetimes = gen_spacetime_combo(w)
-    for init_spacetime in init_spacetimes:
-        final_spacetime = run_async(rule, t, w, ranks, spacetime=init_spacetime)
-        if not is_spacetime_conservative(final_spacetime):
-            return False
-    return True
 
 def run_sync(rule, t, w):
     """
@@ -91,6 +76,23 @@ def run_async(rule, t, w, ranks, spacetime=None):
         spacetime += [future_space]
     return spacetime
 
+def is_spacetime_conservative(spacetime):
+    energy = spacetime[0].count(1)
+    for space in spacetime[1:]:
+        if space.count(1) != energy:
+            return False
+    return True
+
+def is_rule_conservative(rule, t, w, ranks):
+    init_spacetimes = gen_spacetime_combo(w)
+    for init_spacetime in init_spacetimes:
+        final_spacetime = run_async(rule, t, w, ranks, spacetime=init_spacetime)
+        if not is_spacetime_conservative(final_spacetime):
+            return False
+    return True
+
+read_schemes_from_file = lambda fp: json.load(open(fp))
+
 def main(args):
     if args.scheme:
         if args.scheme[0] == '(' and args.scheme[-1] == ')':
@@ -101,7 +103,7 @@ def main(args):
             if args.conservative_check:
                 print('Is conservative:', is_spacetime_conservative(spacetime))
         else:
-            schemes = json.load(open(args.scheme))
+            schemes = read_schemes_from_file(args.scheme)
             for scheme in schemes:
                 spacetime = run_async(args.rule, args.timesteps, args.width, scheme)
                 if not args.dont_render:
