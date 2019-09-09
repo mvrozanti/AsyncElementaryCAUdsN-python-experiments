@@ -30,6 +30,9 @@ R:
 - Qual são os critérios de aceitação da implementação? [importantíssimo]
 R:
 
+- Teremos que rodar o programa ou só criá-lo?
+R:
+
 ____________________________________________________________________________
 
 Pipo:
