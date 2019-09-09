@@ -18,7 +18,7 @@ def gen_mid_spacetime(w):
 gen_spacetime_combo = lambda w: list(itertools.product([0, 1], repeat=w))       # all possible configurations for w-wide space
 
 """
-get rule transitions as an array indexed by standard neighbor configuration, like so:
+get rule transitions as an array indexed by neighbor configuration, like so:
 # 111 110 101 100 011 010 001 000
 #  y0  y1  y2  y3  y4  y5  y6  y7
 """
@@ -116,7 +116,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(prog='aeca', description='Asynchronous Elementary Cellular Automata')
     parser.add_argument('-s', '--scheme',               default=None,   metavar='ASYNCHRONOUS-SCHEME', help='async scheme to run (x0,x1,x2,x3,x4,x5,x6,x7) for xn in [1,7]')
     parser.add_argument('-r', '--rule',                 default=30,     metavar='RULE-ID',             help='rule in the Wolfram classification scheme', type=int)
-    parser.add_argument('-t', '--timesteps',            default=LINES,  metavar='TIMESTEPS',           help='timesteps to run (space height)', type=int)
+    parser.add_argument('-t', '--timesteps',            default=LINES,  metavar='TIMESTEPS',           help='timesteps to run', type=int)
     parser.add_argument('-w', '--width',                default=COLS,   metavar='WIDTH',               help='space width', type=int)
     parser.add_argument('-0', '--zero',                 default='0',    metavar='CHAR',                help='replace zeroes by CHAR')
     parser.add_argument('-1', '--one',                  default='1',    metavar='CHAR',                help='replace ones by CHAR')
