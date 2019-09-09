@@ -1,38 +1,40 @@
 #!/usr/bin/env python
-import code
 import argparse
+import code
+import itertools
 import json
 import os
-import itertools
 LINES, COLS = [int(d) for d in os.popen('stty size', 'r').read().split()]
 DEBUG = True
 
+"""
+spacetime generation
+"""
 def gen_mid_spacetime(w): 
-    """
-    for w=3 return [0, 1, 0]
-    for w=4 return [0, 1, 0, 0]
-    for w=5 return [0, 0, 1, 0, 0]
-    etc.
-    """
     spacetime = [[0]*w]
     spacetime[0][w//2-1] = 1
     return spacetime
 
-def gen_spacetime_combo(w):
-    return list(itertools.product([0, 1], repeat=w))
+gen_spacetime_combo = lambda w: list(itertools.product([0, 1], repeat=w))       # all possible configurations for w-wide space
 
-def print_spacetime(spacetime, zero, one):
+"""
+get rule transitions as an array indexed by standard neighbor configuration, like so:
+# 111 110 101 100 011 010 001 000
+#  y0  y1  y2  y3  y4  y5  y6  y7
+"""
+get_rule_transitions = lambda r: [int(y) for y in format(r,'#010b')[2:]]
+
+"""
+returns what rule should be applied for this combination of neighbors
+"""
+get_transition_ix = lambda ln,mn,rn: 7 - ((ln << 2) + (mn << 1) + rn)
+
+get_neighbors = lambda x,space: [space[x-1], space[x], space[(x+1)%len(space)]]
+
+def print_spacetime(spacetime, zero=0, one=1):
     for space in spacetime:
         [print(one if cell else zero, end='') for cell in space]
         print()
-
-def get_rule_transitions(rule):
-    """
-    get rule transitions as an array indexed by standard neighbor configuration, like so:
-    # 111 110 101 100 011 010 001 000
-    #  y0  y1  y2  y3  y4  y5  y6  y7
-    """
-    return [int(y) for y in format(rule,'#010b')[2:]]
 
 def is_spacetime_conservative(spacetime):
     energy = spacetime[0].count(1)
@@ -48,12 +50,6 @@ def is_rule_conservative(rule, t, w, ranks):
         if not is_spacetime_conservative(final_spacetime):
             return False
     return True
-
-def get_neighbors(x, space):
-    return space[x-1], space[x], space[(x+1)%len(space)]
-
-def get_transition_ix(ln,mn,rn):
-    return 7 - ((ln << 2) + (mn << 1) + rn)
 
 def run_sync(rule, t, w):
     """
