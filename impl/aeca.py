@@ -78,16 +78,17 @@ def run_async(rule, t, w, ranks, init_space=None):
         yield future_space
 
 def is_spacetime_conservative(spacetime):
-    energy = spacetime[0].count(1)
-    for space in spacetime[1:]:
+    energy = next(spacetime).count(1)
+    for space in spacetime:
         if space.count(1) != energy:
             return False
     return True
 
-def is_rule_conservative(rule, t, w, ranks):
-    init_spacetimes = gen_space_combo(w)
-    for init_spacetime in init_spacetimes:
-        final_spacetime = run_async(rule, t, w, ranks, spacetime=init_spacetime)
+def is_rule_conservative(rule, t, w, ranks=None):
+    init_spaces = gen_space_combo(w)
+    ranks = ranks if ranks else [1]*8
+    for init_space in init_spaces:
+        final_spacetime = run_async(rule, t, w, ranks, init_space=init_space)
         if not is_spacetime_conservative(final_spacetime):
             return False
     return True
