@@ -97,7 +97,7 @@ def main(args):
     if args.scheme:
         if args.scheme[0] == '(' and args.scheme[-1] == ')':
             scheme = eval(args.scheme)
-            spacetime = run_async(args.rule, args.timesteps, args.width, scheme)
+            spacetime = run_async(args.rule, args.timesteps - 1, args.width, scheme)
             if not args.dont_render:
                 print_spacetime(spacetime, args.zero, args.one)
             if args.conservative_check:
@@ -105,13 +105,13 @@ def main(args):
         else:
             schemes = read_schemes_from_file(args.scheme)
             for scheme in schemes:
-                spacetime = run_async(args.rule, args.timesteps, args.width, scheme)
+                spacetime = run_async(args.rule, args.timesteps - 1, args.width, scheme)
                 if not args.dont_render:
                     print_spacetime(spacetime, args.zero, args.one)
                 if args.conservative_check:
                     print('Is conservative:', is_spacetime_conservative(spacetime))
     else:
-        spacetime = run_sync(args.rule, args.timesteps, args.width)
+        spacetime = run_sync(args.rule, args.timesteps - 1, args.width)
         if not args.dont_render:
             print_spacetime(spacetime, args.zero, args.one)
         if args.conservative_check:

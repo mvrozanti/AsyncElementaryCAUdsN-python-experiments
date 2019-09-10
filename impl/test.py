@@ -22,6 +22,7 @@ def test_for_conservative_rule_with_scheme():
             print('Rule', rule, 'is', '' if is_rule_conservative(rule, w, t, scheme) else 'not', 'conservative with scheme', scheme)
 
 def test_for_conservative_rule_without_scheme():
+    print('\n', test_for_conservative_rule_without_scheme.__name__)
     w = t = 10
     conservative_rules_in_sync_scheme_count = 0
     for rule in range(1,255):
