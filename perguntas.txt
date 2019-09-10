@@ -28,13 +28,13 @@ R: Sim, no nosso caso. Mas também pode ser interpretado como envolto por zeros.
 R: testarcomvariosestadosiniciais
 
 - Qual são os critérios de aceitação da implementação? [importantíssimo]
-R: Thiago
+R: Thiago; por enquanto
 
 - Teremos que rodar o programa ou só criá-lo?
 R: Rodá-lo. 
   - E o tempo? Será que não vai faltar?
 
-- Em que esquemas a 184 deixa de ser conservativa?
+- Em que esquemas a 184 deixa de ser conservativa? [documento]
 R:
 
 - Que regra que não era conservativa que se tornou?

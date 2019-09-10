@@ -11,3 +11,4 @@ vgcore*
 *.synctex.gz
 *.pyc
 *.coverage
+impl/c/aeca
