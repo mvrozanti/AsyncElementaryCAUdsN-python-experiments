@@ -8,7 +8,7 @@ R: Podem ser projetados de forma a serem capazes de fazer operações computacio
 R: 
 
 - Está certo falar "propriedades conservativas"?
-R:
+R: não, pq é meio ambíguo -- no nosso caso qtd eh qtd de 1; number conservation
 
 - Como detectar um sistema com "propriedades conservativas"?
 R: conte a quantidade de estados distintos em cada timestep: se for igual para todos, é conservativo
@@ -19,21 +19,27 @@ R: conte a quantidade de estados distintos em cada timestep: se for igual para t
 R:
 
 - O que significa "quiescency"? [curiosidade/irrelevante]
-R: 
+R: Estado de quietude.
 
 - O espaço elementar é circular? [importante]
-R:
+R: Sim, no nosso caso. Mas também pode ser interpretado como envolto por zeros.
 
 - É possível gerar um mesmo estado final a partir de esquemas de atualização diferentes, dado que os esquemas estão inclusos no conjunto de esquemas que o prof mandou? [importantíssimo]
-R:
+R: testarcomvariosestadosiniciais
 
 - Qual são os critérios de aceitação da implementação? [importantíssimo]
-R:
+R: Thiago
 
 - Teremos que rodar o programa ou só criá-lo?
+R: Rodá-lo. 
+  - E o tempo? Será que não vai faltar?
+
+- Em que esquemas a 184 deixa de ser conservativa?
 R:
+
+- Que regra que não era conservativa que se tornou?
+R: 
 
 ____________________________________________________________________________
 
 Pipo:
-
