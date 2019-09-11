@@ -63,9 +63,9 @@ def run_async(rule, t, w, ranks, init_space=None):
     assert len(ranks) == 8
     space = init_space if init_space else list(gen_mid_spacetime(w)[0])
     yield space
+    giotbr = grouped_indexes_of_transitions_by_rank = [[ix for ix,rank in enumerate(ranks) if rank == i] \
+            for i in range(1,8)] 
     for _ in range(t):
-        giotbr = grouped_indexes_of_transitions_by_rank = [[ix for ix,rank in enumerate(ranks) if rank == i] \
-                for i in range(1,8)] 
         future_space = list(space)
         for transition_indexes in giotbr:
             if transition_indexes:

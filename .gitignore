@@ -12,3 +12,4 @@ vgcore*
 *.pyc
 *.coverage
 impl/c/aeca
+**/*.gdb_history
