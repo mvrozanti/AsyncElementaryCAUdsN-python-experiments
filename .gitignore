@@ -13,3 +13,4 @@ vgcore*
 *.coverage
 impl/c/aeca
 **/*.gdb_history
+impl/*.png

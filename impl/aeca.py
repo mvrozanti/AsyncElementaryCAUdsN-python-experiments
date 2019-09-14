@@ -41,6 +41,20 @@ def print_spacetime(spacetime, zero=0, one=1):
         [print(one if cell else zero, end='') for cell in space]
         print()
 
+def render_image(spacetime, t, w, rule, ranks):
+    from PIL import Image
+    im = Image.new('RGB', (w, t))
+    pixels = []
+    for space in [list(space) for space in spacetime]:
+        for cell in space:
+            pixels += [(0,0,0) if cell else (255,255,255)]
+    im.putdata(pixels)
+    if ranks:
+        ranks = '-' + ''.join([str(r) for r in ranks])
+    else:
+        ranks = ''
+    im.save('{}-{}x{}{}.png'.format(rule,w,t,ranks))
+
 def run_sync(rule, t, w):
     """
     returns spacetime after executing the rule synchronously for t steps in a w-wide space
@@ -98,22 +112,28 @@ def main(args):
         if args.scheme[0] == '(' and args.scheme[-1] == ')':
             scheme = eval(args.scheme)
             spacetime = run_async(args.rule, args.timesteps - 1, args.width, scheme)
-            if not args.dont_render:
+            if args.png_render:
+                render_image(spacetime, args.timesteps, args.width, args.rule, scheme)
+            if args.terminal_render:
                 print_spacetime(spacetime, args.zero, args.one)
             if args.conservative_check:
                 print('Is conservative:', is_spacetime_conservative(spacetime))
         else:
             schemes = read_schemes_from_file(args.scheme)
             for scheme in schemes:
-                spacetime = run_async(args.rule, args.timesteps - 1, args.width, scheme)
-                if not args.dont_render:
+                spacetime = run_async(args.rule, args.timesteps, args.width, scheme)
+                if args.png_render:
+                    render_image(spacetime, args.timesteps, args.width, args.rule, scheme)
+                if args.terminal_render:
                     print_spacetime(spacetime, args.zero, args.one)
                 if args.conservative_check:
                     print('Is conservative:', is_spacetime_conservative(spacetime))
     else:
         spacetime = run_sync(args.rule, args.timesteps - 1, args.width)
-        if not args.dont_render:
+        if args.terminal_render:
             print_spacetime(spacetime, args.zero, args.one)
+        if args.png_render:
+            render_image(spacetime, args.timesteps, args.width, args.rule, '')
         if args.conservative_check:
             print('Is conservative:', is_spacetime_conservative(spacetime))
 
@@ -126,6 +146,7 @@ if __name__ == '__main__':
     parser.add_argument('-0', '--zero',                 default='0',    metavar='CHAR',                help='replace zeroes by CHAR')
     parser.add_argument('-1', '--one',                  default='1',    metavar='CHAR',                help='replace ones by CHAR')
     parser.add_argument('-c', '--conservative-check',   action='store_true',                           help='show whether automata generated are conservative')
-    parser.add_argument('-R', '--dont-render',          action='store_true',                           help='toggle rendering')
+    parser.add_argument('-o', '--terminal-render',      action='store_true',                           help='render in terminal')
+    parser.add_argument('-O', '--png-render',           action='store_true',                           help='render to file')
     args = parser.parse_args()
     main(args)
