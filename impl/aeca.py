@@ -107,6 +107,24 @@ def is_rule_conservative(rule, t, w, ranks=None):
             return False
     return True
 
+i=0
+def create_anim(spacetime, t, w):
+    import numpy as np
+    import matplotlib.pyplot as plt
+    import matplotlib.animation as animation
+    fig = plt.figure()
+    np_spacetime = np.array(list(spacetime)).reshape(t,w)
+    im = plt.imshow(np_spacetime[0:100].reshape(100, w), cmap='gray')
+    def updatefig(*args):
+        global i
+        i += 1
+        im.set_data(np_spacetime[i:i+100])
+        return im,
+    ani = animation.FuncAnimation(fig, updatefig, interval=100, blit=False)
+    plt.gca().axes.get_yaxis().set_visible(False)
+    plt.gca().axes.get_xaxis().set_visible(False)
+    plt.show()
+    
 def main(args):
     if args.scheme:
         if args.scheme[0] == '(' and args.scheme[-1] == ')':
@@ -118,6 +136,7 @@ def main(args):
                 print_spacetime(spacetime, args.zero, args.one)
             if args.conservative_check:
                 print('Is conservative:', is_spacetime_conservative(spacetime))
+
         else:
             schemes = read_schemes_from_file(args.scheme)
             for scheme in schemes:
@@ -130,6 +149,8 @@ def main(args):
                     print('Is conservative:', is_spacetime_conservative(spacetime))
     else:
         spacetime = run_sync(args.rule, args.timesteps - 1, args.width)
+        if args.animation:
+            create_anim(spacetime, args.timesteps, args.width)
         if args.terminal_render:
             print_spacetime(spacetime, args.zero, args.one)
         if args.png_render:
@@ -148,5 +169,6 @@ if __name__ == '__main__':
     parser.add_argument('-c', '--conservative-check',   action='store_true',                           help='show whether automata generated are conservative')
     parser.add_argument('-o', '--terminal-render',      action='store_true',                           help='render in terminal')
     parser.add_argument('-O', '--png-render',           action='store_true',                           help='render to file')
+    parser.add_argument('-a', '--animation',            action='store_true',                           help='keep going')
     args = parser.parse_args()
     main(args)
