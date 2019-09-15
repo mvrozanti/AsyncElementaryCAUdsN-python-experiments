@@ -113,16 +113,19 @@ def create_anim(spacetime, t, w):
     import matplotlib.pyplot as plt
     import matplotlib.animation as animation
     fig = plt.figure()
+    fig.tight_layout()
     np_spacetime = np.array(list(spacetime)).reshape(t,w)
-    im = plt.imshow(np_spacetime[0:100].reshape(100, w), cmap='gray')
+    im = plt.imshow(np_spacetime[0:100].reshape(100, w), cmap='binary')
     def updatefig(*args):
         global i
         i += 1
         im.set_data(np_spacetime[i:i+100])
         return im,
-    ani = animation.FuncAnimation(fig, updatefig, interval=100, blit=False)
+    ani = animation.FuncAnimation(fig, updatefig, interval=1, blit=False)
+    plt.subplots_adjust(left=0, bottom=0, right=1, top=1, wspace=0, hspace=0)
     plt.gca().axes.get_yaxis().set_visible(False)
     plt.gca().axes.get_xaxis().set_visible(False)
+    ani.save('myAnimation.gif', writer='imagemagick', fps=30)
     plt.show()
     
 def main(args):
