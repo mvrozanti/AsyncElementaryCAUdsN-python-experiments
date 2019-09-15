@@ -39,6 +39,9 @@ R:
 - Que regra que não era conservativa que se tornou?
 R: 
 
+- As imagens resultantes comprimidas têm tamanhos (em bytes) diferentes. Isso significa que compressão pode ser melhor? [curiosidade]
+R:
+
 ____________________________________________________________________________
 
 Pipo:
