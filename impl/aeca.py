@@ -4,6 +4,8 @@ import code
 import itertools
 import json
 import os
+import random
+
 try:
     LINES, COLS = [int(d) for d in os.popen('stty size', 'r').read().split()]
 except:
@@ -46,8 +48,9 @@ def render_image(spacetime, t, w, rule, ranks):
     im = Image.new('RGB', (w, t))
     pixels = []
     for space in [list(space) for space in spacetime]:
+        compl = (10*measure_complexity(space)) % 255
         for cell in space:
-            pixels += [(0,0,0) if cell else (255,255,255)]
+            pixels += [(0,0,0) if cell else (compl,0,0)]
     im.putdata(pixels)
     if ranks:
         ranks = '-' + ''.join([str(r) for r in ranks])
@@ -55,11 +58,12 @@ def render_image(spacetime, t, w, rule, ranks):
         ranks = ''
     im.save('{}-{}x{}{}.png'.format(rule,w,t,ranks))
 
-def run_sync(rule, t, w):
+def run_sync(rule, t, w, init_space=None):
     """
     returns spacetime after executing the rule synchronously for t steps in a w-wide space
     """
     rule_transitions = get_rule_transitions(rule)
+    # space = init_space if init_space else list(gen_mid_spacetime(w)[0])
     space = list(gen_mid_spacetime(w)[0])
     yield space
     for _ in range(t):
@@ -125,8 +129,12 @@ def create_anim(spacetime, t, w):
     plt.subplots_adjust(left=0, bottom=0, right=1, top=1, wspace=0, hspace=0)
     plt.gca().axes.get_yaxis().set_visible(False)
     plt.gca().axes.get_xaxis().set_visible(False)
-    ani.save('myAnimation.gif', writer='imagemagick', fps=30)
+    # ani.save('myAnimation.gif', writer='imagemagick', fps=30)
     plt.show()
+
+def measure_complexity(space):
+    import zlib
+    return len(zlib.compress(bytes(space)))
     
 def main(args):
     if args.scheme:
