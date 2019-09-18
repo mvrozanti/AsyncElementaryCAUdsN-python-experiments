@@ -47,10 +47,10 @@ def render_image(spacetime, t, w, rule, ranks):
     from PIL import Image
     im = Image.new('RGB', (w, t))
     pixels = []
-    for space in [list(space) for space in spacetime]:
+    for iy,space in enumerate([list(space) for space in spacetime]):
         compl = (10*measure_complexity(space)) % 255
-        for cell in space:
-            pixels += [(0,0,0) if cell else (compl,0,0)]
+        for ix,cell in enumerate(space):
+            pixels += [(0,0,0) if cell else (255-compl,0,0)]
     im.putdata(pixels)
     if ranks:
         ranks = '-' + ''.join([str(r) for r in ranks])
@@ -96,6 +96,7 @@ def run_async(rule, t, w, ranks, init_space=None):
         yield future_space
 
 def is_spacetime_conservative(spacetime):
+    code.interact(local=globals().update(locals()) or globals())
     energy = next(spacetime).count(1)
     for space in spacetime:
         if space.count(1) != energy:
@@ -141,6 +142,7 @@ def main(args):
         if args.scheme[0] == '(' and args.scheme[-1] == ')':
             scheme = eval(args.scheme)
             spacetime = run_async(args.rule, args.timesteps - 1, args.width, scheme)
+            spacetime = list(spacetime)
             if args.png_render:
                 render_image(spacetime, args.timesteps, args.width, args.rule, scheme)
             if args.terminal_render:
@@ -160,6 +162,7 @@ def main(args):
                     print('Is conservative:', is_spacetime_conservative(spacetime))
     else:
         spacetime = run_sync(args.rule, args.timesteps - 1, args.width)
+        spacetime = list(spacetime)
         if args.animation:
             create_anim(spacetime, args.timesteps, args.width)
         if args.terminal_render:
