@@ -43,19 +43,18 @@ def print_spacetime(spacetime, zero=0, one=1):
         [print(one if cell else zero, end='') for cell in space]
         print()
 
-def render_image(spacetime, t, w, rule, ranks):
+def render_image(spacetime, t, w, rule, ranks, measure_complexity=False):
     from PIL import Image
     im = Image.new('RGB', (w, t))
     pixels = []
     for iy,space in enumerate([list(space) for space in spacetime]):
-        compl = (10*measure_complexity(space)) % 255
+        if measure_complexity:
+            compl = (10*measure_complexity(space)) % 255
         for ix,cell in enumerate(space):
-            pixels += [(0,0,0) if cell else (255-compl,0,0)]
+            pixels += [(0,0,0) if cell else (255-compl if measure_complexity else 255, (0 if measure_complexity else 255), (0 if measure_complexity else 255))]
     im.putdata(pixels)
     if ranks:
         ranks = '-' + ''.join([str(r) for r in ranks])
-    else:
-        ranks = ''
     im.save('{}-{}x{}{}.png'.format(rule,w,t,ranks))
 
 def run_sync(rule, t, w, init_space=None):
@@ -144,7 +143,7 @@ def main(args):
             spacetime = run_async(args.rule, args.timesteps - 1, args.width, scheme)
             spacetime = list(spacetime)
             if args.png_render:
-                render_image(spacetime, args.timesteps, args.width, args.rule, scheme)
+                render_image(spacetime, args.timesteps, args.width, args.rule, scheme, measure_complexity=args.measure_complexity)
             if args.terminal_render:
                 print_spacetime(spacetime, args.zero, args.one)
             if args.conservative_check:
@@ -153,9 +152,9 @@ def main(args):
         else:
             schemes = read_schemes_from_file(args.scheme)
             for scheme in schemes:
-                spacetime = run_async(args.rule, args.timesteps, args.width, scheme)
+                spacetime = run_async(args.rule, args.timesteps - 1, args.width, scheme)
                 if args.png_render:
-                    render_image(spacetime, args.timesteps, args.width, args.rule, scheme)
+                    render_image(spacetime, args.timesteps, args.width, args.rule, scheme, measure_complexity=args.measure_complexity)
                 if args.terminal_render:
                     print_spacetime(spacetime, args.zero, args.one)
                 if args.conservative_check:
@@ -168,13 +167,13 @@ def main(args):
         if args.terminal_render:
             print_spacetime(spacetime, args.zero, args.one)
         if args.png_render:
-            render_image(spacetime, args.timesteps, args.width, args.rule, '')
+            render_image(spacetime, args.timesteps, args.width, args.rule, '', measure_complexity=args.measure_complexity)
         if args.conservative_check:
             print('Is conservative:', is_spacetime_conservative(spacetime))
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(prog='aeca', description='Asynchronous Elementary Cellular Automata')
-    parser.add_argument('-s', '--scheme',               default=None,   metavar='ASYNCHRONOUS-SCHEME', help='async scheme to run (x0,x1,x2,x3,x4,x5,x6,x7) for xn in [1,7]')
+    parser.add_argument('-s', '--scheme',               default=None,   metavar='ASYNCHRONOUS-SCHEME', help='async scheme to run (p0,p1,p2,p3,p4,p5,p6,p7) for pn in [1,7]')
     parser.add_argument('-r', '--rule',                 default=30,     metavar='RULE-ID',             help='rule in the Wolfram classification scheme', type=int)
     parser.add_argument('-t', '--timesteps',            default=LINES,  metavar='TIMESTEPS',           help='timesteps to run', type=int)
     parser.add_argument('-w', '--width',                default=COLS,   metavar='WIDTH',               help='space width', type=int)
@@ -183,6 +182,7 @@ if __name__ == '__main__':
     parser.add_argument('-c', '--conservative-check',   action='store_true',                           help='show whether automata generated are conservative')
     parser.add_argument('-o', '--terminal-render',      action='store_true',                           help='render in terminal')
     parser.add_argument('-O', '--png-render',           action='store_true',                           help='render to file')
-    parser.add_argument('-a', '--animation',            action='store_true',                           help='keep going')
+    parser.add_argument('-a', '--animation',            action='store_true',                           help='render animation')
+    parser.add_argument('-m', '--measure-complexity',   action='store_true',                           help='measure complexity')
     args = parser.parse_args()
     main(args)
