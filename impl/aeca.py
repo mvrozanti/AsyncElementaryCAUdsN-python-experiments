@@ -5,6 +5,8 @@ import itertools
 import json
 import os
 import random
+import curses
+from curses import wrapper
 
 try:
     LINES, COLS = [int(d) for d in os.popen('stty size', 'r').read().split()]
@@ -55,15 +57,14 @@ def render_image(spacetime, t, w, rule, ranks, measure_complexity=False):
     im.putdata(pixels)
     if ranks:
         ranks = '-' + ''.join([str(r) for r in ranks])
-    im.save('{}-{}x{}{}.png'.format(rule,w,t,ranks))
+    im.save(f'{rule}-{w}x{t}{ranks}.png')
 
 def run_sync(rule, t, w, init_space=None):
     """
     returns spacetime after executing the rule synchronously for t steps in a w-wide space
     """
     rule_transitions = get_rule_transitions(rule)
-    # space = init_space if init_space else list(gen_mid_spacetime(w)[0])
-    space = list(gen_mid_spacetime(w)[0])
+    space = init_space if init_space else list(gen_mid_spacetime(w)[0])
     yield space
     for _ in range(t):
         future_space = list(space)
@@ -73,6 +74,25 @@ def run_sync(rule, t, w, init_space=None):
             y = rule_transitions[ix_transition]         # get next cell state
             future_space[ci] = y                        # update cell
         space = list(future_space)                      # update space
+        yield future_space
+
+def run_async(rule, t, w, ranks, init_space=None):
+    rule_transitions = get_rule_transitions(rule)
+    assert len(ranks) == 8
+    space = init_space if init_space else list(gen_mid_spacetime(w)[0])
+    yield space
+    giotbr = grouped_indexes_of_transitions_by_rank = [[ix for ix,rank in enumerate(ranks) if rank == i] \
+            for i in range(1,8)]
+    for _ in range(t):
+        future_space = list(space)
+        for transition_indexes in giotbr:
+            if transition_indexes:
+                for ci in range(w):
+                    ln,mn,rn = get_neighbors(ci, space)
+                    ix = get_transition_ix(ln,mn,rn)
+                    if ix in transition_indexes:
+                        future_space[ci] = rule_transitions[ix]
+            space = future_space
         yield future_space
 
 def run_async(rule, t, w, ranks, init_space=None):
@@ -135,8 +155,46 @@ def create_anim(spacetime, t, w):
 def measure_complexity(space):
     import zlib
     return len(zlib.compress(bytes(space)))
+
+stringify = lambda space: ' '.join([str(c) for c in space])
+
+def interactive(stdscr,args):
+    args.width = args.width//2 - 2
+    space = gen_mid_spacetime(args.width)[0]
+    curses.noecho()
+    curses.cbreak()
+    rule_transitions = get_rule_transitions(args.rule)
+    spacetime = [space]
+    for t in range(args.timesteps - 1):
+        future_space = list(spacetime[-1])
+        for i in range(args.width):
+            stdscr.erase()
+            stdscr.border(0)
+            for z,sp in enumerate(spacetime if len(spacetime) < curses.LINES else spacetime[curses.LINES:]):
+                space_str = stringify(sp)
+                stdscr.addstr(1+z, curses.COLS // 2 - len(space_str) // 2 - 1, space_str)
+                stdscr.addstr(2+z, curses.COLS // 2 - len(space_str) // 2 + i*2 - 1, "^")
+            ln,mn,rn = get_neighbors(i, spacetime[-1])
+            tr_ix = get_transition_ix(ln,mn,rn)
+            future_space[i] = rule_transitions[tr_ix]
+            future_space_str = stringify(future_space)
+            stdscr.addstr(2+len(spacetime), curses.COLS // 2 - len(future_space_str) // 2 - 1, stringify(future_space[:i]))
+            stdscr.addstr(2+len(spacetime), curses.COLS // 2 - len(future_space_str) // 2 + i*2 - 1, str(future_space[i]))
+            stdscr.addstr(curses.LINES-4, 2+tr_ix*4, "V")
+            stdscr.addstr(curses.LINES-3, 1, '111 110 101 100 011 010 001 000')
+            stdscr.addstr(curses.LINES-2, 2, '   '.join([str(t) for t in rule_transitions]))
+            stdscr.refresh()
+            stdscr.getkey()
+        spacetime += [future_space]
+    stdscr.refresh()
+    curses.nocbreak()
+    curses.endwin()
     
 def main(args):
+    if args.interactive:
+        stdscr = curses.initscr()
+        wrapper(interactive, args)
+        return 
     if args.scheme:
         if args.scheme[0] == '(' and args.scheme[-1] == ')':
             scheme = eval(args.scheme)
@@ -184,5 +242,6 @@ if __name__ == '__main__':
     parser.add_argument('-O', '--png-render',           action='store_true',                           help='render to file')
     parser.add_argument('-a', '--animation',            action='store_true',                           help='render animation')
     parser.add_argument('-m', '--measure-complexity',   action='store_true',                           help='measure complexity')
+    parser.add_argument('-i', '--interactive',          action='store_true',                           help='interactive mode')
     args = parser.parse_args()
     main(args)
