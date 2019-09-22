@@ -45,3 +45,5 @@ R:
 ____________________________________________________________________________
 
 Pipo:
+
+- Como os esquemas(ex: 12131421) interferem na mudança dos estados das células nos automatos celulares assíncronos?
