@@ -1,4 +1,4 @@
-var array = [0,0,0,0,0,1,0,0,0,0,0];
+var gen0 = [0,0,0,0,0,1,0,0,0,0,0];
 
 var r = 0;
 var u = 0;
@@ -91,10 +91,10 @@ function generate(param) {
 		}
 	})
 }
-console.log(JSON.stringify(array));
+console.log(JSON.stringify(gen0));
 
 new Promise(function(resolve, reject) {
-	resolve(generate(array));
+	resolve(generate(gen0));
 	reject('Promise error');
 }).then(function(gen1) {
 	console.log(JSON.stringify(gen1));
