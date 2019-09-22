@@ -40,10 +40,11 @@ R:
 R: 
 
 - As imagens resultantes comprimidas têm tamanhos (em bytes) diferentes. Isso significa que compressão pode ser melhor? [curiosidade]
-R:
+R: Não, um algoritmo de compressão genérico não pode comprimir autômatos celulares perfeitamente, justamente pelo fato de ser genérico.
 
 ____________________________________________________________________________
 
 Pipo:
 
 - Como os esquemas(ex: 12131421) interferem na mudança dos estados das células nos automatos celulares assíncronos?
+  R(marcelo): eles interferem na ordem de atualização das células do espaço t+1 (futuro). Uma dúvida que surge é: os "micro-timesteps", como o professor chamou, devem ser renderizados? E devem ser considerados quando estivermos procurando conservabilidade?
