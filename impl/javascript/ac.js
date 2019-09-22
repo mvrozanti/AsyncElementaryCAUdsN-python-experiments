@@ -1,4 +1,4 @@
-var array = [0,0,0,0,0,1,0,0,0,0,0];
+var gen0 = [0,0,0,0,0,1,0,0,0,0,0];
 
 var r = 0;
 var u = 0;
@@ -91,24 +91,23 @@ function generate(param) {
 		}
 	})
 }
-console.log(JSON.stringify(array));
+console.log(JSON.stringify(gen0));
 
-var gen1 = generate(array)
-
-console.log(JSON.stringify(gen1));
-
-var gen2 = generate(gen1)
-
-console.log(JSON.stringify(gen2));
-
-var gen3 = generate(gen2)
-
-console.log(JSON.stringify(gen3));
-
-var gen4 = generate(gen3)
-
-console.log(JSON.stringify(gen4));
-
-var gen5 = generate(gen4)
-
-console.log(JSON.stringify(gen5));
+new Promise(function(resolve, reject) {
+	resolve(generate(gen0));
+	reject('Promise error');
+}).then(function(gen1) {
+	console.log(JSON.stringify(gen1));
+	return generate(gen1);
+}).then(function(gen2) {
+	console.log(JSON.stringify(gen2));
+	return generate(gen2);
+}).then(function(gen3) {
+	console.log(JSON.stringify(gen3));
+	return generate(gen3);
+}).then(function(gen4) {
+	console.log(JSON.stringify(gen4));
+	return generate(gen4);
+}).then(function(gen5) {
+	console.log(JSON.stringify(gen5));
+});
