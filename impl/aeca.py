@@ -115,7 +115,7 @@ def run_async(rule, t, w, ranks, init_space=None):
         yield future_space
 
 def is_spacetime_conservative(spacetime):
-    code.interact(local=globals().update(locals()) or globals())
+    # code.interact(local=globals().update(locals()) or globals())
     energy = next(spacetime).count(1)
     for space in spacetime:
         if space.count(1) != energy:
@@ -159,34 +159,74 @@ def measure_complexity(space):
 stringify = lambda space: ' '.join([str(c) for c in space])
 
 def interactive(stdscr,args):
-    args.width = args.width//2 - 2
-    space = gen_mid_spacetime(args.width)[0]
+    args.width = args.width//3 - 2
     curses.noecho()
     curses.cbreak()
-    rule_transitions = get_rule_transitions(args.rule)
-    spacetime = [space]
-    for t in range(args.timesteps - 1):
-        future_space = list(spacetime[-1])
-        for i in range(args.width):
-            stdscr.erase()
-            stdscr.border(0)
-            for z,sp in enumerate(spacetime if len(spacetime) < curses.LINES else spacetime[curses.LINES:]):
-                space_str = stringify(sp)
-                stdscr.addstr(1+z, curses.COLS // 2 - len(space_str) // 2 - 1, space_str)
-                stdscr.addstr(2+z, curses.COLS // 2 - len(space_str) // 2 + i*2 - 1, "^")
-            ln,mn,rn = get_neighbors(i, spacetime[-1])
-            tr_ix = get_transition_ix(ln,mn,rn)
-            future_space[i] = rule_transitions[tr_ix]
-            future_space_str = stringify(future_space)
-            stdscr.addstr(2+len(spacetime), curses.COLS // 2 - len(future_space_str) // 2 - 1, stringify(future_space[:i]))
-            stdscr.addstr(2+len(spacetime), curses.COLS // 2 - len(future_space_str) // 2 + i*2 - 1, str(future_space[i]))
-            stdscr.addstr(curses.LINES-4, 2+tr_ix*4, "V")
-            stdscr.addstr(curses.LINES-3, 1, '111 110 101 100 011 010 001 000')
-            stdscr.addstr(curses.LINES-2, 2, '   '.join([str(t) for t in rule_transitions]))
-            stdscr.refresh()
-            stdscr.getkey()
-        spacetime += [future_space]
-    stdscr.refresh()
+    def syn(args):
+        rule_transitions = get_rule_transitions(args.rule)
+        space = gen_mid_spacetime(args.width)[0]
+        spacetime = [space]
+        for t in range(args.timesteps):
+            future_space = list(spacetime[-1])
+            for i in range(args.width):
+                stdscr.erase()
+                stdscr.border(0)
+                for z,sp in enumerate(spacetime if t > curses.LINES-5 else spacetime[-curses.LINES+3:]):
+                    space_str = stringify(sp)
+                    stdscr.addstr(1+z, curses.COLS // 2 - len(space_str) // 2 - 1, space_str)
+                    stdscr.addstr(2+z, curses.COLS // 2 - len(space_str) // 2 + i*2 - 1, "^")
+                ln,mn,rn = get_neighbors(i, spacetime[-1])
+                tr_ix = get_transition_ix(ln,mn,rn)
+                future_space[i] = rule_transitions[tr_ix]
+                future_space_str = stringify(future_space)
+                stdscr.addstr(2+len(spacetime), curses.COLS // 2 - len(future_space_str) // 2 - 1, stringify(future_space[:i]))
+                stdscr.addstr(2+len(spacetime), curses.COLS // 2 - len(future_space_str) // 2 + i*2 - 1, str(future_space[i]))
+                stdscr.addstr(curses.LINES-4, 1, '111 110 101 100 011 010 001 000')
+                stdscr.addstr(curses.LINES-3, 2, '   '.join([str(t) for t in rule_transitions]))
+                stdscr.addstr(curses.LINES-2, 2+tr_ix*4, "^")
+                stdscr.refresh()
+                stdscr.getkey()
+            spacetime += [future_space]
+    def asyn(args):
+        ranks = eval(args.scheme)
+        rule_transitions = get_rule_transitions(args.rule)
+        space = gen_mid_spacetime(args.width)[0]
+        spacetime = [space]
+        str_len = len(stringify(space))
+        for t in range(args.timesteps):
+            future_space = list(spacetime[-1])
+            giotbr = grouped_indexes_of_transitions_by_rank = [[tr_ix for tr_ix,rank in enumerate(ranks) if rank == i] \
+                    for i in range(1,8)] 
+            # curses.nocbreak()
+            # curses.endwin()
+            # code.interact(local=globals().update(locals()) or globals())
+            for pri,transition_indexes in enumerate(giotbr):
+                if transition_indexes:
+                    for ci in range(args.width):
+                        stdscr.erase()
+                        stdscr.border(0)
+                        stdscr.addstr(2+len(spacetime), 3, f'[{pri+1}]')
+                        for z,sp in enumerate(spacetime):
+                            space_str = stringify(sp)
+                            stdscr.addstr(1+z, curses.COLS // 2 - len(space_str) // 2 - 1, space_str)
+                        stdscr.addstr(1+len(spacetime), curses.COLS // 2 - len(space_str) // 2 + ci*2 - 1, "^")
+                        ln,mn,rn = get_neighbors(ci, future_space)
+                        tr_ix = get_transition_ix(ln,mn,rn)
+                        if tr_ix in transition_indexes:
+                            future_space[ci] = rule_transitions[tr_ix]
+                            future_space_str = stringify(future_space)
+                            stdscr.addstr(curses.LINES-4, 2+tr_ix*4, "V")
+                        stdscr.addstr(2+len(spacetime), curses.COLS // 2 - len(future_space_str) // 2 + ci*2 - 1, str(future_space[ci]))
+                        stdscr.addstr(2+len(spacetime), curses.COLS // 2 - len(future_space_str) // 2 - 1, stringify(future_space[:ci]))
+                        stdscr.addstr(curses.LINES-3, 1, '111 110 101 100 011 010 001 000')
+                        stdscr.addstr(curses.LINES-2, 2, '   '.join([str(t) for t in rule_transitions]))
+                        stdscr.refresh()
+                        stdscr.getkey()
+                    spacetime += [future_space]
+    if args.scheme:
+        asyn(args)
+    else:
+        syn(args)
     curses.nocbreak()
     curses.endwin()
     
@@ -206,7 +246,6 @@ def main(args):
                 print_spacetime(spacetime, args.zero, args.one)
             if args.conservative_check:
                 print('Is conservative:', is_spacetime_conservative(spacetime))
-
         else:
             schemes = read_schemes_from_file(args.scheme)
             for scheme in schemes:
