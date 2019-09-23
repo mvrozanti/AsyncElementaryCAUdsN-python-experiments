@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 	
 try {
-    COLUMNS = process.stdout.columns 
-    LINES = process.stdout.rows
+    COLUMNS = process.stdout.columns
+    LINES = process.stdout.rows-2
 }catch(e){
     COLUMNS = 30
     LINES = 30
@@ -41,7 +41,7 @@ function print_spacetime(spacetime, zero, one){
 function run_syn(rule, t, w){
     space = gen_mid_space(w)
     rule_transitions = get_rule_transitions(rule)
-    spacetime = []
+    spacetime = [space]
     for(timestep=0; timestep < t; timestep++){
 	future_space = space.slice()
 	for(ci=0; ci < w; ci++){
@@ -71,8 +71,7 @@ function main(){
 	'timesteps': { key: 't', args: 1, description: 'timesteps to run', default: LINES },
     })
     spacetime = run_syn(args.rule, args.timesteps, args.width)
-    // console.log(spacetime)
-    print_spacetime(spacetime, '0', '1')
+    print_spacetime(spacetime, args.zero, args.one)
 }
 
 if (require.main === module) { main(); }
