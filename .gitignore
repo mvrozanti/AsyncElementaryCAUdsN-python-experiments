@@ -14,3 +14,4 @@ vgcore*
 impl/c/aeca
 **/*.gdb_history
 impl/**/*.png
+**/node_modules
