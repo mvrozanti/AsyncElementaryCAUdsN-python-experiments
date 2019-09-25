@@ -1,12 +1,13 @@
 #!/usr/bin/env python
+from curses import wrapper
 import argparse
 import code
+import curses
 import itertools
 import json
 import os
 import random
-import curses
-from curses import wrapper
+import sys
 
 try:
     LINES, COLS = [int(d) for d in os.popen('stty size', 'r').read().split()]
@@ -197,10 +198,8 @@ def interactive(stdscr,args):
             future_space = list(spacetime[-1])
             giotbr = grouped_indexes_of_transitions_by_rank = [[tr_ix for tr_ix,rank in enumerate(ranks) if rank == i] \
                     for i in range(1,8)] 
-            # curses.nocbreak()
-            # curses.endwin()
-            # code.interact(local=globals().update(locals()) or globals())
             for pri,transition_indexes in enumerate(giotbr):
+                micro_timestep = list(future_space)
                 if transition_indexes:
                     for ci in range(args.width):
                         stdscr.erase()
@@ -213,16 +212,21 @@ def interactive(stdscr,args):
                         ln,mn,rn = get_neighbors(ci, future_space)
                         tr_ix = get_transition_ix(ln,mn,rn)
                         if tr_ix in transition_indexes:
-                            future_space[ci] = rule_transitions[tr_ix]
-                            future_space_str = stringify(future_space)
+                            micro_timestep[ci] = rule_transitions[tr_ix]
+                            micro_str = stringify(micro_timestep)
                             stdscr.addstr(curses.LINES-4, 2+tr_ix*4, "V")
-                        stdscr.addstr(2+len(spacetime), curses.COLS // 2 - len(future_space_str) // 2 + ci*2 - 1, str(future_space[ci]))
-                        stdscr.addstr(2+len(spacetime), curses.COLS // 2 - len(future_space_str) // 2 - 1, stringify(future_space[:ci]))
+                        stdscr.addstr(2+len(spacetime), curses.COLS // 2 - len(micro_str) // 2 - 1, stringify(micro_timestep[:ci]))
+                        # if ci == 1:
+                        #     curses.nocbreak()
+                        #     curses.endwin()
+                        #     code.interact(local=globals().update(locals()) or globals())
+                        stdscr.addstr(2+len(spacetime)+pri*2, curses.COLS // 2 - len(micro_str) // 2 + ci*2 - 1, str(micro_timestep[ci]))
                         stdscr.addstr(curses.LINES-3, 1, '111 110 101 100 011 010 001 000')
                         stdscr.addstr(curses.LINES-2, 2, '   '.join([str(t) for t in rule_transitions]))
                         stdscr.refresh()
                         stdscr.getkey()
-                    spacetime += [future_space]
+                # future_space = list(micro_timestep)
+                    spacetime += [micro_timestep]
     if args.scheme:
         asyn(args)
     else:
@@ -231,10 +235,14 @@ def interactive(stdscr,args):
     curses.endwin()
     
 def main(args):
+    if args.initial_configuration:
+        args.initial_configuration = [int(c) for c in args.initial_configuration]
+        if args.width and len(args.initial_configuration) != args.width:
+            print('Contradictory arguments: width and initial configuration', file=sys.stderr); exit(1)
+        args.width = len(args.initial_configuration)
     if args.interactive:
         stdscr = curses.initscr()
         wrapper(interactive, args)
-        return 
     if args.scheme:
         if args.scheme[0] == '(' and args.scheme[-1] == ')':
             scheme = eval(args.scheme)
@@ -282,5 +290,6 @@ if __name__ == '__main__':
     parser.add_argument('-a', '--animation',            action='store_true',                           help='render animation')
     parser.add_argument('-m', '--measure-complexity',   action='store_true',                           help='measure complexity')
     parser.add_argument('-i', '--interactive',          action='store_true',                           help='interactive mode')
+    parser.add_argument('-I', '--initial-configuration',metavar='CONFIG',                              help='use CONFIG as initial configuration')
     args = parser.parse_args()
     main(args)
