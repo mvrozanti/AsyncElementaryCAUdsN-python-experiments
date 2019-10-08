@@ -209,6 +209,8 @@ def interactive(stdscr,args):
                         for z,sp in enumerate(spacetime):
                             space_str = stringify(sp)
                             stdscr.addstr(1+z, x_pole + curses.COLS // 2 - len(space_str) // 2 - 1, space_str)
+                            if not z % len(giotbr):
+                                stdscr.addstr(1+z, x_pole + curses.COLS // 2 - len(space_str) // 2 - 8, f'-')
                         stdscr.addstr(1+len(spacetime), x_pole + curses.COLS // 2 - len(space_str) // 2 + ci*2 - 1, "^")
                         stdscr.addstr(2+len(spacetime), x_pole + curses.COLS // 2 - len(space_str) // 2 - 5, f'[{pri+1}]')
                         ln,mn,rn = get_neighbors(ci, future_space)
@@ -217,8 +219,8 @@ def interactive(stdscr,args):
                             micro_timestep[ci] = rule_transitions[tr_ix]
                             micro_str = stringify(micro_timestep)
                             stdscr.addstr(curses.LINES-5, 2+tr_ix*4, "V")
-                        stdscr.addstr(2+len(spacetime), x_pole + curses.COLS // 2 - len(micro_str) // 2 - 1, stringify(micro_timestep[:ci]))
-                        stdscr.addstr(2+len(spacetime), x_pole + curses.COLS // 2 - len(micro_str) // 2 + ci*2 - 1, str(micro_timestep[ci]))
+                        stdscr.addstr(2+len(spacetime), x_pole + curses.COLS // 2 - len(space_str) // 2 - 1, stringify(micro_timestep[:ci]))
+                        stdscr.addstr(2+len(spacetime), x_pole + curses.COLS // 2 - len(space_str) // 2 + ci*2 - 1, str(micro_timestep[ci]))
                         stdscr.addstr(curses.LINES-4, 2, '   '.join([str(p) for p in args.scheme]))
                         stdscr.addstr(curses.LINES-3, 1, '111 110 101 100 011 010 001 000')
                         stdscr.addstr(curses.LINES-2, 2, '   '.join([str(t) for t in rule_transitions]))
