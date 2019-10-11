@@ -1,93 +1,33 @@
 var gen0 = [0,0,0,0,0,1,0,0,0,0,0];
 
-var r = 0;
-var u = 0;
-var l = 0;
-var e = 1;
-var n = 1;
-var o = 1;
-var m = 1;
-var b = 0;
+var ruleNumb1 = 0;
+var ruleNumb2 = 0;
+var ruleNumb3 = 0;
+var ruleNumb4 = 1;
+var ruleNumb5 = 1;
+var ruleNumb6 = 1;
+var ruleNumb7 = 1;
+var ruleNumb8 = 0;
 
 function generate(param) {
 	return param.map(function(content, item, array) {
 		if(array[item-1]===undefined) {
 			array[item-1]=array[10];
-			if(array[item-1]===1 && content===1 && array[item+1]===1 ) {
-				return content= r
-			}
-			else if(array[item-1]===1 && content===1 && array[item+1]===0 ) {
-				return content= u
-			}
-			else if(array[item-1]===1 && content===0 && array[item+1]===1 ) {
-				return content= l
-			}
-			else if(array[item-1]===1 && content===0 && array[item+1]===0 ) {
-				return content= e
-			}
-			else if(array[item-1]===0 && content===1 && array[item+1]===1 ) {
-				return content= n
-			}
-			else if(array[item-1]===0 && content===1 && array[item+1]===0 ) {
-				return content= o
-			}
-			else if(array[item-1]===0 && content===0 && array[item+1]===1 ) {
-				return content= m
-			}
-			else if(array[item-1]===0 && content===0 && array[item+1]===0 ) {
-				return content= b
-			}
+			return array[item-1]===1 && content===1 && array[item+1]===1 ? content=ruleNumb1 : array[item-1]===1 && content===1 && array[item+1]===0 ? content=ruleNumb2 :
+			array[item-1]===1 && content===0 && array[item+1]===1 ? content=ruleNumb3 : array[item-1]===1 && content===0 && array[item+1]===0 ? content=ruleNumb4 : 
+			array[item-1]===0 && content===1 && array[item+1]===1 ? content=ruleNumb5 : array[item-1]===0 && content===1 && array[item+1]===0 ? content=ruleNumb6 :
+			array[item-1]===0 && content===0 && array[item+1]===1 ? content=ruleNumb7 : array[item-1]===0 && content===0 && array[item+1]===0 ? content=ruleNumb8 : null;
 		} else if (array[item+1]===undefined) {
 			array[item+1]=array[0];
-			if(array[item-1]===1 && content===1 && array[item+1]===1 ) {
-				return content= r
-			}
-			else if(array[item-1]===1 && content===1 && array[item+1]===0 ) {
-				return content= u
-			}
-			else if(array[item-1]===1 && content===0 && array[item+1]===1 ) {
-				return content= l
-			}
-			else if(array[item-1]===1 && content===0 && array[item+1]===0 ) {
-				return content= e
-			}
-			else if(array[item-1]===0 && content===1 && array[item+1]===1 ) {
-				return content= n
-			}
-			else if(array[item-1]===0 && content===1 && array[item+1]===0 ) {
-				return content= o
-			}
-			else if(array[item-1]===0 && content===0 && array[item+1]===1 ) {
-				return content= m
-			}
-			else if(array[item-1]===0 && content===0 && array[item+1]===0 ) {
-				return content= b
-			}
+			return array[item-1]===1 && content===1 && array[item+1]===1 ? content=ruleNumb1 : array[item-1]===1 && content===1 && array[item+1]===0 ? content=ruleNumb2 :
+			array[item-1]===1 && content===0 && array[item+1]===1 ? content=ruleNumb3 : array[item-1]===1 && content===0 && array[item+1]===0 ? content=ruleNumb4 : 
+			array[item-1]===0 && content===1 && array[item+1]===1 ? content=ruleNumb5 : array[item-1]===0 && content===1 && array[item+1]===0 ? content=ruleNumb6 :
+			array[item-1]===0 && content===0 && array[item+1]===1 ? content=ruleNumb7 : array[item-1]===0 && content===0 && array[item+1]===0 ? content=ruleNumb8 : null;
 		} else {
-			if(array[item-1]===1 && content===1 && array[item+1]===1 ) {
-				return content= r
-			}
-			else if(array[item-1]===1 && content===1 && array[item+1]===0 ) {
-				return content= u
-			}
-			else if(array[item-1]===1 && content===0 && array[item+1]===1 ) {
-				return content= l
-			}
-			else if(array[item-1]===1 && content===0 && array[item+1]===0 ) {
-				return content= e
-			}
-			else if(array[item-1]===0 && content===1 && array[item+1]===1 ) {
-				return content= n
-			}
-			else if(array[item-1]===0 && content===1 && array[item+1]===0 ) {
-				return content= o
-			}
-			else if(array[item-1]===0 && content===0 && array[item+1]===1 ) {
-				return content= m
-			}
-			else if(array[item-1]===0 && content===0 && array[item+1]===0 ) {
-				return content= b
-			}
+			return array[item-1]===1 && content===1 && array[item+1]===1 ? content=ruleNumb1 : array[item-1]===1 && content===1 && array[item+1]===0 ? content=ruleNumb2 :
+			array[item-1]===1 && content===0 && array[item+1]===1 ? content=ruleNumb3 : array[item-1]===1 && content===0 && array[item+1]===0 ? content=ruleNumb4 : 
+			array[item-1]===0 && content===1 && array[item+1]===1 ? content=ruleNumb5 : array[item-1]===0 && content===1 && array[item+1]===0 ? content=ruleNumb6 :
+			array[item-1]===0 && content===0 && array[item+1]===1 ? content=ruleNumb7 : array[item-1]===0 && content===0 && array[item+1]===0 ? content=ruleNumb8 : null;
 		}
 	})
 }
