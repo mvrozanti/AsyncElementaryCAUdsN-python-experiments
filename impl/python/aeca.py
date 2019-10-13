@@ -209,8 +209,8 @@ def interactive(stdscr,args):
                         for z,sp in enumerate(spacetime):
                             space_str = stringify(sp)
                             stdscr.addstr(1+z, x_pole + curses.COLS // 2 - len(space_str) // 2 - 1, space_str)
-                            if not z % len(giotbr):
-                                stdscr.addstr(1+z, x_pole + curses.COLS // 2 - len(space_str) // 2 - 8, f'-')
+                            if z % sum([int(bool(g)) for g in giotbr]) == 0:
+                                stdscr.addstr(1+z, x_pole + curses.COLS // 2 - len(space_str) // 2 - 4, f'-')
                         stdscr.addstr(1+len(spacetime), x_pole + curses.COLS // 2 - len(space_str) // 2 + ci*2 - 1, "^")
                         stdscr.addstr(2+len(spacetime), x_pole + curses.COLS // 2 - len(space_str) // 2 - 5, f'[{pri+1}]')
                         ln,mn,rn = get_neighbors(ci, future_space)
@@ -221,6 +221,7 @@ def interactive(stdscr,args):
                             stdscr.addstr(curses.LINES-5, 2+tr_ix*4, "V")
                         stdscr.addstr(2+len(spacetime), x_pole + curses.COLS // 2 - len(space_str) // 2 - 1, stringify(micro_timestep[:ci]))
                         stdscr.addstr(2+len(spacetime), x_pole + curses.COLS // 2 - len(space_str) // 2 + ci*2 - 1, str(micro_timestep[ci]))
+                        # stdscr.addstr(curses.LINES-5, 2, '   '.join([str(p) for p in args.scheme]))
                         stdscr.addstr(curses.LINES-4, 2, '   '.join([str(p) for p in args.scheme]))
                         stdscr.addstr(curses.LINES-3, 1, '111 110 101 100 011 010 001 000')
                         stdscr.addstr(curses.LINES-2, 2, '   '.join([str(t) for t in rule_transitions]))
@@ -244,8 +245,8 @@ def main(args):
         args.initial_configuration = [int(c) for c in args.initial_configuration]
         args.width = len(args.initial_configuration)
     if args.scheme:
-        if args.scheme[0] == '(' and args.scheme[-1] == ')':
-            args.scheme = eval(args.scheme)
+        if all([str.isdigit(c) for c in args.scheme]):
+            args.scheme = [int(c) for c in args.scheme]
         else:
             schemes = read_schemes_from_file(args.scheme)
     if args.interactive:
