@@ -83,23 +83,24 @@ def run_sync(rule, t, w, init_space=None):
         yield future_space
 
 def run_async(rule, t, w, ranks, init_space=None):
-    rule_transitions = get_rule_transitions(args.rule) # array das transicoes; exemplo: [0,0,0,1,1,1,1,0] para a regra 30
+    rule_transitions = get_rule_transitions(args.rule) # array das transições; exemplo: [0,0,0,1,1,1,1,0] para a regra 30
     space = args.initial_configuration if args.initial_configuration else gen_mid_spacetime(args.width)[0] 
-    spacetime = [space]
-    giotbr = grouped_indexes_of_transitions_by_rank = [[tr_ix for tr_ix,rank in enumerate(args.scheme) if rank == i] \
-            for i in range(1,8)] # agrupa as prioridades; exemplo: 2,1,1,1,1,1,1,1 resulta em [[1,2,3,4,5,6,7],[0],[],[],[],[],[],[]]
+    # inicializa a matriz das configurações
+    macrospacetime = [space]
+    # agrupa as prioridades; exemplo: 2,1,1,1,1,1,1,1 resulta em [[1,2,3,4,5,6,7],[0],[],[],[],[],[],[]]:
+    giotbr = [[tr_ix for tr_ix,rank in enumerate(args.scheme) if rank == i] for i in range(1,9)] # "grouped_indexes_of_transitions_by_rank"
     for t in range(args.timesteps): # iterar sobre o intervalo dos timesteps de 0 a timesteps-1
-        microspacetime = [spacetime[-1]]
+        microspacetime = [macrospacetime[-1]]
         for pri,transition_indexes in enumerate(giotbr):
             micro_timestep = list(microspacetime[-1])
             for ci in range(args.width):
-                ln,mn,rn = get_neighbors(ci, micro_timestep)
+                ln,mn,rn = get_neighbors(ci, microspacetime[-1])
                 tr_ix = get_transition_ix(ln,mn,rn)
                 if tr_ix in transition_indexes:
                     micro_timestep[ci] = rule_transitions[tr_ix]
             microspacetime += [micro_timestep]
-        spacetime += [microspacetime[-1]]
-    return spacetime
+        macrospacetime += [microspacetime[-1]]
+    return macrospacetime
 
 def is_spacetime_conservative(spacetime):
     # code.interact(local=globals().update(locals()) or globals())
@@ -158,34 +159,34 @@ def interactive(stdscr,args):
         rule_transitions = get_rule_transitions(args.rule)
         space = args.initial_configuration if args.initial_configuration else gen_mid_spacetime(args.width)[0] 
         spacetime = [space]
-        true_spacetime = [space]
+        macrospacetime = [space]
         str_len = len(stringify(space))
         x_pole = 0
+        giotbr = grouped_indexes_of_transitions_by_rank = [[tr_ix for tr_ix,rank in enumerate(args.scheme) if rank == i] \
+                for i in range(1,8)] 
         for t in range(args.timesteps):
-            future_space = list(spacetime[-1])
-            giotbr = grouped_indexes_of_transitions_by_rank = [[tr_ix for tr_ix,rank in enumerate(args.scheme) if rank == i] \
-                    for i in range(1,8)] 
+            microspacetime = [macrospacetime[-1]]
             for pri,transition_indexes in enumerate(giotbr):
-                micro_timestep = list(future_space)
+                micro_timestep = list(macrospacetime[-1])
                 if transition_indexes:
                     for ci in range(args.width):
                         stdscr.erase()
                         stdscr.border(0)
-                        for z,sp in enumerate(spacetime):
+                        for z,sp in enumerate(microspacetime):
                             space_str = stringify(sp)
                             stdscr.addstr(1+z, x_pole + curses.COLS // 2 - len(space_str) // 2 - 1, space_str)
                             if z % sum([int(bool(g)) for g in giotbr]) == 0:
                                 stdscr.addstr(1+z, x_pole + curses.COLS // 2 - len(space_str) // 2 - 4, f'-')
-                        stdscr.addstr(1+len(spacetime), x_pole + curses.COLS // 2 - len(space_str) // 2 + ci*2 - 1, "^")
-                        stdscr.addstr(2+len(spacetime), x_pole + curses.COLS // 2 - len(space_str) // 2 - 5, f'[{pri+1}]')
-                        ln,mn,rn = get_neighbors(ci, future_space)
+                        stdscr.addstr(1+len(microspacetime), x_pole + curses.COLS // 2 - len(space_str) // 2 + ci*2 - 1, "^")
+                        stdscr.addstr(2+len(microspacetime), x_pole + curses.COLS // 2 - len(space_str) // 2 - 5, f'[{pri+1}]')
+                        ln,mn,rn = get_neighbors(ci, macrospacetime[-1])
                         tr_ix = get_transition_ix(ln,mn,rn)
                         if tr_ix in transition_indexes:
                             micro_timestep[ci] = rule_transitions[tr_ix]
                             micro_str = stringify(micro_timestep)
                             stdscr.addstr(curses.LINES-5, 2+tr_ix*4, "V")
-                        stdscr.addstr(2+len(spacetime), x_pole + curses.COLS // 2 - len(space_str) // 2 - 1, stringify(micro_timestep[:ci]))
-                        stdscr.addstr(2+len(spacetime), x_pole + curses.COLS // 2 - len(space_str) // 2 + ci*2 - 1, str(micro_timestep[ci]))
+                        stdscr.addstr(2+len(microspacetime), x_pole + curses.COLS // 2 - len(space_str) // 2 - 1, stringify(micro_timestep[:ci]))
+                        stdscr.addstr(2+len(microspacetime), x_pole + curses.COLS // 2 - len(space_str) // 2 + ci*2 - 1, str(micro_timestep[ci]))
                         stdscr.addstr(curses.LINES-6, 2, f'micro_timestep[ci]={micro_timestep[ci]}')
                         stdscr.addstr(curses.LINES-4, 2, '   '.join([str(p) for p in args.scheme]))
                         stdscr.addstr(curses.LINES-3, 1, '111 110 101 100 011 010 001 000')
@@ -196,8 +197,9 @@ def interactive(stdscr,args):
                             x_pole -= 1
                         if key == 'KEY_RIGHT':
                             x_pole += 1
+                    microspacetime += [micro_timestep]
                     spacetime += [micro_timestep]
-            true_spacetime += [spacetime[-1]]
+            macrospacetime += [microspacetime[-1]]
     if args.scheme:
         asyn(args)
     else:
@@ -219,7 +221,7 @@ def main(args):
     if args.interactive:
         stdscr = curses.initscr()
         wrapper(interactive, args)
-    if args.scheme:
+    if args.scheme and not schemes:
         spacetime = run_async(args.rule, args.timesteps - 1, args.width, args.scheme)
         spacetime = list(spacetime)
         if args.png_render:
@@ -228,7 +230,7 @@ def main(args):
             print_spacetime(spacetime, args.zero, args.one)
         if args.conservative_check:
             print('Is conservative:', is_spacetime_conservative(spacetime))
-    elif schemes:
+    if schemes:
         schemes = read_schemes_from_file(args.scheme)
         for scheme in schemes:
             spacetime = run_async(args.rule, args.timesteps-1, args.width, scheme)
