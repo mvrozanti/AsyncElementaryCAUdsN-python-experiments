@@ -46,8 +46,9 @@ def print_spacetime(spacetime, zero=0, one=1):
         [print(one if cell else zero, end='') for cell in space]
         print()
 
-def render_image(spacetime, t, w, rule, ranks, measure_complexity=False):
+def render_image(spacetime, rule, scheme, measure_complexity=False):
     from PIL import Image
+    w,t = len(spacetime[0]), len(spacetime)
     im = Image.new('RGB', (w, t))
     pixels = []
     for iy,space in enumerate([list(space) for space in spacetime]):
@@ -55,10 +56,14 @@ def render_image(spacetime, t, w, rule, ranks, measure_complexity=False):
             compl = (10*measure_complexity(space)) % 255
         for ix,cell in enumerate(space):
             pixels += [(0,0,0) if cell else (255-compl if measure_complexity else 255, (0 if measure_complexity else 255), (0 if measure_complexity else 255))]
-    im.putdata(pixels)
-    if ranks:
-        ranks = '-' + ''.join([str(r) for r in ranks])
-    im.save(f'{rule}-{w}x{t}{ranks}.png')
+    try:
+        im.putdata(pixels)
+    except Exception as e: 
+        print(e)
+        code.interact(local=globals().update(locals()) or globals())
+    if scheme:
+        scheme = '-' + ''.join([str(r) for r in scheme])
+    im.save(f'{rule}-{w}x{t}{scheme}.png')
 
 def run_sync(rule, t, w, init_space=None):
     """
@@ -78,42 +83,23 @@ def run_sync(rule, t, w, init_space=None):
         yield future_space
 
 def run_async(rule, t, w, ranks, init_space=None):
-    rule_transitions = get_rule_transitions(rule)
-    assert len(ranks) == 8
-    space = init_space if init_space else list(gen_mid_spacetime(w)[0])
-    yield space
-    giotbr = grouped_indexes_of_transitions_by_rank = [[ix for ix,rank in enumerate(ranks) if rank == i] \
-            for i in range(1,8)]
-    for _ in range(t):
-        future_space = list(space)
-        for transition_indexes in giotbr:
-            if transition_indexes:
-                for ci in range(w):
-                    ln,mn,rn = get_neighbors(ci, space)
-                    ix = get_transition_ix(ln,mn,rn)
-                    if ix in transition_indexes:
-                        future_space[ci] = rule_transitions[ix]
-            space = future_space
-        yield future_space
-
-def run_async(rule, t, w, ranks, init_space=None):
-    rule_transitions = get_rule_transitions(rule)
-    assert len(ranks) == 8
-    space = init_space if init_space else list(gen_mid_spacetime(w)[0])
-    yield space
-    giotbr = grouped_indexes_of_transitions_by_rank = [[ix for ix,rank in enumerate(ranks) if rank == i] \
-            for i in range(1,8)] 
-    for _ in range(t):
-        future_space = list(space)
-        for transition_indexes in giotbr:
-            if transition_indexes:
-                for ci in range(w):
-                    ln,mn,rn = get_neighbors(ci, space)
-                    ix = get_transition_ix(ln,mn,rn)
-                    if ix in transition_indexes:
-                        future_space[ci] = rule_transitions[ix]
-                space = future_space
-        yield future_space
+    rule_transitions = get_rule_transitions(args.rule) # array das transicoes; exemplo: [0,0,0,1,1,1,1,0] para a regra 30
+    space = args.initial_configuration if args.initial_configuration else gen_mid_spacetime(args.width)[0] 
+    spacetime = [space]
+    giotbr = grouped_indexes_of_transitions_by_rank = [[tr_ix for tr_ix,rank in enumerate(args.scheme) if rank == i] \
+            for i in range(1,8)] # agrupa as prioridades; exemplo: 2,1,1,1,1,1,1,1 resulta em [[1,2,3,4,5,6,7],[0],[],[],[],[],[],[]]
+    for t in range(args.timesteps): # iterar sobre o intervalo dos timesteps de 0 a timesteps-1
+        microspacetime = [spacetime[-1]]
+        for pri,transition_indexes in enumerate(giotbr):
+            micro_timestep = list(microspacetime[-1])
+            for ci in range(args.width):
+                ln,mn,rn = get_neighbors(ci, micro_timestep)
+                tr_ix = get_transition_ix(ln,mn,rn)
+                if tr_ix in transition_indexes:
+                    micro_timestep[ci] = rule_transitions[tr_ix]
+            microspacetime += [micro_timestep]
+        spacetime += [microspacetime[-1]]
+    return spacetime
 
 def is_spacetime_conservative(spacetime):
     # code.interact(local=globals().update(locals()) or globals())
@@ -123,35 +109,14 @@ def is_spacetime_conservative(spacetime):
             return False
     return True
 
-def is_rule_conservative(rule, t, w, ranks=None):
+def is_rule_conservative(rule, t, w, scheme=None):
     init_spaces = gen_space_combo(w)
-    ranks = ranks if ranks else [1]*8
+    scheme = scheme if scheme else [1]*8
     for init_space in init_spaces:
-        final_spacetime = run_async(rule, t, w, ranks, init_space=init_space)
+        final_spacetime = run_async(rule, t, w, scheme, init_space=init_space)
         if not is_spacetime_conservative(final_spacetime):
             return False
     return True
-
-i=0
-def create_anim(spacetime, t, w):
-    import numpy as np
-    import matplotlib.pyplot as plt
-    import matplotlib.animation as animation
-    fig = plt.figure()
-    fig.tight_layout()
-    np_spacetime = np.array(list(spacetime)).reshape(t,w)
-    im = plt.imshow(np_spacetime[0:100].reshape(100, w), cmap='binary')
-    def updatefig(*args):
-        global i
-        i += 1
-        im.set_data(np_spacetime[i:i+100])
-        return im,
-    ani = animation.FuncAnimation(fig, updatefig, interval=1, blit=False)
-    plt.subplots_adjust(left=0, bottom=0, right=1, top=1, wspace=0, hspace=0)
-    plt.gca().axes.get_yaxis().set_visible(False)
-    plt.gca().axes.get_xaxis().set_visible(False)
-    # ani.save('myAnimation.gif', writer='imagemagick', fps=30)
-    plt.show()
 
 def measure_complexity(space):
     import zlib
@@ -166,14 +131,14 @@ def interactive(stdscr,args):
     curses.cbreak()
     def syn(args):
         rule_transitions = get_rule_transitions(args.rule)
-        space = gen_mid_spacetime(args.width)[0]
+        space = gen_mid_spacetime(args.width//3)[0]
         spacetime = [space]
         for t in range(args.timesteps):
             future_space = list(spacetime[-1])
             for i in range(args.width):
                 stdscr.erase()
                 stdscr.border(0)
-                for z,sp in enumerate(spacetime if t > curses.LINES-5 else spacetime[-curses.LINES+3:]):
+                for z,sp in enumerate(spacetime):
                     space_str = stringify(sp)
                     stdscr.addstr(1+z, curses.COLS // 2 - len(space_str) // 2 - 1, space_str)
                     stdscr.addstr(2+z, curses.COLS // 2 - len(space_str) // 2 + i*2 - 1, "^")
@@ -221,7 +186,7 @@ def interactive(stdscr,args):
                             stdscr.addstr(curses.LINES-5, 2+tr_ix*4, "V")
                         stdscr.addstr(2+len(spacetime), x_pole + curses.COLS // 2 - len(space_str) // 2 - 1, stringify(micro_timestep[:ci]))
                         stdscr.addstr(2+len(spacetime), x_pole + curses.COLS // 2 - len(space_str) // 2 + ci*2 - 1, str(micro_timestep[ci]))
-                        # stdscr.addstr(curses.LINES-5, 2, '   '.join([str(p) for p in args.scheme]))
+                        stdscr.addstr(curses.LINES-6, 2, f'micro_timestep[ci]={micro_timestep[ci]}')
                         stdscr.addstr(curses.LINES-4, 2, '   '.join([str(p) for p in args.scheme]))
                         stdscr.addstr(curses.LINES-3, 1, '111 110 101 100 011 010 001 000')
                         stdscr.addstr(curses.LINES-2, 2, '   '.join([str(t) for t in rule_transitions]))
@@ -232,7 +197,7 @@ def interactive(stdscr,args):
                         if key == 'KEY_RIGHT':
                             x_pole += 1
                     spacetime += [micro_timestep]
-                true_spacetime += [spacetime[-1]]
+            true_spacetime += [spacetime[-1]]
     if args.scheme:
         asyn(args)
     else:
@@ -244,19 +209,21 @@ def main(args):
     if args.initial_configuration:
         args.initial_configuration = [int(c) for c in args.initial_configuration]
         args.width = len(args.initial_configuration)
+    schemes = None
     if args.scheme:
         if all([str.isdigit(c) for c in args.scheme]):
             args.scheme = [int(c) for c in args.scheme]
+            assert len(args.scheme) == 8
         else:
             schemes = read_schemes_from_file(args.scheme)
     if args.interactive:
         stdscr = curses.initscr()
         wrapper(interactive, args)
     if args.scheme:
-        spacetime = run_async(args.rule, args.timesteps - 1, args.width, scheme)
+        spacetime = run_async(args.rule, args.timesteps - 1, args.width, args.scheme)
         spacetime = list(spacetime)
         if args.png_render:
-            render_image(spacetime, args.timesteps, args.width, args.rule, scheme, measure_complexity=args.measure_complexity)
+            render_image(spacetime, args.rule, args.scheme, measure_complexity=args.measure_complexity)
         if args.terminal_render:
             print_spacetime(spacetime, args.zero, args.one)
         if args.conservative_check:
@@ -264,9 +231,9 @@ def main(args):
     elif schemes:
         schemes = read_schemes_from_file(args.scheme)
         for scheme in schemes:
-            spacetime = run_async(args.rule, args.timesteps - 1, args.width, scheme)
+            spacetime = run_async(args.rule, args.timesteps-1, args.width, scheme)
             if args.png_render:
-                render_image(spacetime, args.timesteps, args.width, args.rule, scheme, measure_complexity=args.measure_complexity)
+                render_image(spacetime, args.rule, scheme, measure_complexity=args.measure_complexity)
             if args.terminal_render:
                 print_spacetime(spacetime, args.zero, args.one)
             if args.conservative_check:
@@ -274,12 +241,10 @@ def main(args):
     else:
         spacetime = run_sync(args.rule, args.timesteps - 1, args.width)
         spacetime = list(spacetime)
-        if args.animation:
-            create_anim(spacetime, args.timesteps, args.width)
         if args.terminal_render:
             print_spacetime(spacetime, args.zero, args.one)
         if args.png_render:
-            render_image(spacetime, args.timesteps, args.width, args.rule, '', measure_complexity=args.measure_complexity)
+            render_image(spacetime, args.rule, '', measure_complexity=args.measure_complexity)
         if args.conservative_check:
             print('Is conservative:', is_spacetime_conservative(spacetime))
 
@@ -294,7 +259,6 @@ if __name__ == '__main__':
     parser.add_argument('-c', '--conservative-check',   action='store_true',                           help='show whether automata generated are conservative')
     parser.add_argument('-o', '--terminal-render',      action='store_true',                           help='render in terminal')
     parser.add_argument('-O', '--png-render',           action='store_true',                           help='render to file')
-    parser.add_argument('-a', '--animation',            action='store_true',                           help='render animation')
     parser.add_argument('-m', '--measure-complexity',   action='store_true',                           help='measure complexity')
     parser.add_argument('-i', '--interactive',          action='store_true',                           help='interactive mode')
     parser.add_argument('-I', '--initial-configuration',metavar='CONFIG',                              help='use CONFIG as initial configuration')
