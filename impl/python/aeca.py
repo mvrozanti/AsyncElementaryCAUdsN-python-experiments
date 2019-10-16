@@ -20,7 +20,7 @@ spacetime generation
 """
 def gen_mid_spacetime(w): 
     spacetime = [[0]*w]
-    spacetime[0][w//2-1] = 1
+    spacetime[0][w//2] = 1
     return spacetime
 
 read_schemes_from_file = lambda fp: json.load(open(fp))
@@ -32,7 +32,7 @@ get rule transitions as an array indexed by neighbor configuration, like so:
 # 111 110 101 100 011 010 001 000
 #  y0  y1  y2  y3  y4  y5  y6  y7
 """
-get_rule_transitions = lambda r: [int(y) for y in format(r,'#010b')[2:]]
+get_rule_transitions = lambda rule: [int(y) for y in format(rule,'#010b')[2:]]
 
 """
 returns what rule should be applied for this combination of neighbors
@@ -87,12 +87,14 @@ def run_async(rule, t, w, ranks, init_space=None):
     space = args.initial_configuration if args.initial_configuration else gen_mid_spacetime(args.width)[0] 
     # inicializa a matriz das configurações
     macrospacetime = [space]
-    # agrupa as prioridades; exemplo: 2,1,1,1,1,1,1,1 resulta em [[1,2,3,4,5,6,7],[0],[],[],[],[],[],[]]:
+    # agrupa as prioridades; exemplo: 2,3,1,1,1,1,1,2 resulta em [[2,3,4,5,6],[0,7],[1],[],[],[],[],[]]:
     giotbr = [[tr_ix for tr_ix,rank in enumerate(args.scheme) if rank == i] for i in range(1,9)] # "grouped_indexes_of_transitions_by_rank"
     for t in range(args.timesteps): # iterar sobre o intervalo dos timesteps de 0 a timesteps-1
-        microspacetime = [macrospacetime[-1]]
+        macrotimestep = macrospacetime[-1]
+        microspacetime = [macrotimestep] # primeiro microtimestep do microspacetime será o último macrotimestep do macrospacetime
         for pri,transition_indexes in enumerate(giotbr):
-            micro_timestep = list(microspacetime[-1])
+            last_micro_timestep = microspacetime[-1]
+            micro_timestep = list(last_micro_timestep)
             for ci in range(args.width):
                 ln,mn,rn = get_neighbors(ci, microspacetime[-1])
                 tr_ix = get_transition_ix(ln,mn,rn)
