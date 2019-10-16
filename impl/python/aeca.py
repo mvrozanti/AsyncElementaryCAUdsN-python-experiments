@@ -15,6 +15,10 @@ except:
     LINES, COLS = 30,30
 DEBUG = True
 
+def measure_complexity(space):
+    import zlib
+    return len(zlib.compress(bytes(space)))
+
 """
 spacetime generation
 """
@@ -88,11 +92,11 @@ def run_async(rule, t, w, ranks, init_space=None):
     # inicializa a matriz das configurações
     macrospacetime = [space]
     # agrupa as prioridades; exemplo: 2,3,1,1,1,1,1,2 resulta em [[2,3,4,5,6],[0,7],[1],[],[],[],[],[]]:
-    giotbr = [[tr_ix for tr_ix,rank in enumerate(args.scheme) if rank == i] for i in range(1,9)] # "grouped_indexes_of_transitions_by_rank"
+    gitr = [[tr_ix for tr_ix,rank in enumerate(ranks) if rank == i] for i in range(1,9)] # "grouped_indexes_transitions_rank"
     for t in range(args.timesteps): # iterar sobre o intervalo dos timesteps de 0 a timesteps-1
         macrotimestep = macrospacetime[-1]
         microspacetime = [macrotimestep] # primeiro microtimestep do microspacetime será o último macrotimestep do macrospacetime
-        for pri,transition_indexes in enumerate(giotbr):
+        for transition_indexes in gitr:
             last_micro_timestep = microspacetime[-1]
             micro_timestep = list(last_micro_timestep)
             for ci in range(args.width):
@@ -101,8 +105,10 @@ def run_async(rule, t, w, ranks, init_space=None):
                 if tr_ix in transition_indexes:
                     micro_timestep[ci] = rule_transitions[tr_ix]
             microspacetime += [micro_timestep]
+            # print(''.join([str(s) for s in  micro_timestep]))
+            # code.interact(local=globals().update(locals()) or globals())
         macrospacetime += [microspacetime[-1]]
-    return macrospacetime
+    return macrospacetime # macrospacetime é composto por todos os "últimos" microtimesteps
 
 def is_spacetime_conservative(spacetime):
     # code.interact(local=globals().update(locals()) or globals())
@@ -120,10 +126,6 @@ def is_rule_conservative(rule, t, w, scheme=None):
         if not is_spacetime_conservative(final_spacetime):
             return False
     return True
-
-def measure_complexity(space):
-    import zlib
-    return len(zlib.compress(bytes(space)))
 
 stringify = lambda space: ' '.join([str(c) for c in space])
 
@@ -208,53 +210,32 @@ def interactive(stdscr,args):
         syn(args)
     curses.nocbreak()
     curses.endwin()
-    
+
 def main(args):
     if args.initial_configuration:
         args.initial_configuration = [int(c) for c in args.initial_configuration]
         args.width = len(args.initial_configuration)
-    schemes = None
-    if args.scheme:
-        if all([str.isdigit(c) for c in args.scheme]):
-            args.scheme = [int(c) for c in args.scheme]
-            assert len(args.scheme) == 8
+    if args.schemes:
+        if all([str.isdigit(c) for scheme in args.schemes for c in scheme]):
+            assert len(args.schemes[0]) == 8
+            args.schemes = [[int(c) for c in scheme] for scheme in args.schemes]
         else:
-            schemes = read_schemes_from_file(args.scheme)
+            args.schemes = read_schemes_from_file(args.schemes[0])
     if args.interactive:
         stdscr = curses.initscr()
         wrapper(interactive, args)
-    if args.scheme and not schemes:
-        spacetime = run_async(args.rule, args.timesteps - 1, args.width, args.scheme)
-        spacetime = list(spacetime)
+    for scheme in args.schemes:
+        spacetime = run_async(args.rule, args.timesteps-1, args.width, scheme)
         if args.png_render:
-            render_image(spacetime, args.rule, args.scheme, measure_complexity=args.measure_complexity)
+            render_image(spacetime, args.rule, scheme, measure_complexity=args.measure_complexity)
         if args.terminal_render:
             print_spacetime(spacetime, args.zero, args.one)
-        if args.conservative_check:
-            print('Is conservative:', is_spacetime_conservative(spacetime))
-    if schemes:
-        schemes = read_schemes_from_file(args.scheme)
-        for scheme in schemes:
-            spacetime = run_async(args.rule, args.timesteps-1, args.width, scheme)
-            if args.png_render:
-                render_image(spacetime, args.rule, scheme, measure_complexity=args.measure_complexity)
-            if args.terminal_render:
-                print_spacetime(spacetime, args.zero, args.one)
-            if args.conservative_check:
-                print('Is conservative:', is_spacetime_conservative(spacetime))
-    else:
-        spacetime = run_sync(args.rule, args.timesteps - 1, args.width)
-        spacetime = list(spacetime)
-        if args.terminal_render:
-            print_spacetime(spacetime, args.zero, args.one)
-        if args.png_render:
-            render_image(spacetime, args.rule, '', measure_complexity=args.measure_complexity)
         if args.conservative_check:
             print('Is conservative:', is_spacetime_conservative(spacetime))
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(prog='aeca', description='Asynchronous Elementary Cellular Automata')
-    parser.add_argument('-s', '--scheme',               default=None,   metavar='ASYNCHRONOUS-SCHEME', help='async scheme to run (p0,p1,p2,p3,p4,p5,p6,p7) for pn in [1,7]')
+    parser.add_argument('-s', '--schemes',  nargs='+',  default=None,   metavar='ASYNCHRONOUS-SCHEME', help='async scheme to run p0p1p2p3p4p5p6p7 for pn in [1,8]')
     parser.add_argument('-r', '--rule',                 default=30,     metavar='RULE-ID',             help='rule in the Wolfram classification scheme', type=int)
     parser.add_argument('-t', '--timesteps',            default=LINES,  metavar='TIMESTEPS',           help='timesteps to run', type=int)
     parser.add_argument('-w', '--width',                default=COLS,   metavar='WIDTH',               help='space width', type=int)
