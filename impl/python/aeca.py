@@ -93,10 +93,10 @@ def run_async(rule, t, w, ranks, init_space=None):
     macrospacetime = [space]
     # agrupa as prioridades; exemplo: 2,3,1,1,1,1,1,2 resulta em [[2,3,4,5,6],[0,7],[1],[],[],[],[],[]]:
     gitr = [[tr_ix for tr_ix,rank in enumerate(ranks) if rank == i] for i in range(1,9)] # "grouped_indexes_transitions_rank"
-    for t in range(args.timesteps): # iterar sobre o intervalo dos timesteps de 0 a timesteps-1
+    for t in range(args.timesteps-1): # iterar sobre o intervalo dos timesteps de 0 a timesteps-1
         macrotimestep = macrospacetime[-1]
         microspacetime = [macrotimestep] # primeiro microtimestep do microspacetime será o último macrotimestep do macrospacetime
-        for transition_indexes in gitr:
+        for pri,transition_indexes in enumerate(gitr):
             last_micro_timestep = microspacetime[-1]
             micro_timestep = list(last_micro_timestep)
             for ci in range(args.width):
@@ -104,6 +104,7 @@ def run_async(rule, t, w, ranks, init_space=None):
                 tr_ix = get_transition_ix(ln,mn,rn)
                 if tr_ix in transition_indexes:
                     micro_timestep[ci] = rule_transitions[tr_ix]
+            # print(f'[{pri}]', micro_timestep)
             microspacetime += [micro_timestep]
             # print(''.join([str(s) for s in  micro_timestep]))
             # code.interact(local=globals().update(locals()) or globals())
