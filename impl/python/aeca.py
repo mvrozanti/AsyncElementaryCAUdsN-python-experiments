@@ -132,7 +132,9 @@ def is_rule_conservative(rule, t, w, scheme=None):
     init_spaces = gen_space_combo(w)
     scheme = scheme if scheme else [1]*8
     with concurrent.futures.ProcessPoolExecutor() as executor:
-        for conservative in executor.map(run_and_check, *zip(*[[rule, w, t, scheme, init_space] for init_space in init_spaces])):
+        le_tqdm = tqdm.tqdm(executor.map(run_and_check, *zip(*[[rule, w, t, scheme, init_space] for init_space in init_spaces])), leave=False, dynamic_ncols=True, total=2**w)
+        for conservative in list(le_tqdm):
+            le_tqdm.set_description(f'Rule {rule} is conservative: {conservative}')
             if not conservative:
                 return False
         return True
@@ -164,11 +166,12 @@ def main(args):
     if args.conservative_check:
         import csv
         dirname = f'{args.rule:03d}-{args.width}x{args.timesteps}'
-        fieldnames = list(conservative_at.keys())
+        fieldnames = ['Esquema', 'Conservabilidade']
         with open(f'{dirname}/{dirname}.csv', 'w') as csvf:
             writer = csv.DictWriter(csvf, fieldnames=fieldnames)
             writer.writeheader()
-            writer.writerows([conservative_at])
+            for scheme, conservative in conservative_at.items():
+                writer.writerow({'Esquema': scheme, 'Conservabilidade': conservative})
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(prog='aeca', description='Asynchronous Elementary Cellular Automata')
