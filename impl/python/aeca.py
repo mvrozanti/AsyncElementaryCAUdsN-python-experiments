@@ -231,9 +231,8 @@ def main(args):
         wrapper(interactive, args)
     tqdm_schemes = tqdm.tqdm(args.schemes, dynamic_ncols=True)
     for scheme in tqdm_schemes:
-        tqdm_schemes.set_description(f'Rendering {args.rule}-{args.width}x{args.timesteps}-{scheme}')
+        tqdm_schemes.set_description(f'Rendering {args.rule}-{args.width}x{args.timesteps}-{"".join([str(s) for s in scheme])}')
         spacetime = run_async(args.rule, args.timesteps-1, args.width, scheme)
-        # code.interact(local=globals().update(locals()) or globals())
         if args.png_render is not None:
             render_image(spacetime, args.rule, scheme, measure_complexity=args.measure_complexity, save_to=args.png_render)
         if args.terminal_render:
