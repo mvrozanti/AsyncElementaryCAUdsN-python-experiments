@@ -122,16 +122,20 @@ def is_spacetime_conservative(spacetime):
             return False
     return True
 
+def run_and_check(rule, w, t, scheme, init_space):
+    return is_spacetime_conservative(run_async(rule, w, t, scheme, init_space=init_space)) 
+
 def is_rule_conservative(rule, t, w, scheme=None):
+    import concurrent.futures
+    from multiprocessing import Queue
+    from threading import Thread
     init_spaces = gen_space_combo(w)
     scheme = scheme if scheme else [1]*8
-    init_spaces = tqdm.tqdm(init_spaces, dynamic_ncols=True, leave=False, total=2**w)
-    for i,init_space in enumerate(init_spaces):
-        init_spaces.set_description(f'Configuration number {i}'.ljust(30))
-        final_spacetime = run_async(rule, w, t, scheme, init_space=init_space)
-        if not is_spacetime_conservative(final_spacetime):
-            return False
-    return True
+    with concurrent.futures.ProcessPoolExecutor() as executor:
+        for conservative in executor.map(run_and_check, *zip(*[[rule, w, t, scheme, init_space] for init_space in init_spaces])):
+            if not conservative:
+                return False
+        return True
 
 def main(args):
     if args.initial_configuration:
