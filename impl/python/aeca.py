@@ -8,6 +8,8 @@ import json
 import os
 import random
 import sys
+import os.path as op
+import tqdm
 
 try:
     LINES, COLS = [int(d) for d in os.popen('stty size', 'r').read().split()]
@@ -50,7 +52,7 @@ def print_spacetime(spacetime, zero=0, one=1):
         [print(one if cell else zero, end='') for cell in space]
         print()
 
-def render_image(spacetime, rule, scheme, measure_complexity=False):
+def render_image(spacetime, rule, scheme, measure_complexity=False, save_to=None):
     from PIL import Image
     w,t = len(spacetime[0]), len(spacetime)
     im = Image.new('RGB', (w, t))
@@ -67,7 +69,9 @@ def render_image(spacetime, rule, scheme, measure_complexity=False):
         code.interact(local=globals().update(locals()) or globals())
     if scheme:
         scheme = '-' + ''.join([str(r) for r in scheme])
-    im.save(f'{rule}-{w}x{t}{scheme}.png')
+    dirname = f'{rule:03d}-{w}x{t}'
+    op.exists(dirname) or os.mkdir(dirname)
+    im.save(f'{dirname}/{dirname}{scheme}.png')
 
 def run_sync(rule, t, w, init_space=None):
     """
@@ -225,10 +229,13 @@ def main(args):
     if args.interactive:
         stdscr = curses.initscr()
         wrapper(interactive, args)
-    for scheme in args.schemes:
+    tqdm_schemes = tqdm.tqdm(args.schemes, dynamic_ncols=True)
+    for scheme in tqdm_schemes:
+        tqdm_schemes.set_description(f'Rendering {args.rule}-{args.width}x{args.timesteps}-{scheme}')
         spacetime = run_async(args.rule, args.timesteps-1, args.width, scheme)
-        if args.png_render:
-            render_image(spacetime, args.rule, scheme, measure_complexity=args.measure_complexity)
+        # code.interact(local=globals().update(locals()) or globals())
+        if args.png_render is not None:
+            render_image(spacetime, args.rule, scheme, measure_complexity=args.measure_complexity, save_to=args.png_render)
         if args.terminal_render:
             print_spacetime(spacetime, args.zero, args.one)
         if args.conservative_check:
@@ -244,9 +251,10 @@ if __name__ == '__main__':
     parser.add_argument('-1', '--one',                  default='1',    metavar='CHAR',                help='replace ones by CHAR')
     parser.add_argument('-c', '--conservative-check',   action='store_true',                           help='show whether automata generated are conservative')
     parser.add_argument('-o', '--terminal-render',      action='store_true',                           help='render in terminal')
-    parser.add_argument('-O', '--png-render',           action='store_true',                           help='render to file')
+    parser.add_argument('-O', '--png-render',           nargs='*',      metavar='dir',                 help='render to file in an optionally chosen directory')
     parser.add_argument('-m', '--measure-complexity',   action='store_true',                           help='measure complexity')
     parser.add_argument('-i', '--interactive',          action='store_true',                           help='interactive mode')
     parser.add_argument('-I', '--initial-configuration',metavar='CONFIG',                              help='use CONFIG as initial configuration')
+    parser.add_argument('-p', '--show-progress-bar',    action='store_true',                           help='show progress bar')
     args = parser.parse_args()
     main(args)
