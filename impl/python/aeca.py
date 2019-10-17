@@ -238,7 +238,17 @@ def main(args):
         if args.terminal_render:
             print_spacetime(spacetime, args.zero, args.one)
         if args.conservative_check:
-            print('Is conservative:', is_spacetime_conservative(spacetime))
+            is_conservative = is_spacetime_conservative(spacetime)
+            dirname = f'{args.rule}-{args.width}x{args.timesteps}'
+            csv_file_path = f'{dirname}/{dirname}.csv'
+            with open(csv_file_path, 'rb') as csvf:
+                existingLines = [line for line in csv.reader(csvf, delimiter=',')]
+            new = []
+            with open(csv_file_path,'wb') as csvf:
+                reader2 = csv.reader(csvf,delimiter=',')
+                for row in reader2:
+                    if row not in new and row not in existingLines:
+                        new.append(row)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(prog='aeca', description='Asynchronous Elementary Cellular Automata')
