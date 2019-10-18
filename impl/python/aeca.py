@@ -147,6 +147,9 @@ def main(args):
         if args.timesteps != (2 ** args.width + 1):
             print('-c implies t=2**w+1', file=sys.stderr)
             sys.exit(1)
+        if (args.png_render is not None or args.terminal_render) and args.conservative_check:
+            print('-c imples not using -o or -O', file=sys.stderr)
+            sys.exit(1)
     if args.schemes:
         if all([str.isdigit(c) for scheme in args.schemes for c in scheme]):
             if len(args.schemes[0]) != 8:
