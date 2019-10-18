@@ -151,9 +151,6 @@ def main(args):
             args.schemes = [[int(c) for c in scheme] for scheme in args.schemes]
         else:
             args.schemes = read_schemes_from_file(args.schemes[0])
-    if args.interactive:
-        stdscr = curses.initscr()
-        wrapper(interactive, args)
     tqdm_schemes = tqdm.tqdm(args.schemes, dynamic_ncols=True)
     conservative_at = {} # scheme: True|False
     for scheme in tqdm_schemes:
@@ -187,7 +184,6 @@ if __name__ == '__main__':
     parser.add_argument('-o', '--terminal-render',      action='store_true',                           help='render in terminal')
     parser.add_argument('-O', '--png-render',           nargs='*',      metavar='dir',                 help='render to file in an optionally chosen directory')
     parser.add_argument('-m', '--measure-complexity',   action='store_true',                           help='measure complexity')
-    parser.add_argument('-i', '--interactive',          action='store_true',                           help='interactive mode')
     parser.add_argument('-I', '--initial-configuration',metavar='CONFIG',                              help='use CONFIG as initial configuration')
     parser.add_argument('-p', '--show-progress-bar',    action='store_true',                           help='show progress bar')
     args = parser.parse_args()
