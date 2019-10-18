@@ -187,7 +187,7 @@ if __name__ == '__main__':
     parser.add_argument('-w', '--width',                default=COLS,   metavar='WIDTH',               help='space width', type=int)
     parser.add_argument('-0', '--zero',                 default='0',    metavar='CHAR',                help='replace zeroes by CHAR')
     parser.add_argument('-1', '--one',                  default='1',    metavar='CHAR',                help='replace ones by CHAR')
-    parser.add_argument('-c', '--conservative-check',   action='store_true',                           help='show whether automata generated are conservative')
+    parser.add_argument('-c', '--conservative-check',   action='store_true',                           help='output table mapping (scheme,conservability)')
     parser.add_argument('-o', '--terminal-render',      action='store_true',                           help='render in terminal')
     parser.add_argument('-O', '--png-render',           nargs='*',      metavar='dir',                 help='render to file in an optionally chosen directory')
     parser.add_argument('-m', '--measure-complexity',   action='store_true',                           help='measure complexity')
