@@ -150,6 +150,7 @@ def main(args):
         if (args.png_render is not None or args.terminal_render) and args.conservative_check:
             print('-c imples not using -o or -O', file=sys.stderr)
             sys.exit(1)
+    dirname = f'{args.rule:03d}-{args.width}x{args.timesteps}'
     if args.schemes:
         if all([str.isdigit(c) for scheme in args.schemes for c in scheme]):
             if len(args.schemes[0]) != 8:
@@ -161,7 +162,7 @@ def main(args):
     tqdm_schemes = tqdm.tqdm(args.schemes, dynamic_ncols=True)
     conservative_at = {} # scheme: True|False
     for scheme in tqdm_schemes:
-        tqdm_schemes.set_description(f'Rendering {args.rule}-{args.width}x{args.timesteps}-{stringify_scheme(scheme)}')
+        tqdm_schemes.set_description(f'Rendering {dirname}-{stringify_scheme(scheme)}')
         spacetime = list(run_async(args.rule, args.width, args.timesteps-1, scheme))
         if args.png_render is not None:
             render_image(spacetime, args.rule, scheme, measure_complexity=args.measure_complexity, save_to=args.png_render)
@@ -171,13 +172,16 @@ def main(args):
             conservative_at[stringify_scheme(scheme)] = is_rule_conservative(args.rule, args.timesteps, args.width, scheme=scheme)
     if args.conservative_check:
         import csv
-        dirname = f'{args.rule:03d}-{args.width}x{args.timesteps}'
         fieldnames = ['Esquema', 'Conservabilidade']
+        op.exists(dirname) or os.mkdir(dirname)
+        start_time = time.time()
         with open(f'{dirname}/{dirname}.csv', 'w') as csvf:
             writer = csv.DictWriter(csvf, fieldnames=fieldnames)
             writer.writeheader()
             for scheme, conservative in conservative_at.items():
                 writer.writerow({'Esquema': scheme, 'Conservabilidade': conservative})
+        with open(f'{dirname}/run-time.txt', 'w') as run_time_file:
+            run_time_file.write(time.time() - run_time)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(prog='aeca', description='Asynchronous Elementary Cellular Automata')
@@ -185,13 +189,13 @@ if __name__ == '__main__':
     parser.add_argument('-r', '--rule',                 default=30,     metavar='RULE-ID',             help='rule in the Wolfram classification scheme', type=int)
     parser.add_argument('-t', '--timesteps',            default=LINES,  metavar='TIMESTEPS',           help='timesteps to run', type=int)
     parser.add_argument('-w', '--width',                default=COLS,   metavar='WIDTH',               help='space width', type=int)
-    parser.add_argument('-0', '--zero',                 default='0',    metavar='CHAR',                help='replace zeroes by CHAR')
-    parser.add_argument('-1', '--one',                  default='1',    metavar='CHAR',                help='replace ones by CHAR')
+    parser.add_argument('-0', '--zero',                 default='0',    metavar='CHAR',                help='replace zeroes by CHAR when using -o')
+    parser.add_argument('-1', '--one',                  default='1',    metavar='CHAR',                help='replace ones by CHAR when using -o')
     parser.add_argument('-c', '--conservative-check',   action='store_true',                           help='output table mapping (scheme,conservability)')
     parser.add_argument('-o', '--terminal-render',      action='store_true',                           help='render in terminal')
     parser.add_argument('-O', '--png-render',           nargs='*',      metavar='dir',                 help='render to file in an optionally chosen directory')
     parser.add_argument('-m', '--measure-complexity',   action='store_true',                           help='measure complexity')
     parser.add_argument('-I', '--initial-configuration',metavar='CONFIG',                              help='use CONFIG as initial configuration')
-    parser.add_argument('-p', '--show-progress-bar',    action='store_true',                           help='show progress bar')
+    parser.add_argument('-T', '--save-run-time',        action='store_true',                           help='save run time')
     args = parser.parse_args()
     main(args)
