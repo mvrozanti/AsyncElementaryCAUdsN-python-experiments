@@ -144,7 +144,7 @@ def main(args):
         args.initial_configuration = [int(c) for c in args.initial_configuration]
         args.width = len(args.initial_configuration)
     if args.conservative_check:
-        assert args.timesteps == (args.width ** 2 + 1)
+        assert args.timesteps == (2 ** args.width + 1)
     if args.schemes:
         if all([str.isdigit(c) for scheme in args.schemes for c in scheme]):
             assert len(args.schemes[0]) == 8
