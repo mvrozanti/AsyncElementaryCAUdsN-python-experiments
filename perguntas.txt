@@ -48,3 +48,6 @@ Pipo:
 
 - Como os esquemas(ex: 12131421) interferem na mudança dos estados das células nos automatos celulares assíncronos?
   R(marcelo): eles interferem na ordem de atualização das células do espaço t+1 (futuro). Uma dúvida que surge é: os "micro-timesteps", como o professor chamou, devem ser renderizados? E devem ser considerados quando estivermos procurando conservabilidade?
+
+- Como podemos definir Conservabilidade?
+	R: A conservabilidade pode ser verdadeira ou falsa para cada par (regra, esquema). Ela é determinada pela comparação da quantidade de 1s (ou 0s) ao longo de todos os timesteps. Caso a quantidade de ambos se mantenha em todos os timesteps para todas as diferentes configurações iniciais a conservabilidade é verdadeira, caso não se mantenha, a conservabilidade é falsa.
