@@ -161,6 +161,7 @@ def main(args):
             args.schemes = read_schemes_from_file(args.schemes[0])
     tqdm_schemes = tqdm.tqdm(args.schemes, dynamic_ncols=True)
     conservative_at = {} # scheme: True|False
+    start_time = time.time()
     for scheme in tqdm_schemes:
         tqdm_schemes.set_description(f'Rendering {dirname}-{stringify_scheme(scheme)}')
         spacetime = list(run_async(args.rule, args.width, args.timesteps-1, scheme))
@@ -174,7 +175,6 @@ def main(args):
         import csv
         fieldnames = ['Esquema', 'Conservabilidade']
         op.exists(dirname) or os.mkdir(dirname)
-        start_time = time.time()
         with open(f'{dirname}/{dirname}.csv', 'w') as csvf:
             writer = csv.DictWriter(csvf, fieldnames=fieldnames)
             writer.writeheader()
