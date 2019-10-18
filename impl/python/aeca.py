@@ -144,10 +144,14 @@ def main(args):
         args.initial_configuration = [int(c) for c in args.initial_configuration]
         args.width = len(args.initial_configuration)
     if args.conservative_check:
-        assert args.timesteps == (2 ** args.width + 1)
+        if args.timesteps != (2 ** args.width + 1):
+            print('-c implies t=2**w+1', file=sys.stderr)
+            sys.exit(1)
     if args.schemes:
         if all([str.isdigit(c) for scheme in args.schemes for c in scheme]):
-            assert len(args.schemes[0]) == 8
+            if len(args.schemes[0]) != 8:
+                print(f'schemes must have length of 8, this scheme {args.schemes[0]} has length={len(args.schemes[0])}', file=sys.stderr)
+                sys.exit(1)
             args.schemes = [[int(c) for c in scheme] for scheme in args.schemes]
         else:
             args.schemes = read_schemes_from_file(args.schemes[0])
