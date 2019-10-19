@@ -12,6 +12,7 @@ import os.path as op
 import random
 import pickle
 import sys
+import threading
 import time
 import tqdm
 
@@ -128,12 +129,14 @@ def is_spacetime_conservative(spacetime):
 def run_and_check(rule, w, t, scheme, init_space):
     return is_spacetime_conservative(run_async(rule, w, t, scheme, init_space=init_space)) 
 
-def is_rule_conservative(rule, t, w, scheme=None):
+def is_rule_conservative(rule, t, w, kill_event=None, scheme=None):
     import concurrent.futures
     init_spaces = gen_space_combo(w)
     scheme = scheme if scheme else [1]*8
     with concurrent.futures.ProcessPoolExecutor() as executor:
         le_tqdm = tqdm.tqdm(executor.map(run_and_check, *zip(*[[rule, w, t, scheme, init_space] for init_space in init_spaces])), leave=False, dynamic_ncols=True, total=2**w)
+        if kill_event and kill_event.is_set():
+            return 
         for conservative in list(le_tqdm):
             le_tqdm.set_description(f'Rule {rule} is conservative: {conservative}')
             if not conservative:
@@ -163,17 +166,19 @@ def main(args):
     conservative_at = {} # scheme: True|False
     start_time = time.time()
     savepoint_file_path = f'{dirname}/savepoint.pkl'
-    def le_death_func(scheme_conservative_at):
+    def le_death_func(scheme_conservative_at, pill2kill):
+        pill2kill.set()
         op.exists(dirname) or os.mkdir(dirname)
         pickle.dump(scheme_conservative_at, open(savepoint_file_path, 'wb'))
         sys.exit(0)
     initial_ix = 0
+    pill2kill = threading.Event()
     if op.exists(savepoint_file_path) and len(args.schemes) > 1:
         scheme_conservative_at_reference = pickle.load(open(savepoint_file_path, 'rb'))
         initial_ix = args.schemes.index(scheme_conservative_at_reference[0][0])
     tqdm_schemes = args.schemes if args.terminal_render else tqdm.tqdm(args.schemes, dynamic_ncols=True, initial=initial_ix) 
     scheme_conservative_at_reference = [args.schemes[0], {}]
-    atexit.register(le_death_func, scheme_conservative_at_reference)
+    atexit.register(le_death_func, scheme_conservative_at_reference, pill2kill)
     for scheme in tqdm_schemes:
         scheme_conservative_at_reference[0] = (scheme, conservative_at)
         if type(tqdm_schemes) is not list:
@@ -184,7 +189,7 @@ def main(args):
         if args.terminal_render:
             print_spacetime(spacetime, args.zero, args.one)
         if args.conservative_check:
-            conservative_at[stringify_scheme(scheme)] = is_rule_conservative(args.rule, args.timesteps, args.width, scheme=scheme)
+            conservative_at[stringify_scheme(scheme)] = is_rule_conservative(args.rule, args.timesteps, args.width, kill_event=pill2kill, scheme=scheme)
     atexit.unregister(le_death_func)
     op.exists(savepoint_file_path) and os.remove(savepoint_file_path)
     if args.conservative_check:
