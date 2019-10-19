@@ -1,16 +1,18 @@
 #!/usr/bin/env python
 from curses import wrapper
 import argparse
+import atexit
 import code
 import curses
 import itertools
 import json
 import os
-import random
-import sys
 import os.path as op
-import tqdm
+import random
+import pickle
+import sys
 import time
+import tqdm
 
 try:
     LINES, COLS = [int(d) for d in os.popen('stty size', 'r').read().split()]
@@ -127,8 +129,6 @@ def run_and_check(rule, w, t, scheme, init_space):
 
 def is_rule_conservative(rule, t, w, scheme=None):
     import concurrent.futures
-    from multiprocessing import Queue
-    from threading import Thread
     init_spaces = gen_space_combo(w)
     scheme = scheme if scheme else [1]*8
     with concurrent.futures.ProcessPoolExecutor() as executor:
@@ -159,11 +159,23 @@ def main(args):
             args.schemes = [[int(c) for c in scheme] for scheme in args.schemes]
         else:
             args.schemes = read_schemes_from_file(args.schemes[0])
-    tqdm_schemes = tqdm.tqdm(args.schemes, dynamic_ncols=True)
     conservative_at = {} # scheme: True|False
     start_time = time.time()
+    savepoint_file_path = f'{dirname}/savepoint.pkl'
+    def le_death_func(scheme_conservative_at):
+        pickle.dump(scheme_conservative_at, open(savepoint_file_path, 'wb'))
+        sys.exit(0)
+    initial_ix = 0
+    if op.exists(savepoint_file_path):
+        scheme_conservative_at_reference = pickle.load(open(savepoint_file_path, 'rb'))
+        initial_ix = args.schemes.index(scheme_conservative_at_reference[0][0])
+    tqdm_schemes = args.schemes if args.terminal_render else tqdm.tqdm(args.schemes, dynamic_ncols=True, initial=initial_ix) 
+    scheme_conservative_at_reference = [args.schemes[0], {}]
+    atexit.register(le_death_func, scheme_conservative_at_reference)
     for scheme in tqdm_schemes:
-        tqdm_schemes.set_description(f'Rendering {dirname}-{stringify_scheme(scheme)}')
+        scheme_conservative_at_reference[0] = (scheme, conservative_at)
+        if type(tqdm_schemes) is not list:
+            tqdm_schemes.set_description(f'Rendering {dirname}-{stringify_scheme(scheme)}')
         spacetime = list(run_async(args.rule, args.width, args.timesteps-1, scheme))
         if args.png_render is not None:
             render_image(spacetime, args.rule, scheme, measure_complexity=args.measure_complexity, save_to=args.png_render)
@@ -171,6 +183,8 @@ def main(args):
             print_spacetime(spacetime, args.zero, args.one)
         if args.conservative_check:
             conservative_at[stringify_scheme(scheme)] = is_rule_conservative(args.rule, args.timesteps, args.width, scheme=scheme)
+    atexit.unregister(le_death_func)
+    op.exists(savepoint_file_path) and os.remove(savepoint_file_path)
     if args.conservative_check:
         import csv
         fieldnames = ['Esquema', 'Conservabilidade']
@@ -196,6 +210,5 @@ if __name__ == '__main__':
     parser.add_argument('-O', '--png-render',           nargs='*',      metavar='dir',                 help='render to file in an optionally chosen directory')
     parser.add_argument('-m', '--measure-complexity',   action='store_true',                           help='measure complexity')
     parser.add_argument('-I', '--initial-configuration',metavar='CONFIG',                              help='use CONFIG as initial configuration')
-    # parser.add_argument('-T', '--save-run-time',        action='store_true',                           help='save run time')
     args = parser.parse_args()
     main(args)
