@@ -1,20 +1,18 @@
 #!/usr/bin/env python
 from curses import wrapper
-import argparse
 import atexit
+import argparse
 import code
-import csv
 import curses
 import itertools
 import json
 import os
-import os.path as op
 import random
 import pickle
 import sys
-import threading
-import time
+import os.path as op
 import tqdm
+import time
 
 try:
     LINES, COLS = [int(d) for d in os.popen('stty size', 'r').read().split()]
@@ -129,14 +127,14 @@ def is_spacetime_conservative(spacetime):
 def run_and_check(rule, w, t, scheme, init_space):
     return is_spacetime_conservative(run_async(rule, w, t, scheme, init_space=init_space)) 
 
-def is_rule_conservative(rule, t, w, kill_event=None, scheme=None):
+def is_rule_conservative(rule, t, w, scheme=None):
     import concurrent.futures
+    from multiprocessing import Queue
+    from threading import Thread
     init_spaces = gen_space_combo(w)
     scheme = scheme if scheme else [1]*8
     with concurrent.futures.ProcessPoolExecutor() as executor:
         le_tqdm = tqdm.tqdm(executor.map(run_and_check, *zip(*[[rule, w, t, scheme, init_space] for init_space in init_spaces])), leave=False, dynamic_ncols=True, total=2**w)
-        if kill_event and kill_event.is_set():
-            return 
         for conservative in list(le_tqdm):
             le_tqdm.set_description(f'Rule {rule} is conservative: {conservative}')
             if not conservative:
@@ -163,52 +161,34 @@ def main(args):
             args.schemes = [[int(c) for c in scheme] for scheme in args.schemes]
         else:
             args.schemes = read_schemes_from_file(args.schemes[0])
-    conservative_at = {} # scheme: True|False
-    start_time = time.time()
     savepoint_file_path = f'{dirname}/savepoint.pkl'
-    def le_death_func(scheme_conservative_at, pill2kill):
-        pill2kill.set()
-        op.exists(dirname) or os.mkdir(dirname)
-        pickle.dump(scheme_conservative_at, open(savepoint_file_path, 'wb'))
-        print(f'Savepoint created for scheme {scheme_conservative_at[0][0]}: {savepoint_file_path}')
+    conservative_at = pickle.load(open(savepoint_file_path, 'rb')) if op.exists(savepoint_file_path) else {} # scheme: True|False
+    start_time = time.time()
+    tqdm_schemes = tqdm.tqdm([s for s in args.schemes if stringify_scheme(s) not in conservative_at], dynamic_ncols=True)
+    def gracefully_exit(conservative_at):
+        pickle.dump(conservative_at, open(savepoint_file_path, 'wb'))
         sys.exit(0)
-    initial_ix = 0
-    pill2kill = threading.Event()
-    scheme_conservative_at_reference = [args.schemes[0], {}]
-    if op.exists(savepoint_file_path) and len(args.schemes) > 1:
-        print(f'Savepoint detected: {savepoint_file_path}')
-        scheme_conservative_at_reference = pickle.load(open(savepoint_file_path, 'rb'))
-        conservative_at.update(scheme_conservative_at_reference[1])
-        initial_ix = args.schemes.index(scheme_conservative_at_reference[0][0])
-        print(f'Initial index: {initial_ix}')
-        print(f'Starting from scheme {scheme_conservative_at_reference[0][0]}')
-    tqdm_schemes = args.schemes if args.terminal_render else tqdm.tqdm(args.schemes[initial_ix:], dynamic_ncols=True) 
-    atexit.register(le_death_func, scheme_conservative_at_reference, pill2kill)
+    atexit.register(gracefully_exit, conservative_at)
     for scheme in tqdm_schemes:
-        scheme_conservative_at_reference[0] = (scheme, conservative_at)
-        if type(tqdm_schemes) is not list:
-            tqdm_schemes.set_description(f'Rendering {dirname}-{stringify_scheme(scheme)}')
+        stringified_scheme = stringify_scheme(scheme)
+        if tqdm_schemes is not list:
+            tqdm_schemes.set_description(f'Rendering {dirname}-{stringified_scheme}')
         spacetime = list(run_async(args.rule, args.width, args.timesteps-1, scheme))
         if args.png_render is not None:
             render_image(spacetime, args.rule, scheme, measure_complexity=args.measure_complexity, save_to=args.png_render)
         if args.terminal_render:
             print_spacetime(spacetime, args.zero, args.one)
         if args.conservative_check:
-            conservative_at[stringify_scheme(scheme)] = is_rule_conservative(args.rule, args.timesteps, args.width, kill_event=pill2kill, scheme=scheme)
-    atexit.unregister(le_death_func)
-    op.exists(savepoint_file_path) and os.remove(savepoint_file_path)
+            conservative_at[stringified_scheme] = is_rule_conservative(args.rule, args.timesteps, args.width, scheme=scheme)
     if args.conservative_check:
+        import csv
         fieldnames = ['Esquema', 'Conservabilidade']
         op.exists(dirname) or os.mkdir(dirname)
-        csv_file_path = f'{dirname}/{dirname}.csv'
-        with open(csv_file_path, 'w') as csvf:
+        with open(f'{dirname}/{dirname}.csv', 'w') as csvf:
             writer = csv.DictWriter(csvf, fieldnames=fieldnames)
             writer.writeheader()
             for scheme, conservative in conservative_at.items():
                 writer.writerow({'Esquema': scheme, 'Conservabilidade': conservative})
-        with open(csv_file_path) as f: 
-            for i, _ in enumerate(f): 
-                pass 
         with open(f'{dirname}/run-time.txt', 'w') as run_time_file:
             run_time_file.write(str(time.time() - start_time))
 
@@ -225,5 +205,6 @@ if __name__ == '__main__':
     parser.add_argument('-O', '--png-render',           nargs='*',      metavar='dir',                 help='render to file in an optionally chosen directory')
     parser.add_argument('-m', '--measure-complexity',   action='store_true',                           help='measure complexity')
     parser.add_argument('-I', '--initial-configuration',metavar='CONFIG',                              help='use CONFIG as initial configuration')
+    # parser.add_argument('-T', '--save-run-time',        action='store_true',                           help='save run time')
     args = parser.parse_args()
     main(args)
