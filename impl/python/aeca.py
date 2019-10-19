@@ -3,6 +3,7 @@ from curses import wrapper
 import argparse
 import atexit
 import code
+import csv
 import curses
 import itertools
 import json
@@ -163,10 +164,11 @@ def main(args):
     start_time = time.time()
     savepoint_file_path = f'{dirname}/savepoint.pkl'
     def le_death_func(scheme_conservative_at):
+        op.exists(dirname) or os.mkdir(dirname)
         pickle.dump(scheme_conservative_at, open(savepoint_file_path, 'wb'))
         sys.exit(0)
     initial_ix = 0
-    if op.exists(savepoint_file_path):
+    if op.exists(savepoint_file_path) and len(args.schemes) > 1:
         scheme_conservative_at_reference = pickle.load(open(savepoint_file_path, 'rb'))
         initial_ix = args.schemes.index(scheme_conservative_at_reference[0][0])
     tqdm_schemes = args.schemes if args.terminal_render else tqdm.tqdm(args.schemes, dynamic_ncols=True, initial=initial_ix) 
@@ -186,7 +188,6 @@ def main(args):
     atexit.unregister(le_death_func)
     op.exists(savepoint_file_path) and os.remove(savepoint_file_path)
     if args.conservative_check:
-        import csv
         fieldnames = ['Esquema', 'Conservabilidade']
         op.exists(dirname) or os.mkdir(dirname)
         with open(f'{dirname}/{dirname}.csv', 'w') as csvf:
