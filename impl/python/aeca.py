@@ -170,14 +170,19 @@ def main(args):
         pill2kill.set()
         op.exists(dirname) or os.mkdir(dirname)
         pickle.dump(scheme_conservative_at, open(savepoint_file_path, 'wb'))
+        print(f'Savepoint created for scheme {scheme_conservative_at[0][0]}: {savepoint_file_path}')
         sys.exit(0)
     initial_ix = 0
     pill2kill = threading.Event()
-    if op.exists(savepoint_file_path) and len(args.schemes) > 1:
-        scheme_conservative_at_reference = pickle.load(open(savepoint_file_path, 'rb'))
-        initial_ix = args.schemes.index(scheme_conservative_at_reference[0][0])
-    tqdm_schemes = args.schemes if args.terminal_render else tqdm.tqdm(args.schemes, dynamic_ncols=True, initial=initial_ix) 
     scheme_conservative_at_reference = [args.schemes[0], {}]
+    if op.exists(savepoint_file_path) and len(args.schemes) > 1:
+        print(f'Savepoint detected: {savepoint_file_path}')
+        scheme_conservative_at_reference = pickle.load(open(savepoint_file_path, 'rb'))
+        conservative_at.update(scheme_conservative_at_reference[1])
+        initial_ix = args.schemes.index(scheme_conservative_at_reference[0][0])
+        print(f'Initial index: {initial_ix}')
+        print(f'Starting from scheme {scheme_conservative_at_reference[0][0]}')
+    tqdm_schemes = args.schemes if args.terminal_render else tqdm.tqdm(args.schemes[initial_ix:], dynamic_ncols=True) 
     atexit.register(le_death_func, scheme_conservative_at_reference, pill2kill)
     for scheme in tqdm_schemes:
         scheme_conservative_at_reference[0] = (scheme, conservative_at)
@@ -195,11 +200,15 @@ def main(args):
     if args.conservative_check:
         fieldnames = ['Esquema', 'Conservabilidade']
         op.exists(dirname) or os.mkdir(dirname)
-        with open(f'{dirname}/{dirname}.csv', 'w') as csvf:
+        csv_file_path = f'{dirname}/{dirname}.csv'
+        with open(csv_file_path, 'w') as csvf:
             writer = csv.DictWriter(csvf, fieldnames=fieldnames)
             writer.writeheader()
             for scheme, conservative in conservative_at.items():
                 writer.writerow({'Esquema': scheme, 'Conservabilidade': conservative})
+        with open(csv_file_path) as f: 
+            for i, _ in enumerate(f): 
+                pass 
         with open(f'{dirname}/run-time.txt', 'w') as run_time_file:
             run_time_file.write(str(time.time() - start_time))
 
