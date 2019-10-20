@@ -128,12 +128,10 @@ def run_and_check(rule, w, t, scheme, init_space):
     return is_spacetime_conservative(run_async(rule, w, t, scheme, init_space=init_space)) 
 
 def is_rule_conservative(rule, t, w, scheme=None):
-    import concurrent.futures
-    from multiprocessing import Queue
-    from threading import Thread
+    from concurrent.futures import ProcessPoolExecutor
     init_spaces = gen_space_combo(w)
     scheme = scheme if scheme else [1]*8
-    with concurrent.futures.ProcessPoolExecutor() as executor:
+    with ProcessPoolExecutor() as executor:
         le_tqdm = tqdm.tqdm(executor.map(run_and_check, *zip(*[[rule, w, t, scheme, init_space] for init_space in init_spaces])), leave=False, dynamic_ncols=True, total=2**w)
         for conservative in list(le_tqdm):
             le_tqdm.set_description(f'Rule {rule} is conservative: {conservative}')
@@ -141,7 +139,7 @@ def is_rule_conservative(rule, t, w, scheme=None):
                 return False
         return True
 
-def main(args):
+def normalize_args(args):
     if args.initial_configuration:
         args.initial_configuration = [int(c) for c in args.initial_configuration]
         args.width = len(args.initial_configuration)
@@ -152,7 +150,6 @@ def main(args):
         if (args.png_render is not None or args.terminal_render) and args.conservative_check:
             print('-c imples not using -o or -O', file=sys.stderr)
             sys.exit(1)
-    dirname = f'{args.rule:03d}-{args.width}x{args.timesteps}'
     if args.schemes:
         if all([str.isdigit(c) for scheme in args.schemes for c in scheme]):
             if len(args.schemes[0]) != 8:
@@ -161,34 +158,40 @@ def main(args):
             args.schemes = [[int(c) for c in scheme] for scheme in args.schemes]
         else:
             args.schemes = read_schemes_from_file(args.schemes[0])
+
+def save_csv(conservative_at):
+    import csv
+    fieldnames = ['Esquema', 'Conservabilidade']
+    op.exists(dirname) or os.mkdir(dirname)
+    with open(f'{dirname}/{dirname}.csv', 'w') as csvf:
+        writer = csv.DictWriter(csvf, fieldnames=fieldnames)
+        writer.writeheader()
+        for scheme, conservative in conservative_at.items():
+            writer.writerow({'Esquema': scheme, 'Conservabilidade': conservative})
+
+def gracefully_exit(conservative_at, savepoint_file_path):
+    pickle.dump(conservative_at, open(savepoint_file_path, 'wb'))
+    sys.exit(0)
+
+def main(args):
+    dirname = f'{args.rule:03d}-{args.width}x{args.timesteps}'
+    op.exists(dirname) or os.mkdir(dirname)
+    normalize_args(args)
     savepoint_file_path = f'{dirname}/savepoint.pkl'
     conservative_at = pickle.load(open(savepoint_file_path, 'rb')) if op.exists(savepoint_file_path) else {} # scheme: True|False
     start_time = time.time()
     tqdm_schemes = tqdm.tqdm([s for s in args.schemes if stringify_scheme(s) not in conservative_at], dynamic_ncols=True)
-    def gracefully_exit(conservative_at):
-        pickle.dump(conservative_at, open(savepoint_file_path, 'wb'))
-        sys.exit(0)
-    atexit.register(gracefully_exit, conservative_at)
+    atexit.register(gracefully_exit, conservative_at, savepoint_file_path)
     for scheme in tqdm_schemes:
         stringified_scheme = stringify_scheme(scheme)
-        if tqdm_schemes is not list:
-            tqdm_schemes.set_description(f'Rendering {dirname}-{stringified_scheme}')
+        tqdm_schemes is not list and tqdm_schemes.set_description(f'Rendering {dirname}-{stringified_scheme}')
         spacetime = list(run_async(args.rule, args.width, args.timesteps-1, scheme))
-        if args.png_render is not None:
-            render_image(spacetime, args.rule, scheme, measure_complexity=args.measure_complexity, save_to=args.png_render)
-        if args.terminal_render:
-            print_spacetime(spacetime, args.zero, args.one)
+        args.png_render is not None and render_image(spacetime, args.rule, scheme, measure_complexity=args.measure_complexity, save_to=args.png_render)
+        args.terminal_render and print_spacetime(spacetime, args.zero, args.one)
         if args.conservative_check:
             conservative_at[stringified_scheme] = is_rule_conservative(args.rule, args.timesteps, args.width, scheme=scheme)
     if args.conservative_check:
-        import csv
-        fieldnames = ['Esquema', 'Conservabilidade']
-        op.exists(dirname) or os.mkdir(dirname)
-        with open(f'{dirname}/{dirname}.csv', 'w') as csvf:
-            writer = csv.DictWriter(csvf, fieldnames=fieldnames)
-            writer.writeheader()
-            for scheme, conservative in conservative_at.items():
-                writer.writerow({'Esquema': scheme, 'Conservabilidade': conservative})
+        save_csv(conservative_at)
         with open(f'{dirname}/run-time.txt', 'w') as run_time_file:
             run_time_file.write(str(time.time() - start_time))
 
