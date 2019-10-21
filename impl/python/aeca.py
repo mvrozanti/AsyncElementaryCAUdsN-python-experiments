@@ -194,8 +194,6 @@ def main(args):
             conservative_at[stringified_scheme] = is_rule_conservative(args.rule, args.timesteps, args.width, scheme=scheme)
     if args.conservative_check:
         save_csv(conservative_at)
-        with open(f'{dirname}/run-time.txt', 'w') as run_time_file:
-            run_time_file.write(str(time.time() - start_time))
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(prog='aeca', description='Asynchronous Elementary Cellular Automata')
@@ -210,6 +208,5 @@ if __name__ == '__main__':
     parser.add_argument('-O', '--png-render',           nargs='*',      metavar='dir',                 help='render to file in an optionally chosen directory')
     parser.add_argument('-m', '--measure-complexity',   action='store_true',                           help='measure complexity')
     parser.add_argument('-I', '--initial-configuration',metavar='CONFIG',                              help='use CONFIG as initial configuration')
-    # parser.add_argument('-T', '--save-run-time',        action='store_true',                           help='save run time')
     args = parser.parse_args()
     main(args)
