@@ -40,8 +40,9 @@ gen_space_combo = lambda w: itertools.product([0, 1], repeat=w) # all possible c
 
 """
 get rule transitions as an array indexed by neighbor configuration, like so:
-# 111 110 101 100 011 010 001 000
-#  y0  y1  y2  y3  y4  y5  y6  y7
+
+111 110 101 100 011 010 001 000
+ y0  y1  y2  y3  y4  y5  y6  y7
 """
 get_rule_transitions = lambda rule: [int(y) for y in format(rule,'#010b')[2:]]
 

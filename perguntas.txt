@@ -42,6 +42,9 @@ R:
 - As imagens resultantes comprimidas têm tamanhos (em bytes) diferentes. Isso significa que compressão pode ser melhor? [curiosidade]
 R: Não, um algoritmo de compressão genérico não pode comprimir autômatos celulares perfeitamente, justamente pelo fato de ser genérico.
 
+- Por quê não comparar a performance entre o nosso programa e o do Thiago para ver qual tem melhor performance? Assim, pelo menos um de nós todos deixa de rodar um programa mais lento.
+R:
+
 ____________________________________________________________________________
 
 Pipo:
