@@ -185,7 +185,9 @@ def main(args):
     for scheme in tqdm_schemes:
         stringified_scheme = stringify_scheme(scheme)
         tqdm_schemes is not list and tqdm_schemes.set_description(f'Rendering {dirname}-{stringified_scheme}')
-        spacetime = list(run_async(args.rule, args.width, args.timesteps-1, scheme))
+        spacetime = None
+        if args.png_render is not None or args.terminal_render:
+            spacetime = list(run_async(args.rule, args.width, args.timesteps-1, scheme))
         args.png_render is not None and render_image(spacetime, args.rule, scheme, measure_complexity=args.measure_complexity, save_to=args.png_render)
         args.terminal_render and print_spacetime(spacetime, args.zero, args.one)
         if args.conservative_check:
