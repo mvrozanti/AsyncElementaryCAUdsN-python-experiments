@@ -24,6 +24,8 @@ def measure_complexity(space):
     import zlib
     return len(zlib.compress(bytes(space)))
 
+T = lambda w: 2**w+1
+
 """
 spacetime generation
 """
@@ -78,23 +80,6 @@ def render_image(spacetime, rule, scheme, measure_complexity=False, save_to=None
     dirname = f'{rule:03d}-{w}x{t}'
     op.exists(dirname) or os.mkdir(dirname)
     im.save(f'{dirname}/{dirname}{scheme}.png')
-
-def run_sync(rule, t, w, init_space=None):
-    """
-    returns spacetime after executing the rule synchronously for t steps in a w-wide space
-    """
-    rule_transitions = get_rule_transitions(rule)
-    space = init_space if init_space else list(gen_mid_spacetime(w)[0])
-    yield space
-    for _ in range(t):
-        future_space = list(space)
-        for ci in range(w):                             # iterate over the present space's cells
-            ln,mn,rn = get_neighbors(ci, space)         # get neighborhood
-            ix_transition = get_transition_ix(ln,mn,rn) # get transition ix
-            y = rule_transitions[ix_transition]         # get next cell state
-            future_space[ci] = y                        # update cell
-        space = list(future_space)                      # update space
-        yield future_space
 
 def run_async(rule, w, t, ranks, init_space=None):
     rule_transitions = get_rule_transitions(args.rule)
@@ -152,6 +137,11 @@ def normalize_args(args):
             print('-c imples not using -o or -O', file=sys.stderr)
             sys.exit(1)
     if args.schemes:
+        prev_dirname = f'{args.rule:03d}-{args.width-1}x{T(args.width-1)}'
+        schemes_json = f'{prev_dirname}/{prev_dirname}.json'
+        if op.exists(prev_dirname) and op.exists(schemes_json):
+            args.schemes = json.load(open(schemes_json))
+            return 
         if all([str.isdigit(c) for scheme in args.schemes for c in scheme]):
             if len(args.schemes[0]) != 8:
                 print(f'schemes must have length of 8, this scheme {args.schemes[0]} has length={len(args.schemes[0])}', file=sys.stderr)
@@ -168,21 +158,26 @@ def save_csv(conservative_at):
         writer = csv.DictWriter(csvf, fieldnames=fieldnames)
         writer.writeheader()
         for scheme, conservative in conservative_at.items():
-            writer.writerow({'Esquema': scheme, 'Conservabilidade': conservative})
+            writer.writerow(dict(zip(fieldnames, [scheme,conservative])))
+
+def save_json(conservative_at, dirname):
+    op.exists(dirname) or os.mkdir(dirname)
+    json.dump(conservative_at, open(f'{dirname}/{dirname}.json', 'w'))
 
 def gracefully_exit(conservative_at, savepoint_file_path):
+    print(f'Exiting with {len(conservative_at)} schemes checked')
     pickle.dump(conservative_at, open(savepoint_file_path, 'wb'))
     sys.exit(0)
 
 def main(args):
+    prev_dirname = f'{args.rule:03d}-{args.width-1}x{T(args.width-1)}'
     dirname = f'{args.rule:03d}-{args.width}x{args.timesteps}'
-    op.exists(dirname) or os.mkdir(dirname)
     normalize_args(args)
-    savepoint_file_path = f'{dirname}/savepoint.pkl'
-    conservative_at = pickle.load(open(savepoint_file_path, 'rb')) if op.exists(savepoint_file_path) else {} # scheme: True|False
-    start_time = time.time()
-    tqdm_schemes = tqdm.tqdm([s for s in args.schemes if stringify_scheme(s) not in conservative_at], dynamic_ncols=True)
-    atexit.register(gracefully_exit, conservative_at, savepoint_file_path)
+    op.exists(dirname) or os.mkdir(dirname)
+    savepoint_file_path = f'{dirname}/{dirname}.pkl'
+    conservative_schemes = pickle.load(open(savepoint_file_path, 'rb')) if op.exists(savepoint_file_path) else []
+    tqdm_schemes = tqdm.tqdm([s for s in args.schemes if s not in conservative_schemes], dynamic_ncols=True)
+    atexit.register(gracefully_exit, conservative_schemes, savepoint_file_path)
     for scheme in tqdm_schemes:
         stringified_scheme = stringify_scheme(scheme)
         tqdm_schemes is not list and tqdm_schemes.set_description(f'Rendering {dirname}-{stringified_scheme}')
@@ -192,9 +187,11 @@ def main(args):
         args.png_render is not None and render_image(spacetime, args.rule, scheme, measure_complexity=args.measure_complexity, save_to=args.png_render)
         args.terminal_render and print_spacetime(spacetime, args.zero, args.one)
         if args.conservative_check:
-            conservative_at[stringified_scheme] = is_rule_conservative(args.rule, args.timesteps, args.width, scheme=scheme)
+            rule_is_conservative = is_rule_conservative(args.rule, args.timesteps, args.width, scheme=scheme)
+            if rule_is_conservative:
+                conservative_schemes += [scheme]
     if args.conservative_check:
-        save_csv(conservative_at)
+        save_json(conservative_schemes, dirname)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(prog='aeca', description='Asynchronous Elementary Cellular Automata')
