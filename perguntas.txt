@@ -45,6 +45,9 @@ R: Não, um algoritmo de compressão genérico não pode comprimir autômatos ce
 - Por quê não comparar a performance entre o nosso programa e o do Thiago para ver qual tem melhor performance? Assim, pelo menos um de nós todos deixa de rodar um programa mais lento.
 R:
 
+- Qual a aplicação de sistemas conservativos?
+R:
+
 ____________________________________________________________________________
 
 Pipo:

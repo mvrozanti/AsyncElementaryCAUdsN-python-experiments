@@ -85,15 +85,15 @@
 \date{\today}
 
 \hypersetup{
-		pdftitle={Conservabilidade de estados de autômatos celulares elementares com atualizações assíncronas por prioridade da vizinhança},
-                pdfauthor={Marcelo Vironda Rozanti}{Felipe Stefanelli de Aguiar Silva},
-        pdfkeywords={SIMD} {Euclidean Distance} {HPC} {AVX-512} {Optimization}, 
-		pdfproducer={Marcelo Vironda Rozanti},
-	    pdfcreator={vim+LaTeX+abnTeX2},
-    	colorlinks=true,
-    	linkcolor=black,
-    	citecolor=black,
-		urlcolor=blue
+  pdftitle={Conservabilidade de estados de autômatos celulares elementares com atualizações assíncronas por prioridade da vizinhança},
+  pdfauthor={Marcelo Vironda Rozanti}{Felipe Stefanelli de Aguiar Silva},
+  pdfkeywords={Asynchronous priority-based updating Elementary Cellular Automata, New Kind of Science, Discrete dynamical systems, Number-conserving}, 
+  pdfproducer={Marcelo Vironda Rozanti},
+  pdfcreator={vim+LaTeX+abnTeX2},
+  colorlinks=true,
+  linkcolor=black,
+  citecolor=black,
+  urlcolor=blue
 }
 
 % \EnableCrossrefs
@@ -148,15 +148,15 @@ Orientador: \orientador
 \maketitle
 
 \begin{abstract}
-% A combinação de recentes avanços em computadores, o fenômeno Big Data e o uso de algoritmos de Machine Learning, clássicos ou contemporâneos, permitem produzir uma gama de novos dispositivos de impacto significativo na vida humana. Estes algoritmos comumente requerem alto custo computacional e são compostos por sub-algoritmos que realizam operações mais especializadas. Este projeto visa otimizar um pequeno conjunto destes sub-algoritmos destinados ao cálculo de distância euclidiana em diversas arquiteturas com suporte a paralelismo computacional. O código correspondende a este trabalho pode ser acessado no repositório \url{https://github.com/hpc-fci-mackenzie/edcalc} do Grupo de HPC da Universidade Presbiteriana Mackenzie. O presente trabalho pode ser útil a estudantes, cientistas e profissionais das áreas de Computação de Alta Performance e Inteligência Artificial.
+Autômatos Celulares são sistemas computacionais discretos e abstratos que têm se provado úteis como modelos genéricos de complexidade e representação de diversas dinâmicas em uma varidade de áreas científicas. Estes sistemas podem ser especificados puramente em termos matemáticos e até implementados em estruturas físicas. Muitos deles podem computar funções e resolver problemas algorítmicos. O presente projeto explora um conjunto fundamental deles, chamados Automatos Celulares Elementares com um tipo específico de atualização assíncrona baseada em prioridade com a esperança de encontrar modelos conservativos que podem ser usados em uma variedade de aplicações práticas. O código correspondende a este trabalho pode ser acessado no repositório \url{https://github.com/mvrozanti/TCC}.
 \end{abstract}
-Palavras-chave: SIMD Distância Euclidiana HPC AVX-512 Otimização
+Palavras-chave: Autômatos celulares elementares com atualização assíncrona por prioridade, New Kind of Science, Sistemas dinâmicos discretos, Conservabilidade
 
 \vfill
 
 \selectlanguage{english}
 \begin{abstract}
-The combination of recent hardware improvements, the Big Data phenomenon and the usage of classical or contemporary Machine Learning algorithms allow for the development of a range of devices capable of significant human life impact. These algorithms usually require vast computational resources and are composed of sub-algorithms that perform more specialized operations. This project attempts to optimize a small set of these sub-algorithms desgined to perform euclidean distance calculation in a variety of architectures that support parallel computing. The code relating to this project will be available at the HPC Group of Mackenzie Presbyterian Univesrity: \url{https://github.com/hpc-fci-mackenzie/edcalc}. The present proposal may be of use to students, scientists and professionals in the fields of High Performance Computing and Artificial Intelligence.
+Cellular Automata are discrete, abstract computational systems that have proved useful as general models of complexity and representations of dynamics on a variety of scientific fields. These systems can be specified in purely mathematical terms and be implemented in physical structures. Many of them can compute functions and solve algorithmic problems. The present project attempts to explore a fundamental subset of them, called Elementary Cellular Automata with a specific kind of prioriy-based asynchronous updating in the search for number-conserving models, which can be used for a variety of practical applications. The implementation used is hosted at \url{https://github.com/mvrozanti/TCC}.
 \end{abstract}
 Keywords: \@pdfkeywords
 
@@ -183,15 +183,15 @@ Keywords: \@pdfkeywords
 % `` Um grande número de processadores têm extensões em aplicações multimídia'' \cite[p. 11]{multiplatform-simd-programming}.
 
 \subsection{CONTEXTUALIZAÇÃO E RELEVÂNCIA}
-\tab O âmbito deste trabalho foi o uso de instruções SIMD: múltiplos operandos operados em paralelo em um único item de memória, como notado por \citeonline[p. 359]{stallings}.
-Compiladores atuais não otimizam todos os trechos críticos com o mesmo desempenho que a codificação direta composta por instruções explícitas. No caso de operações vetorizadas, é necessário dar ``dicas'' ou \textit{hints} ao compilador escolhido para garantir que certas otimizações sejam realizadas, como nos ensinam \citeonline[p. 192]{jeffers}: ``Even the most brilliantly conceived compiler cannot auto-vectorize many important loops without hints''.
+% \tab O âmbito deste trabalho foi o uso de instruções SIMD: múltiplos operandos operados em paralelo em um único item de memória, como notado por \citeonline[p. 359]{stallings}.
+% Compiladores atuais não otimizam todos os trechos críticos com o mesmo desempenho que a codificação direta composta por instruções explícitas. No caso de operações vetorizadas, é necessário dar ``dicas'' ou \textit{hints} ao compilador escolhido para garantir que certas otimizações sejam realizadas, como nos ensinam \citeonline[p. 192]{jeffers}: ``Even the most brilliantly conceived compiler cannot auto-vectorize many important loops without hints''.
 
 \break
 
 \subsection{OBJETO DE PESQUISA}
-\tab O objeto da pesquisa foi implementações e arquiteturas SIMD, com o suporte da documentação de funções intrínsecas x86 da Intel®, encontradas nos \textit{headers} \texttt{immintrin.h} para instruções AVX e \texttt{xmmintrin.h} para instruções SSE.
+% \tab O objeto da pesquisa foi implementações e arquiteturas SIMD, com o suporte da documentação de funções intrínsecas x86 da Intel®, encontradas nos \textit{headers} \texttt{immintrin.h} para instruções AVX e \texttt{xmmintrin.h} para instruções SSE.
 
-\tab Como é visto em \citeonline[p. 8]{intel-avx-intro}, parte da etimologia das funções a serem empregadas é definida como a seguir:
+% \tab Como é visto em \citeonline[p. 8]{intel-avx-intro}, parte da etimologia das funções a serem empregadas é definida como a seguir:
 
 \begin{table}[htb]
     \caption{Sufixos}
