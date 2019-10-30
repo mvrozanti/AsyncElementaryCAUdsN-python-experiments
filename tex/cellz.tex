@@ -252,12 +252,12 @@ Keywords: \@pdfkeywords
 \subsubsection{VARIÁVEIS}
 
 \begin{itemize}
-	\item Arquitetura alvo:\\
-        \tab No contexto desta pesquisa, as implementações foram testadas no processador Xeon Platinum™ com suporte à instruções AVX-512, mas poderiam ser aplicadas em arquiteturas com maior largura de registradores.
-	\item Compilador:\\
-        \tab Os compiladores utilizados foram \texttt{icc/icpc} (Intel®) e \texttt{gcc/g++} (GNU), em diferentes momentos da pesquisa.
-	\item Entrada ou pontos no espaço:\\
-        \tab Pontos mencionados no item \ref{formulas} a serem escolhidos como argumento às funções.
+	\item Largura do reticulado:\\
+        % \tab No contexto desta pesquisa, as implementações foram testadas no processador Xeon Platinum™ com suporte à instruções AVX-512, mas poderiam ser aplicadas em arquiteturas com maior largura de registradores.
+	% \item Compilador:\\
+        % \tab Os compiladores utilizados foram \texttt{icc/icpc} (Intel®) e \texttt{gcc/g++} (GNU), em diferentes momentos da pesquisa.
+	% \item Entrada ou pontos no espaço:\\
+        % \tab Pontos mencionados no item \ref{formulas} a serem escolhidos como argumento às funções.
 \end{itemize}
 
 \subsection{OBJETIVOS DO ESTUDO} 
@@ -313,7 +313,7 @@ Descrição dos capítulos:
 \section{REFERENCIAL TEÓRICO}
 \tab Em relação ao referencial teórico estudado neste TCC, foi de suma importância entender os seguintes tópicos:
 
-\subsection{Computação SIMD} \label{comp-simd}
+\subsection{Autômatos Celulares Elementares} \label{comp-simd}
 \tab O bloco fundamental dos conjuntos de instruções SIMD é composto por operadores booleanos, por exemplo, \texttt{AND}, \texttt{OR}, \texttt{XOR} e suas variantes, bem como deslocamentos lógicos e aritméticos, conversão de tipos e operações de seleção de dados como \texttt{max} e \texttt{min}, diz \citeonline[p. 29]{hughes2015single}.
 
 \tab Extensões de CPU são, muitas vezes, específicas a uma família de processadores e podem ou não existir em mais de um compilador apenas, como é o caso de extensões SIMD, como dizem \citeonline{franchetti2005efficient}: "The most common language extension supplying such primitives is to provide within the C programming language function-call like intrinsic (or built-in) functions and new data types to mirror the instructions and vector registers. For most SIMD extensions, at least one compiler featuring these language extensions exists". 

@@ -180,8 +180,8 @@ def main(args):
     op.exists(dirname) or os.mkdir(dirname)
     savepoint_file_path = f'{dirname}/{dirname}.pkl'
     conservative_schemes = pickle.load(open(savepoint_file_path, 'rb')) if op.exists(savepoint_file_path) else []
-    # tqdm_schemes = tqdm.tqdm([s for s in args.schemes if s not in conservative_schemes], dynamic_ncols=True)
-    tqdm_schemes = [s for s in args.schemes if s not in conservative_schemes]
+    tqdm_schemes = tqdm.tqdm([s for s in args.schemes if s not in conservative_schemes], dynamic_ncols=True)
+    # tqdm_schemes = [s for s in args.schemes if s not in conservative_schemes]
     args.conservative_check and atexit.register(gracefully_exit, conservative_schemes, savepoint_file_path)
     for scheme in tqdm_schemes:
         stringified_scheme = stringify_scheme(scheme)
@@ -198,7 +198,7 @@ def main(args):
         if args.conservative_check:
             rule_is_conservative = is_rule_conservative(args.rule, args.width, args.timesteps, scheme=scheme, save_to=args.png_render)
             if rule_is_conservative:
-                print(f'{dirname}-{stringified_scheme} is conservative: {rule_is_conservative}')
+                # print(f'{dirname}-{stringified_scheme} is conservative: {rule_is_conservative}')
                 conservative_schemes += [scheme]
     if args.conservative_check:
         save_json(conservative_schemes, dirname)
