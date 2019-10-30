@@ -83,11 +83,12 @@ def render_image(spacetime, rule, scheme, measure_complexity=False, save_to=None
 
 def run_async(rule, w, t, ranks, init_space=None):
     rule_transitions = get_rule_transitions(args.rule)
-    space = args.initial_configuration if args.initial_configuration else gen_mid_spacetime(args.width)[0] 
+    # space = args.initial_configuration if args.initial_configuration else gen_mid_spacetime(args.width)[0] 
+    space = init_space if init_space else gen_mid_spacetime(args.width)[0]
     macrospacetime = [space]
-    yield space
     gitr = [[tr_ix for tr_ix,rank in enumerate(ranks) if rank == i] for i in range(1,9)]
     for t in range(args.timesteps-1):
+        yield macrospacetime[-1]
         macrotimestep = macrospacetime[-1]
         microspacetime = [macrotimestep]
         for pri,transition_indexes in enumerate(gitr):
@@ -101,7 +102,6 @@ def run_async(rule, w, t, ranks, init_space=None):
                         micro_timestep[ci] = rule_transitions[tr_ix]
                 microspacetime += [micro_timestep]
         macrospacetime += [microspacetime[-1]]
-        yield macrospacetime[-1]
 
 def is_spacetime_conservative(spacetime):
     energy = next(spacetime).count(1)
@@ -110,43 +110,47 @@ def is_spacetime_conservative(spacetime):
             return False
     return True
 
-def run_and_check(rule, w, t, scheme, init_space):
-    return is_spacetime_conservative(run_async(rule, w, t, scheme, init_space=init_space)) 
+def run_and_check(rule, w, t, scheme, init_space, save_to=None):
+    spacetime = run_async(rule, w, t, scheme, init_space=init_space)
+    spacetime_is_conservative = is_spacetime_conservative(spacetime)
+    return spacetime_is_conservative
 
-def is_rule_conservative(rule, t, w, scheme=None):
-    from concurrent.futures import ProcessPoolExecutor
-    init_spaces = gen_space_combo(w)
-    scheme = scheme if scheme else [1]*8
-    with ProcessPoolExecutor() as executor:
-        le_tqdm = tqdm.tqdm(executor.map(run_and_check, *zip(*[[rule, w, t, scheme, init_space] for init_space in init_spaces])), leave=False, dynamic_ncols=True, total=2**w)
-        for conservative in list(le_tqdm):
-            le_tqdm.set_description(f'Rule {rule} is conservative: {conservative}')
-            if not conservative:
-                return False
-        return True
+def is_rule_conservative(rule, w, t, scheme=[1]*8, save_to=None):
+    return all(run_and_check(rule, w, t, scheme, init_space, save_to=save_to) for init_space in gen_space_combo(w))
+
+# def is_rule_conservative(rule, w, t, scheme=None, save_to=None):
+#     from concurrent.futures import ProcessPoolExecutor
+#     init_spaces = gen_space_combo(w)
+#     scheme = scheme if scheme else [1]*8
+#     with ProcessPoolExecutor() as executor:
+#         le_tqdm = tqdm.tqdm(executor.map(run_and_check, *zip(*[[rule, w, t, scheme, init_space] for init_space in init_spaces])), leave=False, dynamic_ncols=True, total=2**w)
+#         for conservative in le_tqdm:
+#             le_tqdm.set_description(f'Rule {rule}-{scheme} is conservative: {conservative}')
+#             if not conservative:
+#                 return False
+#         return True
 
 def normalize_args(args):
     if args.initial_configuration:
         args.initial_configuration = [int(c) for c in args.initial_configuration]
         args.width = len(args.initial_configuration)
-    if args.conservative_check:
-        if args.timesteps != (2 ** args.width + 1):
-            print('-c implies t=2**w+1', file=sys.stderr)
-            sys.exit(1)
-        if (args.png_render is not None or args.terminal_render) and args.conservative_check:
-            print('-c imples not using -o or -O', file=sys.stderr)
-            sys.exit(1)
+    # if args.conservative_check:
+        # if args.timesteps != (2 ** args.width + 1):
+        #     print('-c implies t=2**w+1', file=sys.stderr)
+        #     sys.exit(1)
+        # if (args.png_render is not None or args.terminal_render) and args.conservative_check:
+        #     print('-c imples not using -o or -O', file=sys.stderr)
+        #     sys.exit(1)
     if args.schemes:
         prev_dirname = f'{args.rule:03d}-{args.width-1}x{T(args.width-1)}'
         schemes_json = f'{prev_dirname}/{prev_dirname}.json'
-        if op.exists(prev_dirname) and op.exists(schemes_json):
-            args.schemes = json.load(open(schemes_json))
-            return 
         if all([str.isdigit(c) for scheme in args.schemes for c in scheme]):
             if len(args.schemes[0]) != 8:
                 print(f'schemes must have length of 8, this scheme {args.schemes[0]} has length={len(args.schemes[0])}', file=sys.stderr)
                 sys.exit(1)
             args.schemes = [[int(c) for c in scheme] for scheme in args.schemes]
+        elif op.exists(prev_dirname) and op.exists(schemes_json):
+            args.schemes = json.load(open(schemes_json))
         else:
             args.schemes = read_schemes_from_file(args.schemes[0])
 
@@ -165,7 +169,7 @@ def save_json(conservative_at, dirname):
     json.dump(conservative_at, open(f'{dirname}/{dirname}.json', 'w'))
 
 def gracefully_exit(conservative_at, savepoint_file_path):
-    print(f'Exiting with {len(conservative_at)} schemes checked')
+    print(f'Exiting with {len(conservative_at)} conservative schemes')
     pickle.dump(conservative_at, open(savepoint_file_path, 'wb'))
     sys.exit(0)
 
@@ -176,19 +180,25 @@ def main(args):
     op.exists(dirname) or os.mkdir(dirname)
     savepoint_file_path = f'{dirname}/{dirname}.pkl'
     conservative_schemes = pickle.load(open(savepoint_file_path, 'rb')) if op.exists(savepoint_file_path) else []
-    tqdm_schemes = tqdm.tqdm([s for s in args.schemes if s not in conservative_schemes], dynamic_ncols=True)
-    atexit.register(gracefully_exit, conservative_schemes, savepoint_file_path)
+    # tqdm_schemes = tqdm.tqdm([s for s in args.schemes if s not in conservative_schemes], dynamic_ncols=True)
+    tqdm_schemes = [s for s in args.schemes if s not in conservative_schemes]
+    args.conservative_check and atexit.register(gracefully_exit, conservative_schemes, savepoint_file_path)
     for scheme in tqdm_schemes:
         stringified_scheme = stringify_scheme(scheme)
-        tqdm_schemes is not list and tqdm_schemes.set_description(f'Rendering {dirname}-{stringified_scheme}')
+        type(tqdm_schemes) is not list and tqdm_schemes.set_description(f'Rendering {dirname}-{stringified_scheme}')
         spacetime = None
         if args.png_render is not None or args.terminal_render:
             spacetime = list(run_async(args.rule, args.width, args.timesteps-1, scheme))
-        args.png_render is not None and render_image(spacetime, args.rule, scheme, measure_complexity=args.measure_complexity, save_to=args.png_render)
-        args.terminal_render and print_spacetime(spacetime, args.zero, args.one)
+        if not args.conservative_check:
+            args.png_render is not None and render_image(spacetime, args.rule, scheme, measure_complexity=args.measure_complexity, save_to=args.png_render)
+        if args.terminal_render: 
+            print(f'{dirname}-{stringified_scheme}')
+            print_spacetime(spacetime, args.zero, args.one)
+            print()
         if args.conservative_check:
-            rule_is_conservative = is_rule_conservative(args.rule, args.timesteps, args.width, scheme=scheme)
+            rule_is_conservative = is_rule_conservative(args.rule, args.width, args.timesteps, scheme=scheme, save_to=args.png_render)
             if rule_is_conservative:
+                print(f'{dirname}-{stringified_scheme} is conservative: {rule_is_conservative}')
                 conservative_schemes += [scheme]
     if args.conservative_check:
         save_json(conservative_schemes, dirname)
