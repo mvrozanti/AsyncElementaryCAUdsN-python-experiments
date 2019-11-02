@@ -10,6 +10,8 @@
 \usepackage{tabularx}
 \usepackage[table]{xcolor}
 \usepackage{graphicx}
+\usepackage{multirow}
+
 % Babel e ajustes
 \usepackage[english,brazil]{babel}		% idiomas
 \addto\captionsbrazil{
@@ -172,7 +174,8 @@ Keywords: \@pdfkeywords
 
 % \tab Este projeto teve como objetivo explorar propriedades conservativas em autômatos celulares (ACs) elementares com atualização assíncrona baseada em prioridade da vizinhança. 
 
-\tab Autômatos Celulares (ACs) são uma categoria de sistemas discretos capazes de realizar tarefas computacionais. Pela sua própria simplicidade, esses sistemas têm ocupado uma posição privilegiada no estudo de complexidade nos mais diversos campos da ciência, de matemática teórica a biologia teórica. 
+\tab Autômatos Celulares (ACs) são uma categoria de sistemas discretos capazes de realizar tarefas computacionais. Pela sua própria simplicidade, esses sistemas têm ocupado uma posição privilegiada no estudo de complexidade nos mais diversos campos da ciência, de química a biologia teórica entre muitos outros. O desenvolvimento de ACs é tipicamente atribuído a John von Neumann através de suas tentativas de desenvolver um modelo abstrato de autoreprodução biológica. Ao fim de 1950, foi notado que ACs poderiam ser vistos como computadores paralelos \cite[p. 876]{wolfram2002new}. Apesar de falta de investigação científica até 1970, um exemplo de AC se tornou muito famoso por seu comportamento complexo e regras simplesmente descritas inventadas por John Conway, \textit{The Game of Life}, que se popularizou após sua aparição na revista \textit{Scientific American}. 
+\tab Desde então, múltiplos estudos compreensivos foram realizados por cientistas ao redor do mundo, destacando os trabalhos feitos por Stephen Wolfram na década de 1980, culminando na publicação do livro A New Kind of Science em que Wolfram apresenta uma coleção de resultados a respeito de ACs, com uma série de descobertas revolucionárias. 
 
 % \tab ``Um AC é caracterizado por uma regra de transição de estados, que determina qual será o próximo estado do reticulado do AC, a partir do seu estado atual.'' \cite{oliveira2000unidimensionais}. 
 
@@ -181,6 +184,8 @@ Keywords: \@pdfkeywords
 % `` Um grande número de processadores têm extensões em aplicações multimídia'' \cite[p. 11]{multiplatform-simd-programming}.
 
 \subsection{CONTEXTUALIZAÇÃO E RELEVÂNCIA} \label{contex}
+\tab No estudo de ACs, há uma inversão do processo de pesquisa tradicional, que consiste de um objetivo a ser atingido através de uma pesquisa. Ele é dado pela identificação de propriedades ou aplicabilidades de um determinado AC, ou de um conjunto deles <forçação?>.
+
 % \tab O âmbito deste trabalho foi o uso de instruções SIMD: múltiplos operandos operados em paralelo em um único item de memória, como notado por \citeonline[p. 359]{stallings}.
 % Compiladores atuais não otimizam todos os trechos críticos com o mesmo desempenho que a codificação direta composta por instruções explícitas. No caso de operações vetorizadas, é necessário dar ``dicas'' ou \textit{hints} ao compilador escolhido para garantir que certas otimizações sejam realizadas, como nos ensinam \citeonline[p. 192]{jeffers}: ``Even the most brilliantly conceived compiler cannot auto-vectorize many important loops without hints''.
 
@@ -188,10 +193,41 @@ Keywords: \@pdfkeywords
 
 \subsection{OBJETO DE PESQUISA}
 
+\tab O objeto de pesquisa deste trabalho consiste na exploração de esquemas de atualização assíncronos por prioridade da vizinhança de autômatos celulares elementares.
+
+\subsubsection{AUTÔMATOS CELULARES}
+
+Um AC pode ser descrito simplesmente por seu \textit{espaço celular} e \textit{regra de transição} segundo \citeonline{oliveira2000unidimensionais}: 
+
+``O \textit{espaço celular} é um reticulado de N células idênticas, cada qual com um padrão idêntico de conexões locais para outras células e com condições de contorno. O conjunto de estados possíveis da célula é denotado por \(\Sigma\) e o número de estados desse conjunto é denotado por \textbf{k}. Cada célula é denotada por um índice \textbf{i} e seu estado a um dado tempo \textbf{t} é denotado por \(n_i^t\), onde \(S_i^t \in \Sigma\). O estado \(S_i^t\) da célula \textbf{i} e os estados das células às quais a célula \textbf{i} está conectada são chamados de vizinhança \(n_i^t\) da célula \textbf{i}.''
+
+
+% (como é descrito\ref{varia}).
+
+\subsubsection{AUTÔMATOS CELULARES ELEMENTARES}
+
+\begin{figure}[!htbp]
+\centerline{\includegraphics[width=\linewidth/2]{imgs/typical-config.png}}
+\caption{Nas renderizações, é convenção representar 1s como células em preto e 0s em branco. }
+\end{figure}
+
+\begin{figure}[!htbp]
+\centerline{\includegraphics[width=\linewidth/2]{imgs/rule_22.png}}
+\caption{Ilustração do mapa de transições para a regra 90 na notação de \citeonline{wolfram1983cellular}}
+\end{figure}
+
+
+\begin{figure}[!htbp]
+\centerline{\includegraphics[width=\linewidth/2]{imgs/rule-transitions.png}}
+\caption{Ilustração do mapa de transições para a regra 90 na notação de \citeonline{wolfram1983cellular}}
+\end{figure}
+
+\subsubsection{TIPOS DE ATUALIZAÇÃO}
+
 \tab Visualização:
 
 \begin{figure}[!htbp]
-\centerline{\includegraphics[width=\linewidth]{imgs/Picture1.png}}
+\centerline{\includegraphics[width=\linewidth/2]{imgs/Picture1.png}}
 \caption{Ilustração das 256 regras elementares}
 \end{figure}
 
@@ -247,15 +283,15 @@ Keywords: \@pdfkeywords
 \subsubsection{HIPÓTESE BÁSICA} 
 % \tab É possível tirar vantagem da arquitetura de todo processador para resolver um determinado problema computacional, como visto por \citeonline{exploit-every-cycle} e \citeonline{exploiting-modern-hardware}. Testes de performance podem ser criados para verificar a superação de eficiência dos algoritmos em discussão.
 
-\subsubsection{VARIÁVEIS}
+\subsubsection{VARIÁVEIS} \label{varia}
 
 \begin{itemize}
 	\item Largura do reticulado:\\
         \tab A largura do espaço de regras.
-	% \item Compilador:\\
-        % \tab Os compiladores utilizados foram \texttt{icc/icpc} (Intel®) e \texttt{gcc/g++} (GNU), em diferentes momentos da pesquisa.
-	% \item Entrada ou pontos no espaço:\\
-        % \tab Pontos mencionados no item \ref{formulas} a serem escolhidos como argumento às funções.
+	\item Espaço Celular:\\
+	\item Regra de transição:\\
+	\item Timesteps:\\
+
 \end{itemize}
 
 \subsection{OBJETIVOS DO ESTUDO} 
@@ -282,10 +318,10 @@ Keywords: \@pdfkeywords
 \subsection{DELIMITAÇÃO DO ESTUDO} \label{delimitacao}
 % \tab Deve-se restringir a implementação dos algoritmos evidenciados no item \ref{problema}, para a arquitetura 512-bit:
 
-% \begin{itemize}
-    % \item Delimitação Organizacional: família Intel® de processadores
-    % \item Delimitação por Indicadores de Desempenho: testes com o intuito de verificar a eficiência do código proposto.
-% \end{itemize}
+\begin{itemize}
+    \item Delimitação Organizacional: família Intel® de processadores
+    \item Delimitação por Indicadores de Desempenho: testes com o intuito de verificar a eficiência do código proposto.
+\end{itemize}
 
 % \break
 
@@ -311,21 +347,24 @@ Keywords: \@pdfkeywords
 \section{REFERENCIAL TEÓRICO}
 \tab Em relação ao referencial teórico estudado neste TCC, foi de suma importância entender os seguintes tópicos:
 
-\subsection{Autômatos Celulares Elementares} \label{comp-simd}
-% \tab .
+\subsection{AUTÔMATOS CELULARES ELEMENTARES} \label{aces}
+% \tab 
 
 % \tab Extensões de CPU são, muitas vezes, específicas a uma família de processadores e podem ou não existir em mais de um compilador apenas, como é o caso de extensões SIMD, como dizem \citeonline{franchetti2005efficient}: "The most common language extension supplying such primitives is to provide within the C programming language function-call like intrinsic (or built-in) functions and new data types to mirror the instructions and vector registers. For most SIMD extensions, at least one compiler featuring these language extensions exists". 
 
 % \tab Isso significa que pode-se usar uma API para acessar estas funções instrínsecas ao processador nativo. A API, por sua vez, é composta por \textit{Programming Language Abstractions}, ainda segundo \citeonline[p. 15]{franchetti2005efficient}: "Recognizing the tedious and difficult nature of assembly coding, most hardware vendors which have introduced multi-media extensions have developed programming-language abstractions. These give an application developer access to the newly introduced hardware without having to actually write assembly language code. Typically, this approach results in a function-call-like abstraction that represents one-to-one mapping between a function call and a multi-media instruction. There are several benefits of this approach".
 
-\subsection{Conservabilidade numérica} \label{org-comp}
+\subsection{CONSERVABILIDADE NUMÉRICA} \label{num-conserv}
 % \tab Arquitetura computacional é um componente chave no desenvolvimento e o programador deve ter um entendimento prático sobre o tópico. ``It is concerned with all aspects of the design and organization of the central processing unit and the integration of the CPU into de computer system itself.'' \cite{stallings}. Isso mostra a importância da compreensão base de sistemas computacionais para aproveitar o equipamento ao máximo, visando aumento de performance e, consequentemente, uso eficiente de recursos, sejam estes financeiros ou temporais, como em qualquer outro projeto de software de qualidade.
 
 \section{METODOLOGIA DA PESQUISA}
-\tab No que tange à Metodologia empregada neste TCC, o trabalho teve início com uma revisão da literatura específica sobre o tema da pesquisa. Esta pesquisa abrange conceitos fundamentais de teoria da computação .
+\tab No que tange à Metodologia empregada neste TCC, o trabalho teve início com uma revisão da literatura específica sobre o tema da pesquisa. Esta pesquisa abrange conceitos fundamentais de teoria da computação e o "estado da arte" em termos de análise de conservabilidade.
+
+Este alicerce teórico foi obtido através de autores como: Wolfram; Oliveira;
+entre outros, além de pesquisas em periódicos científicos, sites, publicações em empresas, teses e dissertações em universidades e publicações de associações técnicas.  A leitura, análise e comparação da fundamentação teórica tiveram como <+>
 
 \subsection{ETAPAS DA PESQUISA}
-\tab Para definir as etapas da pesquisa, foi necessário atender às delimitações de estudo (item \ref{delimitacao}), desenvolvendo, para cada tipo de distância especificado no item \ref{formulas}, suas respectivas implementações para AVX-512 com as APIs NVIDIA® OpenACC e Intel® Intrinsics. Excluindo funções intermediárias, isto é, que funcionam como instrumento interno, soma-se 6 funções implementadas, como descrito no Cronograma apresentado no item \ref{cron}.
+\tab Para definir as etapas da pesquisa, foi necessário atender às delimitações de estudo (item \ref{delimitacao}), desenvolvendo uma implementação que atendesse à execução dos ACE com esquemas distintos <+>  , como descrito no Cronograma apresentado no item \ref{cron}.
 
 \break
 
@@ -333,37 +372,18 @@ Assim, pode-se dizer que as etapas desenvolvidas neste estudo foram:
 
 \begin{enumerate}
     \item Estudo da Documentação;
-    \item Implementação da Distância Manhattan em Intel Intrinsics;
-    \item Implementação da Distância Euclidiana em Intel Intrinsics;
-    \item Implementação da Distância Cosseno em Intel Intrinsics;
-    \item Implementação da Distância Manhattan em OpenACC;
-    \item Implementação da Distância Euclidiana em OpenACC;
-    \item Implementação da Distância Cosseno em OpenACC;
+    \item Implementação do simulador para execuções síncronas;
+    \item Implementação do renderizador;
+    \item Implementação da verificador de evoluções conservativas;
+    \item Implementação do simulador para execuções assíncronas;
     \item Análise e testes das implementações;
+    \item Análise dos resultados;
     \item Artigo.
 \end{enumerate}
 
 \subsubsection{CONCEITOS EMPREGADOS}
 \begin{itemize}
-	\item Compilador:
-        \subitem Programa capaz de traduzir instruções de uma linguagem de programação para outra.
-	\item Entrada:
-        \subitem Pontos num espaço \textit{n-dimensional}.
-	\item Throughput:
-        \subitem Número médio de tarefas completadas em uma determinada unidade temporal \cite[p. 299]{stallings}.
-    \item Dados empacotados \cite[p. 379]{stallings}:
-        \subitem Packed byte: oito bytes empacotados em uma quantidade 64-bit.
-        \subitem Packed word: quatro palavras de 16-bit empacotadas em 64 bits.
-        \subitem Packed doubleword: duas palavras duplas de 32-bit empacotadas em 64 bits.
-    \item Extensões de CPU, melhor descritas no item \ref{comp-simd}
-        \subitem MMX:
-            Multimedia Extensions.
-        \subitem SSE:
-            Streaming SIMD Extensions.
-        \subitem AVX:
-            Advanced Vector Extensions.
-    \item API:
-        \subitem Application Programming Interface. 
+  \item 
 \end{itemize}
 
 \subsection{CLASSIFICAÇÃO DA PESQUISA}
@@ -382,13 +402,9 @@ Assim, pode-se dizer que as etapas desenvolvidas neste estudo foram:
 \tab Código-fonte, bem como suas instruções de compilação e documentação interna e externa utilizada para gerar o binário que ultrapasse soluções atuais para cálculo de distância nas arquiteturas alvo.
 
 \subsubsection{MEIOS} 
-\tab Quanto aos meios, foram utilizados os recursos mencionados na Bibliografia e Dados documentais (item \ref{documental}). Testes automatizados servirão para medir \textit{speedup} em relação a outros algoritmos conhecidos. 
+\tab Quanto aos meios, foram utilizados os recursos mencionados na Bibliografia.
 
 \subsubsection{PESQUISA BIBLIOGRÁFICA}
-\tab Para o andamento desta pesquisa foi necessário compreender a taxonomia de Flynn e programação paralela discorrida por \citeonline{stallings}, \citeonline{patterson}.
-
-\subsubsection{PESQUISA DOCUMENTAL} \label{documental}
-\tab Documentação de funções da família de instruções x86 Intel® Intrinsics extraído de \citeonline{intel-intrinsics-guide} e da API OpenACC da \citeonline{openacc-api}.
 
 % \vfill
 \break
@@ -401,23 +417,23 @@ Assim, pode-se dizer que as etapas desenvolvidas neste estudo foram:
     \centerline{
         \begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|l|l|}
           \hline
-          ATIVIDADE & \multicolumn{12}{|c|}{MÊS} \\
-          \hline
+          \multirow{2}{*}{ATIVIDADE} & \multicolumn{12}{|c|}{MÊS} \\
+          % \hline
           &  1& 2& 3& 4& 5& 6& 7& 8& 9& 10& 11& 12 \\
           \hline
           Estudo da Documentação & \cellcolor{yellow} & \cellcolor{yellow} & & & & & &\cellcolor{yellow} & & & & \\
           \hline
-          Implementação da Distância de Manhattan (Intel® Intrinsics) & & \cellcolor{yellow}& \cellcolor{yellow}& & & & & & & & & \\
+          Implementação do simulador para execuções síncronas & & \cellcolor{yellow}& \cellcolor{yellow}& & & & & & & & & \\
           \hline
-          Implementação da Distância de Euclidiana (Intel® Intrinsics) & & \cellcolor{yellow}& \cellcolor{yellow}& & & & & & & & & \\
+          Implementação do renderizador & & \cellcolor{yellow}& \cellcolor{yellow}& & & & & & & & & \\
           \hline
-          Implementação da Distância de Cosseno (Intel® Intrinsics) & & & & \cellcolor{yellow}& \cellcolor{yellow}& & & & & & & \\
+          Implementação da verificador de evoluções conservativas & & & & \cellcolor{yellow}& \cellcolor{yellow}& & & & & & & \\
           \hline
-          Implementação da Distância de Manhattan (OpenACC) & & & & \cellcolor{yellow}& \cellcolor{yellow}& & & & & & & \\
+          Implementação do simulador para execuções assíncronas & & & & \cellcolor{yellow}& \cellcolor{yellow}& & & & & & & \\
           \hline
-          Implementação da Distância de Euclidiana (OpenACC) & & & & & & \cellcolor{yellow}& \cellcolor{yellow}& & & & & \\
+          Análise e testes das implementações & & & & & & \cellcolor{yellow}& \cellcolor{yellow}& & & & & \\
           \hline
-          Implementação da Distância de Cosseno (OpenACC) & & & & & & \cellcolor{yellow}& \cellcolor{yellow}& \cellcolor{yellow}& \cellcolor{yellow}& \cellcolor{yellow}& & \\
+          Análise dos resultados & & & & & & \cellcolor{yellow}& \cellcolor{yellow}& \cellcolor{yellow}& \cellcolor{yellow}& \cellcolor{yellow}& & \\
           \hline
           Artigo & & & & & & & & \cellcolor{yellow}& \cellcolor{yellow}& \cellcolor{yellow}& \cellcolor{yellow}& \cellcolor{yellow}\\
           \hline
