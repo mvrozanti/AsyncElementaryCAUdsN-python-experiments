@@ -145,7 +145,8 @@ Orientador: \orientador
 \maketitle
 
 \begin{abstract}
-Autômatos Celulares são sistemas computacionais discretos e abstratos que se têm provado úteis como modelos genéricos de complexidade e representação de diversas dinâmicas em uma varidade de áreas científicas. Estes sistemas podem ser especificados puramente em termos matemáticos e até implementados em estruturas físicas. Muitos deles podem computar funções e resolver problemas algorítmicos. O presente projeto explora um conjunto fundamental deles, chamados Automatos Celulares Elementares com um tipo específico de atualização assíncrona baseada em prioridade com a esperança de encontrar modelos conservativos que podem ser usados em uma variedade de aplicações práticas. O código correspondende a este trabalho pode ser acessado no repositório \url{https://github.com/mvrozanti/TCC}.
+Autômatos Celulares são sistemas computacionais discretos e abstratos que se têm provado úteis como modelos genéricos de complexidade e representação de diversas dinâmicas em uma varidade de áreas científicas. Estes sistemas podem ser especificados puramente em termos matemáticos e até implementados em estruturas físicas. Muitos deles podem computar funções e resolver problemas algorítmicos. O presente projeto explora um conjunto fundamental deles, chamados Automatos Celulares Elementares com um tipo específico de atualização assíncrona baseada em prioridade da vizinhança com a esperança de encontrar modelos conservativos que podem ser usados em uma variedade de aplicações práticas. 
+% O código correspondende a este trabalho pode ser acessado no repositório \url{https://github.com/mvrozanti/TCC}.
 \end{abstract}
 Palavras-chave: Autômatos celulares elementares com atualização assíncrona por prioridade, New Kind of Science, Sistemas dinâmicos discretos, Conservabilidade
 
@@ -153,7 +154,8 @@ Palavras-chave: Autômatos celulares elementares com atualização assíncrona p
 
 \selectlanguage{english}
 \begin{abstract}
-Cellular Automata are discrete, abstract computational systems that have proved useful as general models of complexity and representations of dynamics on a variety of scientific fields. These systems can be specified in purely mathematical terms and be implemented in physical structures. Many of them can compute functions and solve algorithmic problems. The present project attempts to explore a fundamental subset of them, called Elementary Cellular Automata with a specific kind of prioriy-based asynchronous updating in the search of number-conserving models, which can be used for a variety of practical applications. The implementation developed is hosted at \url{https://github.com/mvrozanti/TCC}.
+Cellular Automata are discrete, abstract computational systems that have proved useful as general models of complexity and representations of dynamics on a variety of scientific fields. These systems can be specified in purely mathematical terms and be implemented in physical structures. Many of them can compute functions and solve algorithmic problems. The present project attempts to explore a fundamental subset of them, called Elementary Cellular Automata with a specific kind of neighbourhood-priority-based asynchronous updating in the search of number-conserving models, which can be used for a variety of practical applications. 
+%The implementation developed is hosted at \url{https://github.com/mvrozanti/TCC}.
 \end{abstract}
 Keywords: \@pdfkeywords
 
@@ -181,17 +183,12 @@ Keywords: \@pdfkeywords
 
 <+> No item \ref{contex}, apresentaremos alguns conceitos básicos referentes à definição dos ACs. 
 
-% `` Um grande número de processadores têm extensões em aplicações multimídia'' \cite[p. 11]{multiplatform-simd-programming}.
-
 \subsection{CONTEXTUALIZAÇÃO E RELEVÂNCIA} \label{contex}
 \tab No estudo de ACs, há uma inversão do processo de pesquisa tradicional, que consiste de um objetivo a ser atingido através de uma pesquisa. Ele é dado pela identificação de propriedades ou aplicabilidades de um determinado AC, ou de um conjunto deles <forçação?>.
 
-% \tab O âmbito deste trabalho foi o uso de instruções SIMD: múltiplos operandos operados em paralelo em um único item de memória, como notado por \citeonline[p. 359]{stallings}.
-% Compiladores atuais não otimizam todos os trechos críticos com o mesmo desempenho que a codificação direta composta por instruções explícitas. No caso de operações vetorizadas, é necessário dar ``dicas'' ou \textit{hints} ao compilador escolhido para garantir que certas otimizações sejam realizadas, como nos ensinam \citeonline[p. 192]{jeffers}: ``Even the most brilliantly conceived compiler cannot auto-vectorize many important loops without hints''.
-
 \break
 
-\subsection{OBJETO DE PESQUISA}
+\subsection{OBJETO DE PESQUISA} \label{objetopesq}
 
 \tab O objeto de pesquisa deste trabalho consiste na exploração de esquemas de atualização assíncronos por prioridade da vizinhança de autômatos celulares elementares.
 
@@ -222,7 +219,7 @@ Um AC pode ser descrito simplesmente por seu \textit{espaço celular} e \textit{
 \caption{Ilustração do mapa de transições para a regra 90 na notação de \citeonline{wolfram1983cellular}}
 \end{figure}
 
-\subsubsection{TIPOS DE ATUALIZAÇÃO}
+\subsubsection{TIPOS DE ATUALIZAÇÃO} \label{tiposatt}
 
 \tab Visualização:
 
@@ -231,39 +228,12 @@ Um AC pode ser descrito simplesmente por seu \textit{espaço celular} e \textit{
 \caption{Ilustração das 256 regras elementares}
 \end{figure}
 
-% \tab O objeto da pesquisa foi implementações e arquiteturas SIMD, com o suporte da documentação de funções intrínsecas x86 da Intel®, encontradas nos \textit{headers} \texttt{immintrin.h} para instruções AVX e \texttt{xmmintrin.h} para instruções SSE.
-
-% \tab Como é visto em \citeonline[p. 8]{intel-avx-intro}, parte da etimologia das funções a serem empregadas é definida como a seguir:
-
-% \begin{table}[htb]
-%     \caption{Sufixos}
-%     \centerline{
-%         \begin{tabular}{|l|l|}
-%             \hline
-%             \textbf{Marcadores} & \textbf{Significado} \\
-%             \hline
-%             \texttt{[a/d]} & Ponto flutuante de precisão única ou dupla \\
-%             \hline
-%             \texttt{[i/u]nnn} & Inteiro com ou sem sinal de tamanho binário nnn onde nnn é 128, 64, 32, 16, ou 8  \\
-%             \hline
-%             \texttt{[ps/pd/sd]} & Valor único empacotado, valor duplo empacotado ou escalar duplo \\
-%             \hline
-%             \texttt{epi32} & Inteiro assinalado empacotado de 32-bit\\
-%             \hline
-%             \texttt{si256} & Inteiro 256-bit escalar\\
-%             \hline
-%         \end{tabular}
-%     }
-% \end{table}
-
-% \tab Esta tabela representa parte da lógica empregada na nomenclatura das funções, com o intuito de facilitar a compreensão da implementação e providenciar uma fácil iniciação ao usuário/programador.
-
 \subsubsection{PROBLEMA DE PESQUISA} \label{problema}
 % \tab Muitos algoritmos de classificação, no que é pertinente ao campo de Machine Learning, se utilizam de medidas de similaridade tanto para o ``treino'' destes classificadores, como para o seu uso em produção. Estes algoritmos, por sua vez, requerem alto custo computacional. Pode-se criar uma solução mais eficiente que as atuais em arquiteturas paralelas de 512-bit? Ainda, como adaptar a solução a arquiteturas com maior largura de registradores? 
 
 \break
 
-\subsubsection{FÓRMULAS UTILIZADAS} \label{formulas}
+% \subsubsection{FÓRMULAS UTILIZADAS} \label{formulas}
 
 % \tab Por similaridade, entende-se a distância entre dois pontos em um espaço \textit{n-dimensional}, isto é, vetores de tamanho \textit{n}. As fórmulas a seguir denotam as medidas de distância utilizadas neste trabalho onde \textit{p} e \textit{q} são os pontos cuja distância se quer descobrir:
 
@@ -281,6 +251,8 @@ Um AC pode ser descrito simplesmente por seu \textit{espaço celular} e \textit{
 % \tab Estas operações são usadas constante e intensivamente em algoritmos pertinentes ao domínio de Machine Learning como explicitado por \citeonline{wang2012distance} que ressaltam, ainda, o problema da Maldição da Dimensionalidade, também conhecido pelo anglicismo \textit{Curse of Dimensionality}, sendo possível depreender a importância da eficiência da implementação dos cálculos mencionados.
 
 \subsubsection{HIPÓTESE BÁSICA} 
+
+\tab Dados os esquemas de atualização mencionados no capítulo \ref{objetopesq}
 % \tab É possível tirar vantagem da arquitetura de todo processador para resolver um determinado problema computacional, como visto por \citeonline{exploit-every-cycle} e \citeonline{exploiting-modern-hardware}. Testes de performance podem ser criados para verificar a superação de eficiência dos algoritmos em discussão.
 
 \subsubsection{VARIÁVEIS} \label{varia}
