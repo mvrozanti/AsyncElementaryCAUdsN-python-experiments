@@ -207,6 +207,13 @@ Um AC pode ser descrito simplesmente por seu \textit{espaço celular} e \textit{
 \subsection{AUTÔMATOS CELULARES ELEMENTARES}
 <+>
 
+\tab Visualização:
+
+\begin{figure}[!htbp]
+\centerline{\includegraphics[width=\linewidth/2]{imgs/Picture1.png}}
+\caption{Ilustração das 256 regras elementares}
+\end{figure}
+
 \subsubsection{REPRESENTAÇÕES}
 
 <+>
@@ -215,12 +222,12 @@ Então, para ACs de 1 dimensão, elementares, com vizinhança \texttt{\{-1,0,1\}
 
 \begin{figure}[!htbp]
 \centerline{\includegraphics[width=\linewidth/2]{imgs/typical-config.png}}
-\caption{Nas renderizações, é convenção representar 1s como células em preto e 0s em branco. }
+\caption{Nas renderizações, é convenção representar 1s como células em preto e 0s em branco. \cite{wolfram2002new} }
 \end{figure}
 
 \begin{figure}[!htbp]
 \centerline{\includegraphics[width=\linewidth/2]{imgs/rule_22.png}}
-\caption{Ilustração do mapa de transições para a regra 90 na notação de \citeonline{wolfram1983cellular}}
+\caption{Ilustração do mapa de transições para a regra 22 na notação de \citeonline{wolfram1983cellular}}
 \end{figure}
 
 \begin{figure}[!htbp]
@@ -230,13 +237,6 @@ Então, para ACs de 1 dimensão, elementares, com vizinhança \texttt{\{-1,0,1\}
 
 \subsubsection{TIPOS DE ATUALIZAÇÃO} \label{tiposatt}
 <+>
-
-\tab Visualização:
-
-\begin{figure}[!htbp]
-\centerline{\includegraphics[width=\linewidth/2]{imgs/Picture1.png}}
-\caption{Ilustração das 256 regras elementares}
-\end{figure}
 
 \subsubsection{PROBLEMA DE PESQUISA} \label{problema}
 <+>
@@ -258,7 +258,7 @@ Então, para ACs de 1 dimensão, elementares, com vizinhança \texttt{\{-1,0,1\}
 
 \begin{itemize}
 	\item Largura do reticulado:\\
-        \tab A largura do espaço de regras.
+          \tab A largura do espaço de regras.
 	\item Espaço Celular:\\
 	\item Regra de transição:\\
 	\item Timesteps:\\
@@ -299,7 +299,7 @@ Então, para ACs de 1 dimensão, elementares, com vizinhança \texttt{\{-1,0,1\}
 
 \subsection{ORGANIZAÇÃO DO ESTUDO}
 
-% Descrição dos capítulos:
+Descrição dos capítulos:
 
 \begin{enumerate}
     \item Introdução
@@ -310,10 +310,10 @@ Então, para ACs de 1 dimensão, elementares, com vizinhança \texttt{\{-1,0,1\}
         \subitem Sistematização dos instrumentos e processos de estudo empregados no presente trabalho.
     \item Cronograma
         \subitem Planejamento das tarefas necessárias para a conclusão deste trabalho, bem como suas expectativas de início e conclusão.
-    \item Descrição da plataforma-alvo.
-        \subitem Breve narrativa sobre ambiente e ferramentas utilizadas ao longo do estudo.
-    \item Implementações de cálculo de distância.
-        \subitem Detalhamento da solução final.
+    % \item Descrição da plataforma-alvo.
+    %     \subitem Breve narrativa sobre ambiente e ferramentas utilizadas ao longo do estudo.
+    % \item Implementações de cálculo de distância.
+        % \subitem Detalhamento da solução final.
 \end{enumerate}
  
 \section{REFERENCIAL TEÓRICO}
@@ -345,7 +345,7 @@ entre outros, além de pesquisas em periódicos científicos, sites, publicaçõ
 Assim, pode-se dizer que as etapas desenvolvidas neste estudo foram:
 
 \begin{enumerate}
-    \item Estudo da Documentação;
+    \item Estudo do estado da arte;
     \item Implementação do simulador para execuções síncronas;
     \item Implementação do renderizador;
     \item Implementação do simulador para execuções assíncronas;
@@ -375,7 +375,7 @@ Assim, pode-se dizer que as etapas desenvolvidas neste estudo foram:
 \tab Esta pesquisa foi voltada para encontrar caminhos, formas, maneiras e procedimentos para atingir um determinado fim, buscando definir um processo ou uma ferramenta que leve à solução do problema proposto (\ref{problema}).
 
 \subsubsection{PESQUISA PROPOSITIVA} 
-\tab Código-fonte, bem como suas instruções de compilação e documentação interna e externa utilizada para gerar o binário que ultrapasse soluções atuais para cálculo de distância nas arquiteturas alvo.
+% \tab Código-fonte, bem como suas instruções de compilação e documentação interna e externa utilizada para gerar o binário que ultrapasse soluções atuais para cálculo de distância nas arquiteturas alvo.
 
 \subsubsection{MEIOS} 
 \tab Quanto aos meios, foram utilizados os recursos mencionados na Bibliografia.
@@ -397,7 +397,7 @@ Assim, pode-se dizer que as etapas desenvolvidas neste estudo foram:
           % \hline
                                                                   & 1                             & 2                  & 3                  & 4                  & 5                  & 6                  & 7                  & 8                  & 9                  & 10                 & 11                 & 12 \\
           \hline
-          Estudo da Documentação                                  & \cellcolor{yellow}            & \cellcolor{yellow} &                    &                    &                    &                    &                    & \cellcolor{yellow} &                    &                    &                    & \\
+          Estudo do estado da arte                                & \cellcolor{yellow}            & \cellcolor{yellow} &                    &                    &                    &                    &                    & \cellcolor{yellow} &                    &                    &                    & \\
           \hline
           Implementação do simulador para execuções síncronas     &                               & \cellcolor{yellow} & \cellcolor{yellow} &                    &                    &                    &                    &                    &                    &                    &                    & \\
           \hline
