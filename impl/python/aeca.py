@@ -87,8 +87,8 @@ def run_async(rule, w, t, ranks, init_space=None):
     space = init_space if init_space else gen_mid_spacetime(args.width)[0]
     macrospacetime = [space]
     gitr = [[tr_ix for tr_ix,rank in enumerate(ranks) if rank == i] for i in range(1,9)]
+    yield macrospacetime[-1]
     for t in range(args.timesteps-1):
-        yield macrospacetime[-1]
         macrotimestep = macrospacetime[-1]
         microspacetime = [macrotimestep]
         for pri,transition_indexes in enumerate(gitr):
@@ -102,6 +102,7 @@ def run_async(rule, w, t, ranks, init_space=None):
                         micro_timestep[ci] = rule_transitions[tr_ix]
                 microspacetime += [micro_timestep]
         macrospacetime += [microspacetime[-1]]
+        yield macrospacetime[-1]
 
 def is_spacetime_conservative(spacetime):
     energy = next(spacetime).count(1)
@@ -180,7 +181,7 @@ def main(args):
     op.exists(dirname) or os.mkdir(dirname)
     savepoint_file_path = f'{dirname}/{dirname}.pkl'
     conservative_schemes = pickle.load(open(savepoint_file_path, 'rb')) if op.exists(savepoint_file_path) else []
-    tqdm_schemes = tqdm.tqdm([s for s in args.schemes if s not in conservative_schemes], dynamic_ncols=True)
+    tqdm_schemes = tqdm.tqdm([s for s in args.schemes if (s not in conservative_schemes or not args.conservative_check)], dynamic_ncols=True)
     # tqdm_schemes = [s for s in args.schemes if s not in conservative_schemes]
     args.conservative_check and atexit.register(gracefully_exit, conservative_schemes, savepoint_file_path)
     for scheme in tqdm_schemes:
@@ -188,7 +189,7 @@ def main(args):
         type(tqdm_schemes) is not list and tqdm_schemes.set_description(f'Rendering {dirname}-{stringified_scheme}')
         spacetime = None
         if args.png_render is not None or args.terminal_render:
-            spacetime = list(run_async(args.rule, args.width, args.timesteps-1, scheme))
+            spacetime = list(run_async(args.rule, args.width, args.timesteps, scheme))
         if not args.conservative_check:
             args.png_render is not None and render_image(spacetime, args.rule, scheme, measure_complexity=args.measure_complexity, save_to=args.png_render)
         if args.terminal_render: 
