@@ -181,7 +181,7 @@ Keywords: \@pdfkeywords
 
 \tab Desde então, múltiplos estudos compreensivos foram realizados por cientistas ao redor do mundo, destacando os trabalhos feitos por Stephen Wolfram na década de 1980, culminando na publicação do livro A New Kind of Science em que Wolfram apresenta uma coleção de resultados a respeito de ACs, com uma série de descobertas revolucionárias. 
 
-<+> No item \ref{contex}, apresentaremos alguns conceitos básicos referentes à definição dos ACs. 
+% \tab No capítulo \ref{referencial}, é apresentado alguns conceitos básicos referentes à definição dos ACs. 
 
 \subsection{CONTEXTUALIZAÇÃO E RELEVÂNCIA} \label{contex}
 
@@ -230,18 +230,20 @@ Keywords: \@pdfkeywords
 \subsubsection{OBJETIVOS ESPECÍFICOS}
 <+>
 
-% \tab Para alcançar o objetivo geral proposto para a resolução do problema de pesquisa, 
-% os seguintes objetivos específicos foram estabelecidos:
+\tab Para alcançar o objetivo geral proposto para a resolução do problema de pesquisa, os seguintes objetivos específicos foram estabelecidos:
 
-% \begin{itemize}
-    % \item Identificação das  teorias  envolvidas  no  estudo  de  otimização  os aspectos que privilegiam o processo de desenvolvimento das otimizações. 
+\begin{itemize}
+    \item Definição formal da estratégia de atualização.
+    \item Definição de conservabilidade.
+    \item Identificação de conservabilidade.
+    \item Renderização das evoluções temporais.
+    \item Otimização da pesquisa por via de filtragem de esquemas equivalentes.
     % \item Estudo no âmbito computacional atual dos processos de técnicas e boas práticas de otimização. 
     % \item Identificação dos aspectos que qualificam alta-performance que devem ser observados na criação e desenvolvimento destes algoritmos. 
-% \end{itemize}
+\end{itemize}
 
 \subsection{JUSTIFICATIVA}
 <+>
-% \tab Como já mencionado no item \ref{problema}, os algoritmos de classificação podem usar intensamente o cálculo de distância como instrumento intermediário e têm um impacto direto em sua performance. Qualquer ganho de eficiência nestes algoritmos de cálculo de distância em função da arquitetura pode ter uma influência notável na performance geral  dos classificadores em fase de treinamento ou em fase prática, ou, de produção, como afirmam \citeonline{effective-simd-vectorization} e \citeonline{optimization-pattern-recognition}.
 
 \subsection{DELIMITAÇÃO DO ESTUDO} \label{delimitacao}
 <+>
@@ -269,7 +271,7 @@ Descrição dos capítulos:
         \subitem Planejamento das tarefas necessárias para a conclusão deste trabalho, bem como suas expectativas de início e conclusão.
 \end{enumerate}
  
-\section{REFERENCIAL TEÓRICO}
+\section{REFERENCIAL TEÓRICO} \label{referencial}
 \tab Em relação ao referencial teórico estudado neste TCC, foi de suma importância entender os seguintes tópicos:
 
 \subsection{AUTÔMATOS CELULARES}
@@ -317,7 +319,9 @@ Então, para ACs de 1 dimensão, elementares, com vizinhança \texttt{\{-1,0,1\}
 \end{figure}
 
 \subsubsection{TIPOS DE ATUALIZAÇÃO} \label{tiposatt}
-<+>
+\tab Parte fundamental da \textit{regra de transição} de um AC é a ordem de atualização das células no espaço celular. Apesar de serem fundamentalmente concebidos com o comportamento de atualização síncrona, é possível se utilizar das mais diversas e criativas estratégias de atualização.
+
+\tab  No presente trabalho foi empregado um tipo inédito de estratégia de atualização: em função da prioridade da vizinhança, que consiste em cada regra de transição estar associada a uma prioridade no intervalo \(\left[1, 8\right]\). Esse tipo de atualização requer uma diferenciação dos timesteps globais e locais. <+>
 
 \break 
 
