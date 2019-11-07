@@ -10,6 +10,7 @@
 \usepackage{tabularx}
 \usepackage[table]{xcolor}
 \usepackage{graphicx}
+\usepackage{mathtools}
 \usepackage{multirow}
 
 % Babel e ajustes
@@ -179,9 +180,6 @@ Keywords: \@pdfkeywords
 \tab Autômatos Celulares (ACs) são uma categoria de sistemas discretos. Pela sua própria simplicidade, esses sistemas têm ocupado uma posição privilegiada no estudo de complexidade nos mais diversos campos da ciência, de biologia teórica a economia entre muitos outros. O desenvolvimento de ACs é tipicamente atribuído a John von Neumann através de suas tentativas de desenvolver um modelo abstrato de autoreprodução biológica. Ao fim de 1950, foi notado que ACs poderiam ser vistos como computadores paralelos \cite[p. 876]{wolfram2002new}. Apesar de falta de investigação científica até 1970, um exemplo de AC se tornou muito famoso por seu comportamento complexo e regras simplesmente descritas inventadas por John Conway, \textit{The Game of Life}, que se popularizou após sua aparição na revista \textit{Scientific American}. 
 
 \tab Desde então, múltiplos estudos compreensivos foram realizados por cientistas ao redor do mundo, destacando os trabalhos feitos por Stephen Wolfram na década de 1980, culminando na publicação do livro A New Kind of Science em que Wolfram apresenta uma coleção de resultados a respeito de ACs, com uma série de descobertas revolucionárias. 
-\tab 
-
-% \tab ``Um AC é caracterizado por uma regra de transição de estados, que determina qual será o próximo estado do reticulado do AC, a partir do seu estado atual.'' \cite{oliveira2000unidimensionais}. 
 
 <+> No item \ref{contex}, apresentaremos alguns conceitos básicos referentes à definição dos ACs. 
 
@@ -199,8 +197,6 @@ Keywords: \@pdfkeywords
 
 \subsubsection{PROBLEMA DE PESQUISA} \label{problema}
 <+>
-% \tab Muitos algoritmos de classificação, no que é pertinente ao campo de Machine Learning, se utilizam de medidas de similaridade tanto para o ``treino'' destes classificadores, como para o seu uso em produção. Estes algoritmos, por sua vez, requerem alto custo computacional. Pode-se criar uma solução mais eficiente que as atuais em arquiteturas paralelas de 512-bit? Ainda, como adaptar a solução a arquiteturas com maior largura de registradores? 
-
 \break
 
 % \subsubsection{FÓRMULAS UTILIZADAS} \label{formulas}
@@ -214,6 +210,7 @@ Keywords: \@pdfkeywords
 \tab Dados os esquemas de atualização mencionados na seção \ref{objetopesq}, encontrar quais esquemas apresentaram conservabilidade numérica <<isso nao eh uma hipotese>>.
 
 \subsubsection{VARIÁVEIS} \label{varia}
+<+>
 
 \begin{itemize}
 	\item Largura do reticulado:\\
@@ -225,10 +222,11 @@ Keywords: \@pdfkeywords
 \end{itemize}
 
 \subsection{OBJETIVOS DO ESTUDO} 
-% \tab O objetivo desse estudo é ganhar maior compreensão sobre as capacidades e limitações encontradas no design eficiente de implementações em arquiteturas paralelas, bem como ampliar o conhecimento sobre compiladores e tradução código-máquina.
+<+>
 
 \subsubsection{OBJETIVO GERAL}
-% \tab Tornar algoritmos-base de cálculo de distância mais eficientes em determinadas arquiteturas.
+<+>
+
 \subsubsection{OBJETIVOS ESPECÍFICOS}
 <+>
 
@@ -269,10 +267,6 @@ Descrição dos capítulos:
         \subitem Sistematização dos instrumentos e processos de estudo empregados no presente trabalho.
     \item Cronograma
         \subitem Planejamento das tarefas necessárias para a conclusão deste trabalho, bem como suas expectativas de início e conclusão.
-    % \item Descrição da plataforma-alvo.
-    %     \subitem Breve narrativa sobre ambiente e ferramentas utilizadas ao longo do estudo.
-    % \item Implementações de cálculo de distância.
-        % \subitem Detalhamento da solução final.
 \end{enumerate}
  
 \section{REFERENCIAL TEÓRICO}
@@ -282,7 +276,11 @@ Descrição dos capítulos:
 
 Um AC pode ser descrito simplesmente por seu \textit{espaço celular} e \textit{regra de transição} segundo \citeonline{oliveira2000unidimensionais}: 
 
-``O \textit{espaço celular} é um reticulado de N células idênticas, cada qual com um padrão idêntico de conexões locais para outras células e com condições de contorno. O conjunto de estados possíveis da célula é denotado por \(\Sigma\) e o número de estados desse conjunto é denotado por \textbf{k}. Cada célula é denotada por um índice \textbf{i} e seu estado a um dado tempo \textbf{t} é denotado por \(n_i^t\), onde \(S_i^t \in \Sigma\). O estado \(S_i^t\) da célula \textbf{i} e os estados das células às quais a célula \textbf{i} está conectada são chamados de vizinhança \(n_i^t\) da célula \textbf{i}.''
+\tab ``O \textit{espaço celular} é um reticulado de N células idênticas, cada qual com um padrão idêntico de conexões locais para outras células e com condições de contorno. O conjunto de estados possíveis da célula é denotado por \(\Sigma\) e o número de estados desse conjunto é denotado por \textbf{k}. Cada célula é denotada por um índice \textbf{i} e seu estado a um dado tempo \textbf{t} é denotado por \(n_i^t\), onde \(S_i^t \in \Sigma\). O estado \(S_i^t\) da célula \textbf{i} e os estados das células às quais a célula \textbf{i} está conectada são chamados de vizinhança \(n_i^t\) da célula \textbf{i}.
+
+\tab A \textit{regra de transição} é denotada por \(\Phi(n_i^t)\) que fornece o próximo estado \(S_i^{t+1}\) para cada célula \textbf{i}, como uma função de \(n_i^t\). A cada passo de tempo, todas as células atualizam seus estados sincronicamente de acordo com \(\Phi(n_i^t)\). 
+
+\tab Para ACs unidimensionais, o tamanho da vizinhança \(n_i\) é normalmente escrito como \(\lvert n_i\rvert = 2r + 1\), onde \textbf{r} é chamado o raio do AC.''
 
 
 % (como é descrito\ref{varia}).
@@ -329,6 +327,8 @@ Segundo \citeonline{boccara2002number}, ``A one-dimensional q-state n-input CA r
 \[f(x_1,x_2,...,x_{n-1},x_n) + f(x_2,x_3,...,x_n,x_{n+1}) + ... \]
 \tab \[ + \;   f(x_L,x_1,...,x_{n-2},x_{n-1} = x_1 + x_2 + ... + x_L\]
 
+Como é mencionado no item \ref{contex}, ACs conservativos podem ser usados para modelar ambientes em que há conservabilidade.
+
 \section{METODOLOGIA DA PESQUISA}
 \tab No que tange à Metodologia empregada neste TCC, o trabalho teve início com uma revisão da literatura específica sobre o tema da pesquisa. Esta pesquisa abrange conceitos fundamentais de teoria da computação e o ``estado da arte'' em termos de análise de conservabilidade.
 
@@ -373,13 +373,14 @@ Assim, pode-se dizer que as etapas desenvolvidas neste estudo foram:
 \subsubsection{FINS} 
 \tab Esta pesquisa foi voltada para encontrar caminhos, formas, maneiras e procedimentos para atingir um determinado fim, buscando definir um processo ou uma ferramenta que leve à solução do problema proposto (\ref{problema}).
 
-\subsubsection{PESQUISA PROPOSITIVA} 
+% \subsubsection{PESQUISA PROPOSITIVA} 
 % \tab Código-fonte, bem como suas instruções de compilação e documentação interna e externa utilizada para gerar o binário que ultrapasse soluções atuais para cálculo de distância nas arquiteturas alvo.
 
 \subsubsection{MEIOS} 
 \tab Quanto aos meios, foram utilizados os recursos mencionados na Bibliografia.
 
 \subsubsection{PESQUISA BIBLIOGRÁFICA}
+<+>
 
 % \vfill
 \break
