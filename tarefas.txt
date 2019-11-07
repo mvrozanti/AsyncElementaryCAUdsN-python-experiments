@@ -3,4 +3,4 @@
 - Começar a escrever o doc, principalmente voltado a MPC
 - Checar se a implementação do Thiago está certa
   - Não estava
-- Gerar csvs com a verificação de conservabilidade para pares (regra,esquema)
+- Gerar csvs/jsons com a verificação de conservabilidade para pares (regra,esquema)

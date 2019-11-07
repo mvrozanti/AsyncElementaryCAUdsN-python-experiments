@@ -177,6 +177,7 @@ Keywords: \@pdfkeywords
 % \tab Este projeto teve como objetivo explorar propriedades conservativas em autômatos celulares (ACs) elementares com atualização assíncrona baseada em prioridade da vizinhança. 
 
 \tab Autômatos Celulares (ACs) são uma categoria de sistemas discretos. Pela sua própria simplicidade, esses sistemas têm ocupado uma posição privilegiada no estudo de complexidade nos mais diversos campos da ciência, de biologia teórica a economia entre muitos outros. O desenvolvimento de ACs é tipicamente atribuído a John von Neumann através de suas tentativas de desenvolver um modelo abstrato de autoreprodução biológica. Ao fim de 1950, foi notado que ACs poderiam ser vistos como computadores paralelos \cite[p. 876]{wolfram2002new}. Apesar de falta de investigação científica até 1970, um exemplo de AC se tornou muito famoso por seu comportamento complexo e regras simplesmente descritas inventadas por John Conway, \textit{The Game of Life}, que se popularizou após sua aparição na revista \textit{Scientific American}. 
+
 \tab Desde então, múltiplos estudos compreensivos foram realizados por cientistas ao redor do mundo, destacando os trabalhos feitos por Stephen Wolfram na década de 1980, culminando na publicação do livro A New Kind of Science em que Wolfram apresenta uma coleção de resultados a respeito de ACs, com uma série de descobertas revolucionárias. 
 \tab 
 
@@ -205,7 +206,7 @@ Um AC pode ser descrito simplesmente por seu \textit{espaço celular} e \textit{
 % (como é descrito\ref{varia}).
 
 \subsection{AUTÔMATOS CELULARES ELEMENTARES}
-<+>
+
 
 \tab Visualização:
 
@@ -240,6 +241,12 @@ Então, para ACs de 1 dimensão, elementares, com vizinhança \texttt{\{-1,0,1\}
 
 \subsubsection{PROBLEMA DE PESQUISA} \label{problema}
 <+>
+
+\subsection{CONSERVABILIDADE NUMÉRICA} \label{num-conserv}
+Segundo \citeonline{boccara2002number}, ``A one-dimensional q-state n-input CA rule f is number-conserving if, for all cyclic configurations of length L \(\geq\) n, it satisfies'':
+
+\[f(x_1,x_2,...,x_{n-1},x_n) + f(x_2,x_3,...,x_n,x_{n+1}) + ... \]
+\tab \[ + \;   f(x_L,x_1,...,x_{n-2},x_{n-1} = x_1 + x_2 + ... + x_L\]
 % \tab Muitos algoritmos de classificação, no que é pertinente ao campo de Machine Learning, se utilizam de medidas de similaridade tanto para o ``treino'' destes classificadores, como para o seu uso em produção. Estes algoritmos, por sua vez, requerem alto custo computacional. Pode-se criar uma solução mais eficiente que as atuais em arquiteturas paralelas de 512-bit? Ainda, como adaptar a solução a arquiteturas com maior largura de registradores? 
 
 \break
@@ -322,14 +329,6 @@ Descrição dos capítulos:
 \subsection{AUTÔMATOS CELULARES ELEMENTARES} \label{aces}
 <+>
 % \tab 
-
-% \tab Extensões de CPU são, muitas vezes, específicas a uma família de processadores e podem ou não existir em mais de um compilador apenas, como é o caso de extensões SIMD, como dizem \citeonline{franchetti2005efficient}: "The most common language extension supplying such primitives is to provide within the C programming language function-call like intrinsic (or built-in) functions and new data types to mirror the instructions and vector registers. For most SIMD extensions, at least one compiler featuring these language extensions exists". 
-
-% \tab Isso significa que pode-se usar uma API para acessar estas funções instrínsecas ao processador nativo. A API, por sua vez, é composta por \textit{Programming Language Abstractions}, ainda segundo \citeonline[p. 15]{franchetti2005efficient}: "Recognizing the tedious and difficult nature of assembly coding, most hardware vendors which have introduced multi-media extensions have developed programming-language abstractions. These give an application developer access to the newly introduced hardware without having to actually write assembly language code. Typically, this approach results in a function-call-like abstraction that represents one-to-one mapping between a function call and a multi-media instruction. There are several benefits of this approach".
-
-\subsection{CONSERVABILIDADE NUMÉRICA} \label{num-conserv}
-<+>
-% \tab Arquitetura computacional é um componente chave no desenvolvimento e o programador deve ter um entendimento prático sobre o tópico. ``It is concerned with all aspects of the design and organization of the central processing unit and the integration of the CPU into de computer system itself.'' \cite{stallings}. Isso mostra a importância da compreensão base de sistemas computacionais para aproveitar o equipamento ao máximo, visando aumento de performance e, consequentemente, uso eficiente de recursos, sejam estes financeiros ou temporais, como em qualquer outro projeto de software de qualidade.
 
 \section{METODOLOGIA DA PESQUISA}
 \tab No que tange à Metodologia empregada neste TCC, o trabalho teve início com uma revisão da literatura específica sobre o tema da pesquisa. Esta pesquisa abrange conceitos fundamentais de teoria da computação e o "estado da arte" em termos de análise de conservabilidade.
