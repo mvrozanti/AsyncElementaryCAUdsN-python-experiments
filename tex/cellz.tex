@@ -196,7 +196,6 @@ Keywords: \@pdfkeywords
 
 \subsubsection{PROBLEMA DE PESQUISA} \label{problema}
 <+>
-\tab \[ + \;   f(x_L,x_1,...,x_{n-2},x_{n-1} = x_1 + x_2 + ... + x_L\]
 % \tab Muitos algoritmos de classificação, no que é pertinente ao campo de Machine Learning, se utilizam de medidas de similaridade tanto para o ``treino'' destes classificadores, como para o seu uso em produção. Estes algoritmos, por sua vez, requerem alto custo computacional. Pode-se criar uma solução mais eficiente que as atuais em arquiteturas paralelas de 512-bit? Ainda, como adaptar a solução a arquiteturas com maior largura de registradores? 
 
 \break
@@ -319,10 +318,13 @@ Então, para ACs de 1 dimensão, elementares, com vizinhança \texttt{\{-1,0,1\}
 \subsubsection{TIPOS DE ATUALIZAÇÃO} \label{tiposatt}
 <+>
 
+\break 
+
 \subsection{CONSERVABILIDADE NUMÉRICA} \label{num-conserv}
 Segundo \citeonline{boccara2002number}, ``A one-dimensional q-state n-input CA rule f is number-conserving if, for all cyclic configurations of length L \(\geq\) n, it satisfies'':
 
 \[f(x_1,x_2,...,x_{n-1},x_n) + f(x_2,x_3,...,x_n,x_{n+1}) + ... \]
+\tab \[ + \;   f(x_L,x_1,...,x_{n-2},x_{n-1} = x_1 + x_2 + ... + x_L\]
 
 \section{METODOLOGIA DA PESQUISA}
 \tab No que tange à Metodologia empregada neste TCC, o trabalho teve início com uma revisão da literatura específica sobre o tema da pesquisa. Esta pesquisa abrange conceitos fundamentais de teoria da computação e o "estado da arte" em termos de análise de conservabilidade.
