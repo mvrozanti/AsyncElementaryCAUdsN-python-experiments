@@ -194,51 +194,6 @@ Keywords: \@pdfkeywords
 
 \tab O objeto de pesquisa deste trabalho consiste em ACEs 
 
-\subsubsection{AUTÔMATOS CELULARES}
-
-Um AC pode ser descrito simplesmente por seu \textit{espaço celular} e \textit{regra de transição} segundo \citeonline{oliveira2000unidimensionais}: 
-
-``O \textit{espaço celular} é um reticulado de N células idênticas, cada qual com um padrão idêntico de conexões locais para outras células e com condições de contorno. O conjunto de estados possíveis da célula é denotado por \(\Sigma\) e o número de estados desse conjunto é denotado por \textbf{k}. Cada célula é denotada por um índice \textbf{i} e seu estado a um dado tempo \textbf{t} é denotado por \(n_i^t\), onde \(S_i^t \in \Sigma\). O estado \(S_i^t\) da célula \textbf{i} e os estados das células às quais a célula \textbf{i} está conectada são chamados de vizinhança \(n_i^t\) da célula \textbf{i}.''
-
-\subsubsection{VIZINHANÇA}
-<+>
-
-% (como é descrito\ref{varia}).
-
-\subsection{AUTÔMATOS CELULARES ELEMENTARES}
-
-
-\tab Visualização:
-
-\begin{figure}[!htbp]
-\centerline{\includegraphics[width=\linewidth/2]{imgs/Picture1.png}}
-\caption{Ilustração das 256 regras elementares}
-\end{figure}
-
-\subsubsection{REPRESENTAÇÕES}
-
-<+>
-
-Então, para ACs de 1 dimensão, elementares, com vizinhança \texttt{\{-1,0,1\}}, com conjunto de estados \texttt{\{0,1\}}, na ordem lexicográfica \{\textit{\(w_0\)}, ..., \textit{\(w_7\)},\} em \(\{0,1\}^3\), se \(\delta(\textit{w}_i)=s_i,s_0,...s_7\) representa \(\delta\). Analogamente, qualquer inteiro positivo menor que 256 = \(2^8\) define um ACE \cite[cap. 2]{delorme1999introduction}.
-
-\begin{figure}[!htbp]
-\centerline{\includegraphics[width=\linewidth/2]{imgs/typical-config.png}}
-\caption{Nas renderizações, é convenção representar 1s como células em preto e 0s em branco. \cite{wolfram2002new} }
-\end{figure}
-
-\begin{figure}[!htbp]
-\centerline{\includegraphics[width=\linewidth/2]{imgs/rule_22.png}}
-\caption{Ilustração do mapa de transições para a regra 22 na notação de \citeonline{wolfram1983cellular}}
-\end{figure}
-
-\begin{figure}[!htbp]
-\centerline{\includegraphics[width=\linewidth/2]{imgs/rule-transitions.png}}
-\caption{Ilustração do mapa de transições para a regra 90 na notação de \citeonline{wolfram1983cellular}}
-\end{figure}
-
-\subsubsection{TIPOS DE ATUALIZAÇÃO} \label{tiposatt}
-<+>
-
 \subsubsection{PROBLEMA DE PESQUISA} \label{problema}
 <+>
 
@@ -329,6 +284,49 @@ Descrição dos capítulos:
 \subsection{AUTÔMATOS CELULARES ELEMENTARES} \label{aces}
 <+>
 % \tab 
+
+\subsubsection{AUTÔMATOS CELULARES}
+
+Um AC pode ser descrito simplesmente por seu \textit{espaço celular} e \textit{regra de transição} segundo \citeonline{oliveira2000unidimensionais}: 
+
+``O \textit{espaço celular} é um reticulado de N células idênticas, cada qual com um padrão idêntico de conexões locais para outras células e com condições de contorno. O conjunto de estados possíveis da célula é denotado por \(\Sigma\) e o número de estados desse conjunto é denotado por \textbf{k}. Cada célula é denotada por um índice \textbf{i} e seu estado a um dado tempo \textbf{t} é denotado por \(n_i^t\), onde \(S_i^t \in \Sigma\). O estado \(S_i^t\) da célula \textbf{i} e os estados das células às quais a célula \textbf{i} está conectada são chamados de vizinhança \(n_i^t\) da célula \textbf{i}.''
+
+
+% (como é descrito\ref{varia}).
+
+\subsection{AUTÔMATOS CELULARES ELEMENTARES}
+
+
+\tab Visualização:
+
+\begin{figure}[!htbp]
+\centerline{\includegraphics[width=\linewidth/2]{imgs/Picture1.png}}
+\caption{Ilustração das 256 regras elementares}
+\end{figure}
+
+\subsubsection{REPRESENTAÇÕES}
+
+<+>
+
+Então, para ACs de 1 dimensão, elementares, com vizinhança \texttt{\{-1,0,1\}}, com conjunto de estados \texttt{\{0,1\}}, na ordem lexicográfica \{\textit{\(w_0\)}, ..., \textit{\(w_7\)},\} em \(\{0,1\}^3\), se \(\delta(\textit{w}_i)=s_i,s_0,...s_7\) representa \(\delta\). Analogamente, qualquer inteiro positivo menor que 256 = \(2^8\) define um ACE \cite[cap. 2]{delorme1999introduction}.
+
+\begin{figure}[!htbp]
+\centerline{\includegraphics[width=\linewidth/2]{imgs/typical-config.png}}
+\caption{Nas renderizações, é convenção representar 1s como células em preto e 0s em branco. \cite{wolfram2002new} }
+\end{figure}
+
+\begin{figure}[!htbp]
+\centerline{\includegraphics[width=\linewidth/2]{imgs/rule_22.png}}
+\caption{Ilustração do mapa de transições para a regra 22 na notação de \citeonline{wolfram1983cellular}}
+\end{figure}
+
+\begin{figure}[!htbp]
+\centerline{\includegraphics[width=\linewidth/2]{imgs/rule-transitions.png}}
+\caption{Ilustração do mapa de transições para a regra 90 na notação de \citeonline{wolfram1983cellular}}
+\end{figure}
+
+\subsubsection{TIPOS DE ATUALIZAÇÃO} \label{tiposatt}
+<+>
 
 \section{METODOLOGIA DA PESQUISA}
 \tab No que tange à Metodologia empregada neste TCC, o trabalho teve início com uma revisão da literatura específica sobre o tema da pesquisa. Esta pesquisa abrange conceitos fundamentais de teoria da computação e o "estado da arte" em termos de análise de conservabilidade.
