@@ -85,7 +85,7 @@
 \hypersetup{
   pdftitle={Conservabilidade de estados de autômatos celulares elementares com atualizações assíncronas por prioridade da vizinhança},
   pdfauthor={Marcelo Vironda Rozanti}{Felipe Stefanelli de Aguiar Silva},
-  pdfkeywords={Asynchronous priority-based updating Elementary Cellular Automata, New Kind of Science, Discrete dynamical systems, Number-conserving}, 
+  pdfkeywords={Asynchronous priority based updating, Elementary Cellular Automata, New Kind of Science, Discrete dynamical systems, Number-conserving}, 
   pdfproducer={Marcelo Vironda Rozanti},
   pdfcreator={vim+LaTeX+abnTeX2},
   colorlinks=true,
@@ -146,16 +146,16 @@ Orientador: \orientador
 \maketitle
 
 \begin{abstract}
-Autômatos Celulares são sistemas computacionais discretos e abstratos que se têm provado úteis como modelos genéricos de complexidade e representação de diversas dinâmicas em uma varidade de áreas científicas. Estes sistemas podem ser especificados puramente em termos matemáticos e até implementados em estruturas físicas. Muitos deles podem computar funções e resolver problemas algorítmicos. O presente projeto explora um conjunto fundamental deles, chamados Automatos Celulares Elementares com um tipo específico de atualização assíncrona baseada em prioridade da vizinhança com a esperança de encontrar modelos conservativos que podem ser usados em uma variedade de aplicações práticas. 
+Autômatos Celulares são sistemas computacionais discretos que se têm provado úteis como modelos genéricos de complexidade e representação de diversas dinâmicas em uma varidade de áreas científicas. Estes sistemas podem ser especificados puramente em termos matemáticos e até implementados em estruturas físicas. Muitos deles podem computar funções e resolver problemas algorítmicos. O presente projeto explora um conjunto fundamental deles, chamados Automatos Celulares Elementares com um tipo específico de atualização assíncrona baseada em prioridade da vizinhança com a esperança de encontrar modelos conservativos que podem ser usados em aplicações práticas relativas a . 
 % O código correspondende a este trabalho pode ser acessado no repositório \url{https://github.com/mvrozanti/TCC}.
 \end{abstract}
-Palavras-chave: Autômatos celulares elementares com atualização assíncrona por prioridade, New Kind of Science, Sistemas dinâmicos discretos, Conservabilidade
+Palavras-chave: Autômatos celulares elementares, atualização assíncrona por prioridade da vizinhança, New Kind of Science, Sistemas dinâmicos discretos, Conservabilidade
 
 \vfill
 
 \selectlanguage{english}
 \begin{abstract}
-Cellular Automata are discrete, abstract computational systems that have proved useful as general models of complexity and representations of dynamics on a variety of scientific fields. These systems can be specified in purely mathematical terms and be implemented in physical structures. Many of them can compute functions and solve algorithmic problems. The present project attempts to explore a fundamental subset of them, called Elementary Cellular Automata with a specific kind of neighbourhood-priority-based asynchronous updating in the search of number-conserving models, which can be used for a variety of practical applications. 
+Cellular Automata are discrete computational systems that have proved useful as general models of complexity and representations of dynamics on a variety of scientific fields. These systems can be specified in purely mathematical terms and be implemented in physical structures. Many of them can compute functions and solve algorithmic problems. The present project attempts to explore a fundamental subset of them, called Elementary Cellular Automata with a specific kind of neighbourhood-priority-based asynchronous updating in the search of number-conserving models, which can be used for a variety of practical applications. 
 %The implementation developed is hosted at \url{https://github.com/mvrozanti/TCC}.
 \end{abstract}
 Keywords: \@pdfkeywords
@@ -203,22 +203,20 @@ Keywords: \@pdfkeywords
 
 % \break
 
-% \tab Estas operações são usadas constante e intensivamente em algoritmos pertinentes ao domínio de Machine Learning como explicitado por \citeonline{wang2012distance} que ressaltam, ainda, o problema da Maldição da Dimensionalidade, também conhecido pelo anglicismo \textit{Curse of Dimensionality}, sendo possível depreender a importância da eficiência da implementação dos cálculos mencionados.
-
 \subsubsection{HIPÓTESE BÁSICA} 
 
 \tab Dados os esquemas de atualização mencionados na seção \ref{objetopesq}, encontrar quais esquemas apresentaram conservabilidade numérica <<isso nao eh uma hipotese>>.
 
 \subsubsection{VARIÁVEIS} \label{varia}
-<+>
+A implementação do simulador tem como parâmetros os seguintes itens:
 
 \begin{itemize}
-	\item Largura do reticulado:\\
-          \tab A largura do espaço de regras.
+	\item Largura do espaço celular\\
+          \tab N, como definido em \ref{referencial}.
 	\item Espaço Celular:\\
+          \tab 
 	\item Regra de transição:\\
 	\item Timesteps:\\
-
 \end{itemize}
 
 \subsection{OBJETIVOS DO ESTUDO} 
@@ -238,8 +236,6 @@ Keywords: \@pdfkeywords
     \item Identificação de conservabilidade.
     \item Renderização das evoluções temporais.
     \item Otimização da pesquisa por via de filtragem de esquemas equivalentes.
-    % \item Estudo no âmbito computacional atual dos processos de técnicas e boas práticas de otimização. 
-    % \item Identificação dos aspectos que qualificam alta-performance que devem ser observados na criação e desenvolvimento destes algoritmos. 
 \end{itemize}
 
 \subsection{JUSTIFICATIVA}
@@ -250,8 +246,6 @@ Keywords: \@pdfkeywords
 % \tab Deve-se restringir a implementação dos algoritmos evidenciados no item \ref{problema}:
 
 % \begin{itemize}
-%     \item Delimitação Organizacional: família Intel® de processadores
-%     \item Delimitação por Indicadores de Desempenho: testes com o intuito de verificar a eficiência do código proposto.
 % \end{itemize}
 
 % \break
@@ -274,15 +268,17 @@ Descrição dos capítulos:
 \section{REFERENCIAL TEÓRICO} \label{referencial}
 \tab Em relação ao referencial teórico estudado neste TCC, foi de suma importância entender os seguintes tópicos:
 
-\subsection{AUTÔMATOS CELULARES}
+\subsection{AUTÔMATOS CELULARES} \label{ref_ac}
 
-Um AC pode ser descrito simplesmente por seu \textit{espaço celular} e \textit{regra de transição} segundo \citeonline{oliveira2000unidimensionais}: 
+Um AC pode ser descrito simplesmente por seu \textit{espaço celular} e \textit{regra de transição}. O espaço celular é um conjunto finito \textit{d-dimensional} ordenado de células onde cada célula pode ter até \textit{k} estados. As regras de transição definem o novo estado de uma determinada célula em função de sua vizinhança de tamanho \textit{r}, dito o raio do AC. O comportamento da aplicação das regras de transição nas bordas do espaço pode ser especificado de várias formas, muitas vezes como conexo com a borda contrária tornando o espaço efetivamente contínuo.
 
-\tab ``O \textit{espaço celular} é um reticulado de N células idênticas, cada qual com um padrão idêntico de conexões locais para outras células e com condições de contorno. O conjunto de estados possíveis da célula é denotado por \(\Sigma\) e o número de estados desse conjunto é denotado por \textbf{k}. Cada célula é denotada por um índice \textbf{i} e seu estado a um dado tempo \textbf{t} é denotado por \(n_i^t\), onde \(S_i^t \in \Sigma\). O estado \(S_i^t\) da célula \textbf{i} e os estados das células às quais a célula \textbf{i} está conectada são chamados de vizinhança \(n_i^t\) da célula \textbf{i}.
+% \cite{wolfram2002new}
 
-\tab A \textit{regra de transição} é denotada por \(\Phi(n_i^t)\) que fornece o próximo estado \(S_i^{t+1}\) para cada célula \textbf{i}, como uma função de \(n_i^t\). A cada passo de tempo, todas as células atualizam seus estados sincronicamente de acordo com \(\Phi(n_i^t)\). 
+% \tab ``O \textit{espaço celular} é um reticulado de N células idênticas, cada qual com um padrão idêntico de conexões locais para outras células e com condições de contorno. O conjunto de estados possíveis da célula é denotado por \(\Sigma\) e o número de estados desse conjunto é denotado por \textbf{k}. Cada célula é denotada por um índice \textbf{i} e seu estado a um dado tempo \textbf{t} é denotado por \(n_i^t\), onde \(S_i^t \in \Sigma\). O estado \(S_i^t\) da célula \textbf{i} e os estados das células às quais a célula \textbf{i} está conectada são chamados de vizinhança \(n_i^t\) da célula \textbf{i}.
+%
+% \tab A \textit{regra de transição} é denotada por \(\Phi(n_i^t)\) que fornece o próximo estado \(S_i^{t+1}\) para cada célula \textbf{i}, como uma função de \(n_i^t\). A cada passo de tempo, todas as células atualizam seus estados sincronicamente de acordo com \(\Phi(n_i^t)\). 
 
-\tab Para ACs unidimensionais, o tamanho da vizinhança \(n_i\) é normalmente escrito como \(\lvert n_i\rvert = 2r + 1\), onde \textbf{r} é chamado o raio do AC.''
+% \tab Para ACs unidimensionais, o tamanho da vizinhança \(n_i\) é normalmente escrito como \(\lvert n_i\rvert = 2r + 1\), onde \textbf{r} é chamado o raio do AC.''
 
 
 % (como é descrito\ref{varia}).
@@ -321,7 +317,7 @@ Então, para ACs de 1 dimensão, elementares, com vizinhança \texttt{\{-1,0,1\}
 \subsubsection{TIPOS DE ATUALIZAÇÃO} \label{tiposatt}
 \tab Parte fundamental da \textit{regra de transição} de um AC é a ordem de atualização das células no espaço celular. Apesar de serem fundamentalmente concebidos com o comportamento de atualização síncrona, é possível se utilizar das mais diversas e criativas estratégias de atualização.
 
-\tab  No presente trabalho foi empregado um tipo inédito de estratégia de atualização: em função da prioridade da vizinhança, que consiste em cada regra de transição estar associada a uma prioridade no intervalo \(\left[1, 8\right]\). Esse tipo de atualização requer uma diferenciação dos timesteps globais e locais. <+>
+\tab  No presente trabalho foi empregado um tipo inédito de estratégia de atualização: em função da prioridade da vizinhança, que consiste em cada regra de transição estar associada a uma prioridade no intervalo \(\left[1, 8\right]\). Esse tipo de atualização requer uma distinção dos timesteps globais e locais (microtimesteps):  as prioridades de vizinhanças são iteradas sequencialmente de menor a maior e para cada prioridade, o espaço celular é varrido e atualizam-se apenas as células que tenham vizinhança com a prioridade atual e mantém-se o estado das que não vizinhanças que não estejam na prioridade atual da iteração. Ao fim da varredura do espaço celular, o processo se repete para a próxima prioridade, agora iterando sobre o reticulado gerado no processo descrito anteriormente. O reticulado resultante após iterar sobre todas as prioridades é chamado de timestep global (macrotimestep), e é incluído nas renderizações, o que não acontece com os microtimesteps.
 
 \break 
 
@@ -331,7 +327,7 @@ Segundo \citeonline{boccara2002number}, ``A one-dimensional q-state n-input CA r
 \[f(x_1,x_2,...,x_{n-1},x_n) + f(x_2,x_3,...,x_n,x_{n+1}) + ... \]
 \tab \[ + \;   f(x_L,x_1,...,x_{n-2},x_{n-1} = x_1 + x_2 + ... + x_L\]
 
-Como é mencionado no item \ref{contex}, ACs conservativos podem ser usados para modelar ambientes em que há conservabilidade.
+Como é mencionado no item \ref{contex}, ACs conservativos podem ser usados para modelar ambientes em que há conservabilidade, como trânsito automobilístico.
 
 \section{METODOLOGIA DA PESQUISA}
 \tab No que tange à Metodologia empregada neste TCC, o trabalho teve início com uma revisão da literatura específica sobre o tema da pesquisa. Esta pesquisa abrange conceitos fundamentais de teoria da computação e o ``estado da arte'' em termos de análise de conservabilidade.
@@ -376,9 +372,6 @@ Assim, pode-se dizer que as etapas desenvolvidas neste estudo foram:
 
 \subsubsection{FINS} 
 \tab Esta pesquisa foi voltada para encontrar caminhos, formas, maneiras e procedimentos para atingir um determinado fim, buscando definir um processo ou uma ferramenta que leve à solução do problema proposto (\ref{problema}).
-
-% \subsubsection{PESQUISA PROPOSITIVA} 
-% \tab Código-fonte, bem como suas instruções de compilação e documentação interna e externa utilizada para gerar o binário que ultrapasse soluções atuais para cálculo de distância nas arquiteturas alvo.
 
 \subsubsection{MEIOS} 
 \tab Quanto aos meios, foram utilizados os recursos mencionados na Bibliografia.
