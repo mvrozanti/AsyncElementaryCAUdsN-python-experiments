@@ -193,10 +193,11 @@ Keywords: \@pdfkeywords
 
 \subsection{OBJETO DE PESQUISA} \label{objetopesq}
 
-\tab O objeto de pesquisa deste trabalho consiste em ACEs 
+\tab O objeto de pesquisa deste trabalho são ACEs com atualização assíncrona por prioridade da vizinhança.
 
 \subsubsection{PROBLEMA DE PESQUISA} \label{problema}
-<+>
+Dentre o conjunto de esquemas de atualização não-equivalentes, encontrar quais pares \texttt{(R,E)} são conservativos.    
+
 \break
 
 % \subsubsection{FÓRMULAS UTILIZADAS} \label{formulas}
@@ -216,11 +217,13 @@ A implementação do simulador tem como parâmetros os seguintes itens:
 	\item Espaço Celular:\\
           \tab 
 	\item Regra de transição:\\
+          \tab 
 	\item Timesteps:\\
+          \tab
 \end{itemize}
 
 \subsection{OBJETIVOS DO ESTUDO} 
-<+>
+O objetivo do presente trabalho foi identificar e quantificar 
 
 \subsubsection{OBJETIVO GERAL}
 <+>
@@ -270,7 +273,7 @@ Descrição dos capítulos:
 
 \subsection{AUTÔMATOS CELULARES} \label{ref_ac}
 
-Um AC pode ser descrito simplesmente por seu \textit{espaço celular} e \textit{regra de transição}. O espaço celular é um conjunto finito \textit{d-dimensional} ordenado de células onde cada célula pode ter até \textit{k} estados. As regras de transição definem o novo estado de uma determinada célula em função de sua vizinhança de tamanho \textit{r}, dito o raio do AC. O comportamento da aplicação das regras de transição nas bordas do espaço pode ser especificado de várias formas, muitas vezes como conexo com a borda contrária tornando o espaço efetivamente contínuo.
+Um AC pode ser descrito simplesmente por seu \textit{espaço celular} e \textit{regra de transição}. O espaço celular é um conjunto finito \textit{d-dimensional} ordenado de células onde cada célula no índice \textbf{i} tem um estado entre \textit{k} estados. As regras de transição definem o novo estado de uma determinada célula em função de sua vizinhança de tamanho \textit{r}, dito o raio do AC. O comportamento da aplicação das regras de transição nas bordas do espaço pode ser especificado de várias formas, muitas vezes como conexo com a borda contrária tornando o espaço efetivamente contínuo.
 
 % \cite{wolfram2002new}
 
@@ -284,12 +287,12 @@ Um AC pode ser descrito simplesmente por seu \textit{espaço celular} e \textit{
 % (como é descrito\ref{varia}).
 
 \subsubsection{AUTÔMATOS CELULARES ELEMENTARES}
-
+ACEs formam a família de ACs com \textit{d}=1, \textit{k}=2 e \textit{r}=1, ou seja, são unidimensionais, com células binárias e vizinhanças são definidas por 3 células contíguas.
 
 \tab Visualização:
 
 \begin{figure}[!htbp]
-\centerline{\includegraphics[width=\linewidth/2]{imgs/Picture1.png}}
+\centerline{\includegraphics[width=\linewidth/2]{imgs/256ecas.png}}
 \caption{Ilustração das 256 regras elementares}
 \end{figure}
 
@@ -317,7 +320,7 @@ Então, para ACs de 1 dimensão, elementares, com vizinhança \texttt{\{-1,0,1\}
 \subsubsection{TIPOS DE ATUALIZAÇÃO} \label{tiposatt}
 \tab Parte fundamental da \textit{regra de transição} de um AC é a ordem de atualização das células no espaço celular. Apesar de serem fundamentalmente concebidos com o comportamento de atualização síncrona, é possível se utilizar das mais diversas e criativas estratégias de atualização.
 
-\tab  No presente trabalho foi empregado um tipo inédito de estratégia de atualização: em função da prioridade da vizinhança, que consiste em cada regra de transição estar associada a uma prioridade no intervalo \(\left[1, 8\right]\). Esse tipo de atualização requer uma distinção dos timesteps globais e locais (microtimesteps):  as prioridades de vizinhanças são iteradas sequencialmente de menor a maior e para cada prioridade, o espaço celular é varrido e atualizam-se apenas as células que tenham vizinhança com a prioridade atual e mantém-se o estado das que não vizinhanças que não estejam na prioridade atual da iteração. Ao fim da varredura do espaço celular, o processo se repete para a próxima prioridade, agora iterando sobre o reticulado gerado no processo descrito anteriormente. O reticulado resultante após iterar sobre todas as prioridades é chamado de timestep global (macrotimestep), e é incluído nas renderizações, o que não acontece com os microtimesteps.
+\tab  No presente trabalho foi empregado um tipo inédito de estratégia de atualização: em função da prioridade da vizinhança, que consiste em cada regra de transição estar associada a uma prioridade no intervalo \(\left[1, 8\right]\). Esse tipo de atualização requer uma distinção dos timesteps globais e locais (microtimesteps):  as prioridades de vizinhanças são iteradas sequencialmente de menor a maior e para cada prioridade, o espaço celular é varrido e atualizam-se apenas as células que tenham vizinhança com a prioridade atual e mantém-se o estado das que não vizinhanças que não estejam na prioridade atual da iteração. Ao fim da varredura do espaço celular, o processo se repete para a próxima prioridade, agora iterando sobre o reticulado gerado no processo descrito anteriormente. O reticulado resultante após iterar sobre todas as prioridades é chamado de timestep global (ou macrotimestep) e é incluído nas renderizações, o que não acontece com os microtimesteps.
 
 \break 
 
@@ -327,7 +330,7 @@ Segundo \citeonline{boccara2002number}, ``A one-dimensional q-state n-input CA r
 \[f(x_1,x_2,...,x_{n-1},x_n) + f(x_2,x_3,...,x_n,x_{n+1}) + ... \]
 \tab \[ + \;   f(x_L,x_1,...,x_{n-2},x_{n-1} = x_1 + x_2 + ... + x_L\]
 
-Como é mencionado no item \ref{contex}, ACs conservativos podem ser usados para modelar ambientes em que há conservabilidade, como trânsito automobilístico.
+Como é mencionado no item \ref{contex}, ACs conservativos podem ser usados para modelar ambientes em que há conservabilidade, como trânsito automobilístico, simulação de partículas, entre outros.
 
 \section{METODOLOGIA DA PESQUISA}
 \tab No que tange à Metodologia empregada neste TCC, o trabalho teve início com uma revisão da literatura específica sobre o tema da pesquisa. Esta pesquisa abrange conceitos fundamentais de teoria da computação e o ``estado da arte'' em termos de análise de conservabilidade.
@@ -353,13 +356,13 @@ Assim, pode-se dizer que as etapas desenvolvidas neste estudo foram:
     \item Análise dos resultados;
     \item Artigo.
 \end{enumerate}
-
-\subsubsection{CONCEITOS EMPREGADOS}
-<+>
-
-\begin{itemize}
-  \item 
-\end{itemize}
+%
+% \subsubsection{CONCEITOS EMPREGADOS}
+% <+>
+%
+% \begin{itemize}
+%   \item 
+% \end{itemize}
 
 \subsection{CLASSIFICAÇÃO DA PESQUISA}
 \tab O tempo total previsto para a conclusão desta pesquisa é de 1 ano, como mostrado no capítulo \ref{cron}.
