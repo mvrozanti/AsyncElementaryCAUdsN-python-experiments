@@ -60,6 +60,9 @@ R:
 - Qual a definição do capítulo "VARIÁVEIS"?
 R:
 
+- Nosso projeto é uma Pesquisa de laboratório?
+R:
+
 ____________________________________________________________________________
 
 Pipo:

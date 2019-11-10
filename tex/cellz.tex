@@ -193,7 +193,7 @@ Keywords: \@pdfkeywords
 
 \subsection{OBJETO DE PESQUISA} \label{objetopesq}
 
-\tab O objeto de pesquisa deste trabalho são ACEs com atualização assíncrona por prioridade da vizinhança.
+\tab O objeto de pesquisa deste trabalho são ACEs com atualização assíncrona por prioridade da vizinhança, em especial, na regra 184.
 
 \subsubsection{PROBLEMA DE PESQUISA} \label{problema}
 Dentre o conjunto de esquemas de atualização não-equivalentes, encontrar quais pares \texttt{(R,E)} são conservativos.    
@@ -242,7 +242,7 @@ O objetivo do presente trabalho foi identificar e quantificar
 \end{itemize}
 
 \subsection{JUSTIFICATIVA}
-<+>
+A motivação para o presente trabalho é explorar em que condições os ACEs conservativos 
 
 \subsection{DELIMITAÇÃO DO ESTUDO} \label{delimitacao}
 <+>
@@ -287,33 +287,32 @@ Um AC pode ser descrito simplesmente por seu \textit{espaço celular} e \textit{
 % (como é descrito\ref{varia}).
 
 \subsubsection{AUTÔMATOS CELULARES ELEMENTARES}
-ACEs formam a família de ACs com \textit{d}=1, \textit{k}=2 e \textit{r}=1, ou seja, são unidimensionais, com células binárias e vizinhanças são definidas por 3 células contíguas.
-
-\tab Visualização:
+\tab ACEs formam a família de ACs com \textit{d}=1, \textit{k}=2 e \textit{r}=1, ou seja, são unidimensionais, com células binárias e vizinhanças são definidas por 3 células contíguas.
 
 \begin{figure}[!htbp]
-\centerline{\includegraphics[width=\linewidth/2]{imgs/256ecas.png}}
-\caption{Ilustração das 256 regras elementares}
+\centerline{\includegraphics[width=10cm]{imgs/typical-config.png}}
+\caption{Nas renderizações, é convenção representar 1s como células em preto e 0s em branco. }
 \end{figure}
 
-\subsubsection{REPRESENTAÇÕES}
+\tab Os ACEs são comumente representados por seu respectivo ``Wolfram code'' \cite{wolfram1983cellular}, uma nomenclatura que dá a cada regra um identificador no intervalo \(\left[0, 255\right]\):
 
-<+>
-
-Então, para ACs de 1 dimensão, elementares, com vizinhança \texttt{\{-1,0,1\}}, com conjunto de estados \texttt{\{0,1\}}, na ordem lexicográfica \{\textit{\(w_0\)}, ..., \textit{\(w_7\)},\} em \(\{0,1\}^3\), se \(\delta(\textit{w}_i)=s_i,s_0,...s_7\) representa \(\delta\). Analogamente, qualquer inteiro positivo menor que 256 = \(2^8\) define um ACE \cite[cap. 2]{delorme1999introduction}.
 
 \begin{figure}[!htbp]
-\centerline{\includegraphics[width=\linewidth/2]{imgs/typical-config.png}}
-\caption{Nas renderizações, é convenção representar 1s como células em preto e 0s em branco. \cite{wolfram2002new} }
+\centerline{\includegraphics[width=10cm]{imgs/rule_22.png}}
+\caption{Ilustração do mapa de transições para a regra 22 no código Wolfram. }
 \end{figure}
 
 \begin{figure}[!htbp]
-\centerline{\includegraphics[width=\linewidth/2]{imgs/rule_22.png}}
-\caption{Ilustração do mapa de transições para a regra 22 na notação de \citeonline{wolfram1983cellular}}
+\centerline{\includegraphics[width=15cm]{imgs/256ecas.png}}
+\caption{Ilustração das 256 regras elementares. }
 \end{figure}
 
+
+
+% ACs de 1 dimensão, elementares, com vizinhança \texttt{\{-1,0,1\}}, com conjunto de estados \texttt{\{0,1\}}, na ordem lexicográfica \{\textit{\(w_0\)}, ..., \textit{\(w_7\)},\} em \(\{0,1\}^3\), se \(\delta(\textit{w}_i)=s_i,s_0,...s_7\) representa \(\delta\). Analogamente, qualquer inteiro positivo menor que 256 = \(2^8\) define um ACE \cite[cap. 2]{delorme1999introduction}.
+
 \begin{figure}[!htbp]
-\centerline{\includegraphics[width=\linewidth/2]{imgs/rule-transitions.png}}
+\centerline{\includegraphics[width=20cm]{imgs/rule-transitions.png}}
 \caption{Ilustração do mapa de transições para a regra 90 na notação de \citeonline{wolfram1983cellular}}
 \end{figure}
 
@@ -330,14 +329,15 @@ Segundo \citeonline{boccara2002number}, ``A one-dimensional q-state n-input CA r
 \[f(x_1,x_2,...,x_{n-1},x_n) + f(x_2,x_3,...,x_n,x_{n+1}) + ... \]
 \tab \[ + \;   f(x_L,x_1,...,x_{n-2},x_{n-1} = x_1 + x_2 + ... + x_L\]
 
-Como é mencionado no item \ref{contex}, ACs conservativos podem ser usados para modelar ambientes em que há conservabilidade, como trânsito automobilístico, simulação de partículas, entre outros.
+Como é mencionado no item \ref{contex}, ACs conservativos podem ser usados para modelar ambientes em que há conservabilidade, como trânsito automobilístico, simulação de partículas, entre outros. A regra 184 \ref{184} é uma regra que, com execução síncrona e (como este trabalho apresenta) assíncrona, gera evoluções conservativas pela definição anterior de conservabilidade.
 
 \section{METODOLOGIA DA PESQUISA}
 \tab No que tange à Metodologia empregada neste TCC, o trabalho teve início com uma revisão da literatura específica sobre o tema da pesquisa. Esta pesquisa abrange conceitos fundamentais de teoria da computação e o ``estado da arte'' em termos de análise de conservabilidade.
 
-Este alicerce teórico foi obtido através de autores como: Wolfram; Oliveira;
+\tab Este alicerce teórico foi obtido através de autores como: Wolfram; de Oliveira;
 entre outros, além de pesquisas em periódicos científicos, sites, publicações em empresas, teses e dissertações em universidades e publicações de associações técnicas.  A leitura, análise e comparação da fundamentação teórica tiveram início com ACEs síncronos, modificados em seguida para viabilizar o tipo de atualização mencionado no item \ref{tiposatt}.
 
+<+>
 
 \subsection{ETAPAS DA PESQUISA}
 \tab Para definir as etapas da pesquisa, foi necessário atender às delimitações de estudo (item \ref{delimitacao}), desenvolvendo uma implementação que atendesse à execução dos ACE com esquemas distintos <+>, como descrito no Cronograma apresentado no item \ref{cron}.
@@ -347,15 +347,25 @@ entre outros, além de pesquisas em periódicos científicos, sites, publicaçõ
 Assim, pode-se dizer que as etapas desenvolvidas neste estudo foram:
 
 \begin{enumerate}
-    \item Estudo do estado da arte;
-    \item Implementação do simulador para execuções síncronas;
-    \item Implementação do renderizador;
-    \item Implementação do simulador para execuções assíncronas;
-    \item Implementação do verificador de evoluções conservativas;
-    \item Análise e testes das implementações;
-    \item Análise dos resultados;
-    \item Artigo.
+  \item Revisão bibliográfica;
+  \item Fundamentação teórica;
+  \item Desenvolvimento e implementação do script em Python;
+  \item Execução do script para simulações;
+  \item Análise do resultado do script;
+  \item Conclusão e documentação final da pesquisa.
 \end{enumerate}
+
+% \begin{enumerate}
+%     \item Estudo do estado da arte;
+%     \item Implementação do simulador para execuções síncronas;
+%     \item Implementação do renderizador;
+%     \item Implementação do simulador para execuções assíncronas;
+%     \item Implementação do verificador de evoluções conservativas;
+%     \item Análise e testes das implementações;
+%     \item Análise dos resultados;
+%     \item Artigo.
+% \end{enumerate}
+
 %
 % \subsubsection{CONCEITOS EMPREGADOS}
 % <+>
@@ -379,8 +389,8 @@ Assim, pode-se dizer que as etapas desenvolvidas neste estudo foram:
 \subsubsection{MEIOS} 
 \tab Quanto aos meios, foram utilizados os recursos mencionados na Bibliografia.
 
-\subsubsection{PESQUISA BIBLIOGRÁFICA}
-<+>
+Pesquisa bibliográfica
+Pesquisa de laboratório
 
 % \vfill
 \break
@@ -397,21 +407,19 @@ Assim, pode-se dizer que as etapas desenvolvidas neste estudo foram:
           % \hline
                                                                   & 1                             & 2                  & 3                  & 4                  & 5                  & 6                  & 7                  & 8                  & 9                  & 10                 & 11                 & 12 \\
           \hline
-          Estudo do estado da arte                                & \cellcolor{yellow}            & \cellcolor{yellow} &                    &                    &                    &                    &                    & \cellcolor{yellow} &                    &                    &                    & \\
+          Revisão bibliográfica                                & \cellcolor{yellow}            & \cellcolor{yellow} &                    &                    &                    &                    &                    & \cellcolor{yellow} &                    &                    &                    & \\
           \hline
-          Implementação do simulador para execuções síncronas     &                               & \cellcolor{yellow} & \cellcolor{yellow} &                    &                    &                    &                    &                    &                    &                    &                    & \\
+          Fundamentação teórica     &                               & \cellcolor{yellow} & \cellcolor{yellow} &                    &                    &                    &                    &                    &                    &                    &                    & \\
           \hline
-          Implementação do renderizador                           &                               & \cellcolor{yellow} & \cellcolor{yellow} &                    &                    &                    &                    &                    &                    &                    &                    & \\
+          Desenvolvimento e implementação do script em Python                           &                               & \cellcolor{yellow} & \cellcolor{yellow} &                    &                    &                    &                    &                    &                    &                    &                    & \\
           \hline
-          Implementação do simulador para execuções assíncronas   &                               &                    &                    & \cellcolor{yellow} & \cellcolor{yellow} &                    &                    &                    &                    &                    &                    & \\
+          Conclusão e documentação final da pesquisa   &                               &                    &                    & \cellcolor{yellow} & \cellcolor{yellow} &                    &                    &                    &                    &                    &                    & \\
           \hline
-          Implementação da verificador de evoluções conservativas &                               &                    &                    & \cellcolor{yellow} & \cellcolor{yellow} &                    &                    &                    &                    &                    &                    & \\
+          Execução do script para simulações &                               &                    &                    & \cellcolor{yellow} & \cellcolor{yellow} &                    &                    &                    &                    &                    &                    & \\
           \hline
-          Análise e testes das implementações                     &                               &                    &                    &                    &                    & \cellcolor{yellow} & \cellcolor{yellow} &                    &                    &                    &                    & \\
+          Análise do resultado do script                     &                               &                    &                    &                    &                    & \cellcolor{yellow} & \cellcolor{yellow} &                    &                    &                    &                    & \\
           \hline
-          Análise dos resultados                                  &                               &                    &                    &                    &                    & \cellcolor{yellow} & \cellcolor{yellow} & \cellcolor{yellow} & \cellcolor{yellow} & \cellcolor{yellow} &                    & \\
-          \hline
-          Artigo                                                  &                               &                    &                    &                    &                    &                    &                    & \cellcolor{yellow} & \cellcolor{yellow} & \cellcolor{yellow} & \cellcolor{yellow} & \cellcolor{yellow}\\
+          Conclusão e documentação final da pesquisa                                  &                               &                    &                    &                    &                    & \cellcolor{yellow} & \cellcolor{yellow} & \cellcolor{yellow} & \cellcolor{yellow} & \cellcolor{yellow} &                    & \\
           \hline
     \end{tabular}
   }

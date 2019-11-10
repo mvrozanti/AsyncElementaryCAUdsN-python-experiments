@@ -1,25 +1,22 @@
 3. Metodologia ----------------------------------------
 
-	Neste capítulo iremos esclarecer os métodos utilizados para realização de nossa pesquisa e os instrumentos utilizados para coleta de dados.
+	Neste capítulo iremos esclarecer os métodos utilizados para realização de nossa pesquisa e os instrumentos utilizados para atingir-se conclusão deste trabalho.
 {{{ falar sobre o pq não fizemos entrevistas, questionarios, estudo de caso e pq escolhemos oq escolhemos }}}
 
 3.1. Etapas da pesquisa
-	O estudo teve seu início a partir de uma revisão bibliográfica sobre o tema da pesquisa, etapa na qual foram reunidos artigos ciêntificos, artigos acadêmicos e teses, foi tomada posse do livro "A New Kind of Science" e realizada pesquisas em sites com o objetivo de coletar dados e de se familiarizar com o objeto de estudo. Durante esta coleta foi buscado entender os conceitos fundamentais dos ACEs unidimensionais binários e seus comportamentos evolutivos, além de compreender o conceito de conservabilidade e a influência da atualização assíncrona por prioridade de vizinhança e de seus esquemas nestes comportamentos.
-	Em seguida, através de uma análise profunda sob os dados, foi realizada a fundamentação teórica, etapa na qual os dados que de fato seriam essenciais para a pesquisa foram selecionados e estruturados/discutidos. Estes, por sua vez, foram armazenados na plataforma do Github assim como os autores e citações considerados em cada um foram registrados em um documento a parte.
-	No decorrer da fundamentação teórica foi realizada uma pesquisa de laboratório, onde um script(?) foi desenvolvido na linguagem Python inicialmente capaz de reproduzir e demonstrar os comportamentos evolutivos dos ACEs de maneira síncrona e, posteriormente, de maneira assíncrona. O script também verifica a existência de conservabilidade no comportamento de determinada (R/e) e registra os resultados em um arquivo json, assim, proporcionando a validação de nossa hipótese básica.
-	O script então foi executado para verificar a existência de conservabilidade nos comportamentos evolutivos da regra 184 através de 4680 determinados esquemas de atualização assíncrona com prioridade de vizinhança e com configurações iniciais de w=5 a w=XX(?). Como resultado pudemos verificar, limitados pelo w, quais (R,e) produziram comportamentos evolutivos conservativos.
+	No decorrer da fundamentação teórica foi realizada uma pesquisa de laboratório, onde a implementação foi desenvolvida na linguagem Python inicialmente capaz de reproduzir e demonstrar os comportamentos evolutivos dos ACEs de maneira síncrona e, posteriormente, de maneira assíncrona. O script também verifica a existência de conservabilidade no comportamento de determinada (R,e) e registra os resultados em um arquivo json, assim, proporcionando a validação de nossa hipótese básica.
+	O script então foi executado para verificar a existência de conservabilidade nos comportamentos evolutivos da regra 184 através de 4683 determinados esquemas de atualização assíncrona com prioridade de vizinhança e com configurações iniciais de w=5 a w=XX(?). Como resultado pudemos verificar, limitados pelo w, quais (R,e) produziram comportamentos evolutivos conservativos.
 
 Por conseguinte, pode-se deduzir que as etapas desenvolvidas neste estudo foram:
 1. Revisão bibliográfica;
 2. Fundamentação teórica;
-3. Desenvolvimento e implementação do script em Python;
+3. Desenvolvimento e implementação em Python;
 4. Execução do script para simulações;
 5. Análise do resultado do script;
 6. Conclusão e documentação final da pesquisa;
 
-3.1.1. Conceitos empregados
-
 3.2. Classificação da pesquisa
+
 3.2.1. Natureza de pesquisa
 	A natureza de nossa pesquisa foi a pesquisa pura, onde buscamos ampliar o conhecimento através do método cientifico, sem nos preocuparmos com a aplicabilidade prática do produto.
 
