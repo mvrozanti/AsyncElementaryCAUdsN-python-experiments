@@ -155,16 +155,6 @@ def normalize_args(args):
         else:
             args.schemes = read_schemes_from_file(args.schemes[0])
 
-def save_csv(conservative_at):
-    import csv
-    fieldnames = ['Esquema', 'Conservabilidade']
-    op.exists(dirname) or os.mkdir(dirname)
-    with open(f'{dirname}/{dirname}.csv', 'w') as csvf:
-        writer = csv.DictWriter(csvf, fieldnames=fieldnames)
-        writer.writeheader()
-        for scheme, conservative in conservative_at.items():
-            writer.writerow(dict(zip(fieldnames, [scheme,conservative])))
-
 def save_json(conservative_at, dirname):
     op.exists(dirname) or os.mkdir(dirname)
     json.dump(conservative_at, open(f'{dirname}/{dirname}.json', 'w'))
@@ -175,7 +165,6 @@ def gracefully_exit(conservative_at, savepoint_file_path):
     sys.exit(0)
 
 def main(args):
-    prev_dirname = f'{args.rule:03d}-{args.width-1}x{T(args.width-1)}'
     dirname = f'{args.rule:03d}-{args.width}x{args.timesteps}'
     normalize_args(args)
     op.exists(dirname) or os.mkdir(dirname)
@@ -188,10 +177,20 @@ def main(args):
         stringified_scheme = stringify_scheme(scheme)
         type(tqdm_schemes) is not list and tqdm_schemes.set_description(f'Rendering {dirname}-{stringified_scheme}')
         spacetime = None
-        if args.png_render is not None or args.terminal_render:
+        if args.png_render is not None or args.terminal_render or args.listen:
             spacetime = list(run_async(args.rule, args.width, args.timesteps, scheme))
         if not args.conservative_check:
             args.png_render is not None and render_image(spacetime, args.rule, scheme, measure_complexity=args.measure_complexity, save_to=args.png_render)
+        if args.listen:
+            from synthesizer import Player, Synthesizer, Waveform
+            player = Player()
+            player.open_stream()
+            synthesizer = Synthesizer(osc1_waveform=Waveform.sine, osc1_volume=1.0, use_osc2=False)
+            for s in spacetime:
+                out = 0
+                for bit in s:
+                    out = (out << 1) | bit
+                player.play_wave(synthesizer.generate_constant_wave(out, 0.01))
         if args.terminal_render: 
             print(f'{dirname}-{stringified_scheme}')
             print_spacetime(spacetime, args.zero, args.one)
@@ -214,6 +213,7 @@ if __name__ == '__main__':
     parser.add_argument('-1', '--one',                  default='1',    metavar='CHAR',                help='replace ones by CHAR when using -o')
     parser.add_argument('-c', '--conservative-check',   action='store_true',                           help='output table mapping (scheme,conservability)')
     parser.add_argument('-o', '--terminal-render',      action='store_true',                           help='render in terminal')
+    parser.add_argument('-l', '--listen',               action='store_true',                           help='listen to ECA')
     parser.add_argument('-O', '--png-render',           nargs='*',      metavar='dir',                 help='render to file in an optionally chosen directory')
     parser.add_argument('-m', '--measure-complexity',   action='store_true',                           help='measure complexity')
     parser.add_argument('-I', '--initial-configuration',metavar='CONFIG',                              help='use CONFIG as initial configuration')
