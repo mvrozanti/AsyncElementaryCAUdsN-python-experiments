@@ -46,21 +46,30 @@ R: Não, um algoritmo de compressão genérico não pode comprimir autômatos ce
 R:
 
 - Qual a aplicação de sistemas conservativos?
-R:
+R: tráfego automobilístico, simulação de partículas, etc (coisas conservativas)
 
 - Usar que forma temporal quando escrever o documento? (passado, presente ou futuro)
 R:
 
-- Colocar endereço do repositório no Resumo do documento?
+- Colocar endereço do repositório no Resumo do documento? Se não, aonde colocar?
 R:
 
 - Como montar um bom cronograma?
-R:
+R: não importa muito
 
 - Qual a definição do capítulo "VARIÁVEIS"?
 R:
 
-- Nosso projeto é uma Pesquisa de laboratório?
+- Nosso projeto é uma Pesquisa de laboratório? Qual a definição de "Pesquisa em Laboratório"?
+R:
+
+- Em que capítulo colocar o experimento?
+R:
+
+- Existe um mínimo absoluto aceitável de referências?
+R:
+
+- Colocar alguma coisa da própria implementação (além dos resultados) no documento?
 R:
 
 ____________________________________________________________________________

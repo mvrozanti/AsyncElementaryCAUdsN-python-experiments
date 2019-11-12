@@ -186,11 +186,19 @@ def main(args):
             player = Player()
             player.open_stream()
             synthesizer = Synthesizer(osc1_waveform=Waveform.sine, osc1_volume=1.0, use_osc2=False)
+            maxn = 2**args.width
+            from math import log
             for s in spacetime:
                 out = 0
-                for bit in s:
+                chords = []
+                for i,bit in enumerate(s):
                     out = (out << 1) | bit
-                player.play_wave(synthesizer.generate_constant_wave(out, 0.01))
+                    if not i % 32: 
+                        chords += [log(out,2) if out else 0]
+                        out = 0
+                print(chords)
+                # player.play_wave(synthesizer.generate_constant_wave(out, 0.1))
+                player.play_wave(synthesizer.generate_chord(chords, 0.01))
         if args.terminal_render: 
             print(f'{dirname}-{stringified_scheme}')
             print_spacetime(spacetime, args.zero, args.one)

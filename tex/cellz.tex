@@ -207,13 +207,15 @@ A implementação do simulador tem como parâmetros os seguintes itens:
 
 \begin{itemize}
 	\item Largura do espaço celular\\
-          \tab N, como definido em \ref{referencial}.
-	\item Espaço Celular:\\
-          \tab 
-	\item Regra de transição:\\
-          \tab 
+          \tab N, como definido em \ref{referencial}. É o tamanho do espaço celular unidimensional.
+	\item Configuração inicial:\\
+          \tab Estado global de início do AC.
 	\item Timesteps:\\
-          \tab
+          \tab Quantidade de reticulados resultantes. É a altura das evoluções, para ACEs.
+	\item Regra de transição:\\
+          \tab Função que recebe uma configuração e produz o reticulado seguinte.
+	\item Esquema de prioridades de atualização:\\
+          \tab Ordem em que as vizinhanças são atualizadas nos microtimesteps.
 \end{itemize}
 
 \subsection{OBJETIVOS DO ESTUDO} 
