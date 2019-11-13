@@ -37,7 +37,6 @@
 \definecolor{theshade}{rgb}{1,1,0.97}
 \definecolor{theframe}{gray}{0.6}
 \definecolor{blue}{RGB}{41,5,195}
-% \newcommand{\orientador}{Prof. Dr. Calebe de Paula Bianchini}
 \newcommand{\orientador}{Prof. Dr. Pedro Paulo Balbi de Oliveira}
 \newcommand\tab[1][1cm]{\hspace*{#1}}
 \IfFileExists{listings.sty}{
@@ -70,10 +69,6 @@
 
 \usepackage[alf]{abntex2cite}	% citacoes
 
-
-% COMANDOS PROPRIOS
-% \newcommand{\abnTeX}{}
-% \newcommand{\abnTeXForum}{}
 \newcommand{\abnTeXSite}{}
 
 \title{\protect\parbox{\textwidth}{\protect\centering \textbf{Conservabilidade de estados de autômatos celulares elementares com atualizações assíncronas por prioridade da vizinhança}}}
@@ -262,7 +257,7 @@ Descrição dos capítulos:
 
 \subsection{AUTÔMATOS CELULARES} \label{ref_ac}
 
-Um AC pode ser descrito simplesmente por seu \textit{espaço celular} e \textit{regra de transição}. O espaço celular é um conjunto finito \textit{d-dimensional} ordenado de células onde cada célula no índice \textbf{i} tem um estado entre \textit{k} estados. As regras de transição definem o novo estado de uma determinada célula em função de sua vizinhança de tamanho \textit{r}, dito o raio do AC. O comportamento da aplicação das regras de transição nas bordas do espaço pode ser especificado de várias formas, muitas vezes como conexo com a borda oposta tornando o espaço efetivamente contínuo.
+\tab Um AC pode ser descrito simplesmente por seu \textit{espaço celular} e \textit{regra de transição}. O espaço celular é um conjunto finito \textit{d-dimensional} ordenado de células onde cada célula no índice \textbf{i} tem um estado entre \textit{k} estados. As regras de transição definem o novo estado de uma determinada célula em função de sua vizinhança de tamanho \textit{r}, dito o raio do AC. O comportamento da aplicação das regras de transição nas bordas do espaço pode ser especificado de várias formas, muitas vezes como conexo com a borda oposta tornando o espaço efetivamente contínuo.
 
 % \cite{wolfram2002new}
 
@@ -318,7 +313,7 @@ Segundo \citeonline{boccara2002number}, ``A one-dimensional q-state n-input CA r
 \[f(x_1,x_2,...,x_{n-1},x_n) + f(x_2,x_3,...,x_n,x_{n+1}) + ... \]
 \tab \[ + \;   f(x_L,x_1,...,x_{n-2},x_{n-1} = x_1 + x_2 + ... + x_L\]
 
-Como é mencionado no item \ref{contex}, ACs conservativos podem ser usados para modelar ambientes em que há conservabilidade, como trânsito automobilístico, simulação de partículas, entre outros. A regra 184 \ref{184} é uma regra que, com execução síncrona e (como este trabalho apresenta) assíncrona, gera evoluções conservativas pela definição anterior de conservabilidade.
+\tab Como é mencionado no item \ref{contex}, ACs conservativos podem ser usados para modelar ambientes em que há conservabilidade, como trânsito automobilístico, simulação de partículas, entre outros. A regra 184 \ref{184} é uma regra que, com execução síncrona e (como este trabalho apresenta) assíncrona, gera evoluções conservativas pela definição anterior de conservabilidade.
 
 \section{METODOLOGIA DA PESQUISA}
 \tab No que tange à Metodologia empregada neste TCC, o trabalho teve início com uma revisão da literatura específica sobre o tema da pesquisa. Esta pesquisa abrange conceitos fundamentais de teoria da computação e o ``estado da arte'' em termos de análise de conservabilidade.
@@ -349,39 +344,39 @@ Assim, pode-se dizer que as etapas desenvolvidas neste estudo foram:
 \subsection{CLASSIFICAÇÃO DA PESQUISA}
 \tab O tempo total previsto para a conclusão desta pesquisa é de 1 ano, como mostrado no capítulo \ref{cron}.
 
-% \subsubsection{NATUREZA DA PESQUISA}
 \tab Esta é uma pesquisa exploratória, dada a natureza desconhecida das propriedades de ACEs com o tipo de atualização mencionado em \ref{objetopesq}. Baseada em medidas objetivas e dados verificáveis, esta pesquisa foi voltada para encontrar caminhos, formas, maneiras e procedimentos para atingir um determinado fim, buscando definir um processo ou uma ferramenta que leve à solução do problema proposto (\ref{problema}).  Quanto aos meios, foram utilizados os recursos mencionados na Bibliografia.
 
 \break
+
 \section{CRONOGRAMA} \label{cron}
 
 \tab As atividades desta pesquisa se desenvolveram de acordo com o cronograma apresentado a seguir, no prazo de 12 meses:
 
+\newcommand{\ccy}{\cellcolor{yellow}}
 \begin{table}[h]
-    \caption{Cronograma de atividades}
-    \centerline{
-        \begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|l|l|}
-          \hline
-          \multirow{2}{*}{ATIVIDADE}                              & \multicolumn{12}{|c|}{MÊS} \\
-          % \hline
-                                                                  & 1                             & 2                  & 3                  & 4                  & 5                  & 6                  & 7                  & 8                  & 9                  & 10                 & 11                 & 12 \\
-          \hline
-          Revisão bibliográfica                                & \cellcolor{yellow}            & \cellcolor{yellow} &                    &                    &                    &                    &                    & \cellcolor{yellow} &                    &                    &                    & \\
-          \hline
-          Fundamentação teórica     &                               & \cellcolor{yellow} & \cellcolor{yellow} &                    &                    &                    &                    &                    &                    &                    &                    & \\
-          \hline
-          Desenvolvimento e implementação Python                           &                               & \cellcolor{yellow} & \cellcolor{yellow} &                    &                    &                    &                    &                    &                    &                    &                    & \\
-          \hline
-          Conclusão e documentação final da pesquisa   &                               &                    &                    & \cellcolor{yellow} & \cellcolor{yellow} &                    &                    &                    &                    &                    &                    & \\
-          \hline
-          Simulação &                               &                    &                    & \cellcolor{yellow} & \cellcolor{yellow} &                    &                    &                    &                    &                    &                    & \\
-          \hline
-          Análise das simulações                     &                               &                    &                    &                    &                    & \cellcolor{yellow} & \cellcolor{yellow} &                    &                    &                    &                    & \\
-          \hline
-          Conclusão e documentação final da pesquisa                                  &                               &                    &                    &                    &                    & \cellcolor{yellow} & \cellcolor{yellow} & \cellcolor{yellow} & \cellcolor{yellow} & \cellcolor{yellow} &    \cellcolor{yellow}                & \cellcolor{yellow}\\
-          \hline
-    \end{tabular}
-  }
+ \caption{Cronograma de atividades}
+ \centerline{
+  \begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|l|l|}
+   \hline
+   \multirow{2}{*}{ATIVIDADE}                   & \multicolumn{12}{|c|}{MÊS} \\
+					        & 1                             & 2    & 3    & 4    & 5    & 6    & 7    & 8    & 9    & 10   & 11   & 12 \\
+   \hline
+   Revisão bibliográfica                        & \ccy                          & \ccy &      &      &      &      &      & \ccy &      &      &      & \\
+   \hline
+   Fundamentação teórica                        &                               & \ccy & \ccy &      &      &      &      &      &      &      &      & \\
+   \hline
+   Desenvolvimento e implementação Python       &                               & \ccy & \ccy &      &      &      &      &      &      &      &      & \\
+   \hline
+   Conclusão e documentação final da pesquisa   &                               &      &      & \ccy & \ccy &      &      &      &      &      &      & \\
+   \hline
+   Simulação                                    &                               &      &      & \ccy & \ccy &      &      &      &      &      &      & \\
+   \hline
+   Análise das simulações                       &                               &      &      &      &      & \ccy & \ccy &      &      &      &      & \\
+   \hline
+   Conclusão e documentação final da pesquisa   &                               &      &      &      &      & \ccy & \ccy & \ccy & \ccy & \ccy & \ccy & \ccy\\
+   \hline
+ \end{tabular}
+ }
 \end{table}
 
 % \break
