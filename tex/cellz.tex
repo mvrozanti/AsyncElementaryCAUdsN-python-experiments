@@ -219,7 +219,7 @@ A implementação do simulador tem como parâmetros os seguintes itens:
 \end{itemize}
 
 \subsection{OBJETIVOS DO ESTUDO} 
-O objetivo do presente trabalho foi identificar e quantificar 
+O objetivo do presente trabalho foi identificar e quantificar pares (R,E) em que há conservabilidade nas evoluções de ACEs com atualização por prioridade da vizinhança.
 
 \subsubsection{OBJETIVO GERAL}
 <+>
@@ -240,7 +240,7 @@ O objetivo do presente trabalho foi identificar e quantificar
 A motivação para o presente trabalho é explorar em que condições os ACEs são conservativos com o propósito de enumerar evoluções conservativas que podem ser usadas para <+>.
 
 \subsection{DELIMITAÇÃO DO ESTUDO} \label{delimitacao}
-A pesquisa se limitou a ACEs com o tipo de atualização evidenciado em \ref{objetopesq}, com largura de reticulados testados até N=15. Os 4683 esquemas de atualização foram filtrados a fim de se eliminar esquemas equivalentes, já que produzem evoluções idênticas. <+>
+A pesquisa se limita a ACEs com o tipo de atualização evidenciado no item \ref{objetopesq}, com largura de reticulados testados até N=15. Os esquemas de atualização foram filtrados a fim de se eliminar esquemas equivalentes, já que produzem evoluções idênticas, resultando em 4683 esquemas. 
 
 \subsection{ORGANIZAÇÃO DO ESTUDO}
 
@@ -275,13 +275,15 @@ Um AC pode ser descrito simplesmente por seu \textit{espaço celular} e \textit{
 
 % (como é descrito\ref{varia}).
 
-\subsubsection{AUTÔMATOS CELULARES ELEMENTARES}
-\tab ACEs formam a família de ACs com \textit{d}=1, \textit{k}=2 e \textit{r}=1, ou seja, são unidimensionais, com células binárias e vizinhanças são definidas por 3 células contíguas.
+\break
 
-\begin{figure}[!htbp]
-\centerline{\includegraphics[width=10cm]{imgs/typical-config.png}}
-\caption{Nas renderizações, é convenção representar 1s como células em preto e 0s em branco. }
-\end{figure}
+\subsubsection{AUTÔMATOS CELULARES ELEMENTARES}
+\tab ACEs formam a família de ACs com \textit{d}=1, \textit{k}=2 e \textit{r}=1, ou seja, são unidimensionais, com células binárias e vizinhanças são definidas por 3 células contíguas. O espaço celular é dito ter largura N, isto é, tem N células em cada reticulado da evolução e permanece constante até o fim das evoluções.
+
+% \begin{figure}[!htbp]
+% \centerline{\includegraphics[width=10cm]{imgs/typical-config.png}}
+% \caption{Nas renderizações, é convenção representar 1s como células em preto e 0s em branco. }
+% \end{figure}
 
 \tab Os ACEs são comumente representados por seu respectivo ``Wolfram code'' \cite{wolfram1983cellular}, uma nomenclatura que dá a cada regra um identificador no intervalo \(\left[0, 255\right]\):
 
@@ -298,15 +300,17 @@ Um AC pode ser descrito simplesmente por seu \textit{espaço celular} e \textit{
 
 % ACs de 1 dimensão, elementares, com vizinhança \texttt{\{-1,0,1\}}, com conjunto de estados \texttt{\{0,1\}}, na ordem lexicográfica \{\textit{\(w_0\)}, ..., \textit{\(w_7\)},\} em \(\{0,1\}^3\), se \(\delta(\textit{w}_i)=s_i,s_0,...s_7\) representa \(\delta\). Analogamente, qualquer inteiro positivo menor que 256 = \(2^8\) define um ACE \cite[cap. 2]{delorme1999introduction}.
 
-\begin{figure}[!htbp]
-\centerline{\includegraphics[width=10cm]{imgs/rule-transitions.png}}
-\caption{Ilustração do mapa de transições para a regra 90 na notação de \citeonline{wolfram1983cellular}}
-\end{figure}
+% \begin{figure}[!htbp]
+% \centerline{\includegraphics[width=10cm]{imgs/rule-transitions.png}}
+% \caption{Ilustração do mapa de transições para a regra 90 na notação de \citeonline{wolfram1983cellular}}
+% \end{figure}
 
 \subsubsection{ATUALIZAÇÃO ASSÍNCRONA \\POR PRIORIDADE DA VIZINHANÇA} \label{tiposatt}
 \tab Parte imprescindível da definição de um AC é a ordem de atualização das células no espaço celular. Apesar de serem fundamentalmente concebidos com o comportamento de atualização síncrona, é possível se utilizar das mais diversas e criativas estratégias de atualização.
 
-\tab  No presente trabalho foi empregado um tipo inédito de estratégia de atualização: em função da prioridade da vizinhança, que consiste em cada regra de transição estar associada a uma prioridade no intervalo \(\left[1, 8\right]\). Esse tipo de atualização requer uma distinção dos timesteps globais e locais (microtimesteps):  as prioridades de vizinhanças são iteradas sequencialmente de menor a maior e para cada prioridade, o espaço celular é varrido e atualizam-se apenas as células que tenham vizinhança com a prioridade atual e mantém-se o estado das que não vizinhanças que não estejam na prioridade atual da iteração. Ao fim da varredura do espaço celular, o processo se repete para a próxima prioridade, agora iterando sobre o reticulado gerado no processo descrito anteriormente. O reticulado resultante após iterar sobre todas as prioridades é chamado de timestep global (ou macrotimestep) e é incluído nas renderizações, o que não acontece com os microtimesteps.
+\tab  No presente trabalho foi empregado um tipo inédito de estratégia de atualização: em função da prioridade da vizinhança, que consiste em cada regra de transição estar associada a uma prioridade no intervalo \(\left[1, 8\right]\). Esse tipo de atualização requer uma distinção dos timesteps globais e locais (microtimesteps):  as prioridades de vizinhanças são iteradas sequencialmente de menor a maior e para cada prioridade, o espaço celular é varrido e atualizam-se apenas as células que tenham vizinhança com a prioridade atual, mantendo-se o estado das vizinhanças que não estejam na prioridade atual da iteração. Ao fim da varredura do espaço celular, o processo se repete para a próxima prioridade, agora iterando sobre o reticulado gerado no processo descrito anteriormente. O reticulado resultante após iterar sobre todas as prioridades é chamado de timestep global (ou macrotimestep) e é incluído nas renderizações, o que não acontece com os microtimesteps.
+
+\tab Esta forma de atualizar assincronamente o espaço celular pode ser descrita como um par \textit{(R,E)}, onde \textit{R} é a regra e \textit{E} é um esquema de prioridade. Eliminados os esquemas equivalentes, para ACEs, é possível gerar 1.194.165 combinações de pares \textit{(R,E)}. 
 
 \subsection{CONSERVABILIDADE NUMÉRICA} \label{num-conserv}
 Segundo \citeonline{boccara2002number}, ``A one-dimensional q-state n-input CA rule f is number-conserving if, for all cyclic configurations of length L \(\geq\) n, it satisfies'':
@@ -327,7 +331,7 @@ entre outros, além de pesquisas em periódicos científicos, sites, publicaçõ
 \subsection{ETAPAS DA PESQUISA}
 \tab Para definir as etapas da pesquisa, foi necessário examinar as delimitações de estudo (item \ref{delimitacao}), desenvolvendo uma implementação que atendesse à execução dos ACE com esquemas totalmente distintos, como descrito no Cronograma apresentado no item \ref{cron}. No decorrer da fundamentação teórica foram realizados experimentos para verificação de conservabilidade inicialmente em modo de atualização síncrona e então assíncrona, com o objetivo de verificar conservabilidade. 
 
-\tab Os 4683 esquemas de atualização mencionados no item \ref{objetopesq} foram testados primeiramente contra a regra 184, que é conservativa em modo síncrono. A extensão de evoluções celulares se limitou a N=15, como é explicitado em \ref{delimitacao}.
+\tab Os 4683 esquemas de atualização mencionados no item \ref{objetopesq} foram testados primeiramente contra a regra 184, que é conservativa em modo síncrono. A extensão de evoluções celulares se limitou a N=15, como é explicitado no item \ref{delimitacao}.
 
 \break
 
