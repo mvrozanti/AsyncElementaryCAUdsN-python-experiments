@@ -16,18 +16,18 @@
 % Babel e ajustes
 \usepackage[english,brazil]{babel}		% idiomas
 \addto\captionsbrazil{
-    %% ajusta nomes padroes do babel
-    \renewcommand{\bibname}{Refer\^encias}
-    \renewcommand{\indexname}{\'Indice}
-    \renewcommand{\listfigurename}{Lista de ilustra\c{c}\~{o}es}
-    \renewcommand{\listtablename}{Lista de tabelas}
-    %% ajusta nomes usados com a macro \autoref
-    \renewcommand{\pageautorefname}{p\'agina}
-    \renewcommand{\sectionautorefname}{se{\c c}\~ao}
-    \renewcommand{\subsectionautorefname}{subse{\c c}\~ao}
-    \renewcommand{\paragraphautorefname}{par\'agrafo}
-    \renewcommand{\subsubsectionautorefname}{subse{\c c}\~ao}
-    \renewcommand{\paragraphautorefname}{subse{\c c}\~ao}
+  %% ajusta nomes padroes do babel
+  \renewcommand{\bibname}{Refer\^encias}
+  \renewcommand{\indexname}{\'Indice}
+  \renewcommand{\listfigurename}{Lista de ilustra\c{c}\~{o}es}
+  \renewcommand{\listtablename}{Lista de tabelas}
+  %% ajusta nomes usados com a macro \autoref
+  \renewcommand{\pageautorefname}{p\'agina}
+  \renewcommand{\sectionautorefname}{se{\c c}\~ao}
+  \renewcommand{\subsectionautorefname}{subse{\c c}\~ao}
+  \renewcommand{\paragraphautorefname}{par\'agrafo}
+  \renewcommand{\subsubsectionautorefname}{subse{\c c}\~ao}
+  \renewcommand{\paragraphautorefname}{subse{\c c}\~ao}
 }  
 
 \usepackage{color}
@@ -41,30 +41,30 @@
 \newcommand\tab[1][1cm]{\hspace*{#1}}
 \IfFileExists{listings.sty}{
   \usepackage{listings}
-\lstset{%
-	language=[LaTeX]TeX,
-	columns=flexible,
-	basicstyle=\ttfamily\small,
-	backgroundcolor=\color{theshade},
-	frame=single,
-	tabsize=2,
-	rulecolor=\color{theframe},
-	title=\lstname,
-	escapeinside={\%*}{*)},
-	breaklines=true,
-	commentstyle=\color{thegrey},
-	keywords=[0]{\fichacatalografica,\errata,\folhadeaprovacao,\dedicatoria,\agradecimentos,\epigrafe,\resumo,\siglas,\simbolos,\citacao,\alineas,\subalineas,\incisos},
-	keywordstyle=[0]\color{thered},
-	keywords=[1]{},
-	keywordstyle=[1]\color{thegreen},
-	breakatwhitespace=true,
-	alsoother={0123456789_},
-	inputencoding=utf8,
-	extendedchars=true,
-	literate={á}{{\'a}}1 {ã}{{\~a}}1 {é}{{\'e}}1 {è}{{\`{e}}}1 {ê}{{\^{e}}}1 {ë}{{\¨{e}}}1 {É}{{\'{E}}}1 {Ê}{{\^{E}}}1 {û}{{\^{u}}}1 {ú}{{\'{u}}}1 {â}{{\^{a}}}1 {à}{{\`{a}}}1 {á}{{\'{a}}}1 {ã}{{\~{a}}}1 {Á}{{\'{A}}}1 {Â}{{\^{A}}}1 {Ã}{{\~{A}}}1 {ç}{{\c{c}}}1 {Ç}{{\c{C}}}1 {õ}{{\~{o}}}1 {ó}{{\'{o}}}1 {ô}{{\^{o}}}1 {Õ}{{\~{O}}}1 {Ó}{{\'{O}}}1 {Ô}{{\^{O}}}1 {î}{{\^{i}}}1 {Î}{{\^{I}}}1 {í}{{\'{i}}}1 {Í}{{\~{Í}}}1,
-}
-\let\verbatim\relax
- 	\lstnewenvironment{verbatim}[1][]{\lstset{##1}}{}
+  \lstset{%
+    language=[LaTeX]TeX,
+    columns=flexible,
+    basicstyle=\ttfamily\small,
+    backgroundcolor=\color{theshade},
+    frame=single,
+    tabsize=2,
+    rulecolor=\color{theframe},
+    title=\lstname,
+    escapeinside={\%*}{*)},
+    breaklines=true,
+    commentstyle=\color{thegrey},
+    keywords=[0]{\fichacatalografica,\errata,\folhadeaprovacao,\dedicatoria,\agradecimentos,\epigrafe,\resumo,\siglas,\simbolos,\citacao,\alineas,\subalineas,\incisos},
+    keywordstyle=[0]\color{thered},
+    keywords=[1]{},
+    keywordstyle=[1]\color{thegreen},
+    breakatwhitespace=true,
+    alsoother={0123456789_},
+    inputencoding=utf8,
+    extendedchars=true,
+    literate={á}{{\'a}}1 {ã}{{\~a}}1 {é}{{\'e}}1 {è}{{\`{e}}}1 {ê}{{\^{e}}}1 {ë}{{\¨{e}}}1 {É}{{\'{E}}}1 {Ê}{{\^{E}}}1 {û}{{\^{u}}}1 {ú}{{\'{u}}}1 {â}{{\^{a}}}1 {à}{{\`{a}}}1 {á}{{\'{a}}}1 {ã}{{\~{a}}}1 {Á}{{\'{A}}}1 {Â}{{\^{A}}}1 {Ã}{{\~{A}}}1 {ç}{{\c{c}}}1 {Ç}{{\c{C}}}1 {õ}{{\~{o}}}1 {ó}{{\'{o}}}1 {ô}{{\^{o}}}1 {Õ}{{\~{O}}}1 {Ó}{{\'{O}}}1 {Ô}{{\^{O}}}1 {î}{{\^{i}}}1 {Î}{{\^{I}}}1 {í}{{\'{i}}}1 {Í}{{\~{Í}}}1,
+  }
+  \let\verbatim\relax
+  \lstnewenvironment{verbatim}[1][]{\lstset{##1}}{}
 }
 
 \usepackage[alf]{abntex2cite}	% citacoes
@@ -135,14 +135,14 @@ Orientador: \orientador
 \large{\centerline{2019}}
 
 \begin{textblock}{6}(9,9)
-% Projeto do Trabalho de Conclusão de Curso apresentado à Faculdade de Computação e Informática da Universidade Presbiteriana, desenvolvida como requisito parcial para aprovação na disciplina de Metodologia da Pesquisa em Computação, ministrada pelo professor Dr. Everton Knihs, do curso de Ciência da Computação.
+  % Projeto do Trabalho de Conclusão de Curso apresentado à Faculdade de Computação e Informática da Universidade Presbiteriana, desenvolvida como requisito parcial para aprovação na disciplina de Metodologia da Pesquisa em Computação, ministrada pelo professor Dr. Everton Knihs, do curso de Ciência da Computação.
 \end{textblock}
 
 \maketitle
 
 \begin{abstract}
-Autômatos Celulares são sistemas computacionais discretos que se têm provado úteis como modelos genéricos de complexidade e representação de diversas dinâmicas em uma varidade de áreas científicas. Estes sistemas podem ser especificados puramente em termos matemáticos e até implementados em estruturas físicas. Muitos deles podem computar funções e resolver problemas algorítmicos. O presente projeto explora um conjunto fundamental deles, chamados Automatos Celulares Elementares com um tipo específico de atualização assíncrona baseada em prioridade da vizinhança com a esperança de encontrar modelos que podem ser usados em aplicações práticas onde há ambientes dinâmicos que apresentam conservabilidade. 
-% O código correspondende a este trabalho pode ser acessado no repositório \url{https://github.com/mvrozanti/TCC}.
+  Autômatos Celulares são sistemas computacionais discretos que se têm provado úteis como modelos genéricos de complexidade e representação de diversas dinâmicas em uma varidade de áreas científicas. Estes sistemas podem ser especificados puramente em termos matemáticos e até implementados em estruturas físicas. Muitos deles podem computar funções e resolver problemas algorítmicos. O presente projeto explora um conjunto fundamental deles, chamados Automatos Celulares Elementares com um tipo específico de atualização assíncrona baseada em prioridade da vizinhança com a esperança de encontrar modelos que podem ser usados em aplicações práticas onde há ambientes dinâmicos que apresentam conservabilidade. 
+  % O código correspondende a este trabalho pode ser acessado no repositório \url{https://github.com/mvrozanti/TCC}.
 \end{abstract}
 Palavras-chave: Autômatos celulares elementares, atualização assíncrona por prioridade da vizinhança, New Kind of Science, Sistemas dinâmicos discretos, Conservabilidade
 
@@ -150,8 +150,8 @@ Palavras-chave: Autômatos celulares elementares, atualização assíncrona por 
 
 \selectlanguage{english}
 \begin{abstract}
-Cellular Automata are discrete computational systems that have proved useful as general models of complexity and representations of dynamics on a variety of scientific fields. These systems can be specified in purely mathematical terms and be implemented in physical structures. Many of them can compute functions and solve algorithmic problems. The present project attempts to explore a fundamental subset of them, called Elementary Cellular Automata with a specific kind of neighbourhood-priority-based asynchronous updating in the search of number-conserving models, which can be used for a variety of practical applications. 
-%The implementation developed is hosted at \url{https://github.com/mvrozanti/TCC}.
+  Cellular Automata are discrete computational systems that have proved useful as general models of complexity and representations of dynamics on a variety of scientific fields. These systems can be specified in purely mathematical terms and be implemented in physical structures. Many of them can compute functions and solve algorithmic problems. The present project attempts to explore a fundamental subset of them, called Elementary Cellular Automata with a specific kind of neighbourhood-priority-based asynchronous updating in the search of number-conserving models, which can be used for a variety of practical applications. 
+  %The implementation developed is hosted at \url{https://github.com/mvrozanti/TCC}.
 \end{abstract}
 Keywords: \@pdfkeywords
 
@@ -201,16 +201,16 @@ Dentre o conjunto de esquemas de atualização não-equivalentes, encontrar quai
 A implementação do simulador tem como parâmetros os seguintes itens:
 
 \begin{itemize}
-	\item Largura do espaço celular\\
-          \tab N, como definido em \ref{referencial}. É o tamanho do espaço celular unidimensional.
-	\item Configuração inicial:\\
-          \tab Estado global de início do AC.
-	\item Timesteps:\\
-          \tab Quantidade de reticulados resultantes. É a altura das evoluções, para ACEs.
-	\item Regra de transição:\\
-          \tab Função que recebe uma configuração e produz o reticulado seguinte.
-	\item Esquema de prioridades de atualização:\\
-          \tab Ordem em que as vizinhanças são atualizadas nos microtimesteps.
+  \item Largura do espaço celular\\
+    \tab N, como definido em \ref{referencial}. É o tamanho do espaço celular unidimensional.
+  \item Configuração inicial:\\
+    \tab Estado global de início do AC.
+  \item Timesteps:\\
+    \tab Quantidade de reticulados resultantes. É a altura das evoluções, para ACEs.
+  \item Regra de transição:\\
+    \tab Função que recebe uma configuração e produz o reticulado seguinte.
+  \item Esquema de prioridades de atualização:\\
+    \tab Ordem em que as vizinhanças são atualizadas nos microtimesteps.
 \end{itemize}
 
 \subsection{OBJETIVOS DO ESTUDO} 
@@ -224,11 +224,11 @@ O objetivo do presente trabalho foi identificar e quantificar pares (R,E) em que
 \tab Para alcançar o objetivo geral proposto para a resolução do problema de pesquisa, os seguintes objetivos específicos foram estabelecidos:
 
 \begin{itemize}
-    \item Definição formal da estratégia de atualização.
-    \item Definição de conservabilidade.
-    \item Identificação de conservabilidade.
-    \item Renderização das evoluções temporais.
-    \item Otimização da pesquisa via filtragem de esquemas equivalentes.
+  \item Definição formal da estratégia de atualização.
+  \item Definição de conservabilidade.
+  \item Identificação de conservabilidade.
+  \item Renderização das evoluções temporais.
+  \item Otimização da pesquisa via filtragem de esquemas equivalentes.
 \end{itemize}
 
 \subsection{JUSTIFICATIVA}
@@ -242,16 +242,16 @@ A pesquisa se limita a ACEs com o tipo de atualização evidenciado no item \ref
 Descrição dos capítulos:
 
 \begin{enumerate}
-    \item Introdução
-        \subitem Preâmbulo deste trabalho.
-    \item Referencial Teórico
-        \subitem Sustentação argumentativa sobre o tema proposto.
-    \item Metodologia de Pesquisa
-        \subitem Sistematização dos instrumentos e processos de estudo empregados no presente trabalho.
-    \item Cronograma
-        \subitem Planejamento das tarefas necessárias para a conclusão deste trabalho, bem como suas expectativas de início e conclusão.
+  \item Introdução
+    \subitem Preâmbulo deste trabalho.
+  \item Referencial Teórico
+    \subitem Sustentação argumentativa sobre o tema proposto.
+  \item Metodologia de Pesquisa
+    \subitem Sistematização dos instrumentos e processos de estudo empregados no presente trabalho.
+  \item Cronograma
+    \subitem Planejamento das tarefas necessárias para a conclusão deste trabalho, bem como suas expectativas de início e conclusão.
 \end{enumerate}
- 
+
 \section{REFERENCIAL TEÓRICO} \label{referencial}
 \tab Em relação ao referencial teórico estudado neste TCC, foi de suma importância entender os seguintes tópicos:
 
@@ -284,13 +284,13 @@ Descrição dos capítulos:
 
 
 \begin{figure}[!htbp]
-\centerline{\includegraphics[width=10cm]{imgs/rule_22.png}}
-\caption{Ilustração do mapa de transições para a regra 22 no código Wolfram. }
+  \centerline{\includegraphics[width=10cm]{imgs/rule_22.png}}
+  \caption{Ilustração do mapa de transições para a regra 22 no código Wolfram. }
 \end{figure}
 
 \begin{figure}[!htbp]
-\centerline{\includegraphics[width=10cm]{imgs/256ecas.png}}
-\caption{Ilustração das 256 regras elementares. }
+  \centerline{\includegraphics[width=10cm]{imgs/256ecas.png}}
+  \caption{Ilustração das 256 regras elementares. }
 \end{figure}
 
 % ACs de 1 dimensão, elementares, com vizinhança \texttt{\{-1,0,1\}}, com conjunto de estados \texttt{\{0,1\}}, na ordem lexicográfica \{\textit{\(w_0\)}, ..., \textit{\(w_7\)},\} em \(\{0,1\}^3\), se \(\delta(\textit{w}_i)=s_i,s_0,...s_7\) representa \(\delta\). Analogamente, qualquer inteiro positivo menor que 256 = \(2^8\) define um ACE \cite[cap. 2]{delorme1999introduction}.
@@ -354,29 +354,20 @@ Assim, pode-se dizer que as etapas desenvolvidas neste estudo foram:
 
 \newcommand{\ccy}{\cellcolor{yellow}}
 \begin{table}[h]
- \caption{Cronograma de atividades}
- \centerline{
-  \begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|l|l|}
-   \hline
-   \multirow{2}{*}{ATIVIDADE}                   & \multicolumn{12}{|c|}{MÊS} \\
-					        & 1                             & 2    & 3    & 4    & 5    & 6    & 7    & 8    & 9    & 10   & 11   & 12 \\
-   \hline
-   Revisão bibliográfica                        & \ccy                          & \ccy &      &      &      &      &      & \ccy &      &      &      & \\
-   \hline
-   Fundamentação teórica                        &                               & \ccy & \ccy &      &      &      &      &      &      &      &      & \\
-   \hline
-   Desenvolvimento e implementação Python       &                               & \ccy & \ccy &      &      &      &      &      &      &      &      & \\
-   \hline
-   Conclusão e documentação final da pesquisa   &                               &      &      & \ccy & \ccy &      &      &      &      &      &      & \\
-   \hline
-   Simulação                                    &                               &      &      & \ccy & \ccy &      &      &      &      &      &      & \\
-   \hline
-   Análise das simulações                       &                               &      &      &      &      & \ccy & \ccy &      &      &      &      & \\
-   \hline
-   Conclusão e documentação final da pesquisa   &                               &      &      &      &      & \ccy & \ccy & \ccy & \ccy & \ccy & \ccy & \ccy\\
-   \hline
- \end{tabular}
- }
+  \caption{Cronograma de atividades}
+  \centerline{
+    \begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|l|l|} \hline
+      \multirow{2}{*}{ATIVIDADE}                 & \multicolumn{12}{|c|}{MÊS} 							     \\
+						 & 1    & 2    & 3    & 4    & 5    & 6    & 7    & 8    & 9    & 10   & 11   & 12   \\ \hline
+      Revisão bibliográfica                      & \ccy & \ccy &      &      &      &      &      & \ccy &      &      &      &      \\ \hline
+      Fundamentação teórica                      &      & \ccy & \ccy &      &      &      &      &      &      &      &      &      \\ \hline
+      Desenvolvimento e implementação Python     &      & \ccy & \ccy &      &      &      &      &      &      &      &      &      \\ \hline
+      Conclusão e documentação final da pesquisa &      &      &      & \ccy & \ccy &      &      &      &      &      &      &      \\ \hline
+      Simulação                                  &      &      &      & \ccy & \ccy &      &      &      &      &      &      &      \\ \hline
+      Análise das simulações                     &      &      &      &      &      & \ccy & \ccy &      &      &      &      &      \\ \hline
+      Conclusão e documentação final da pesquisa &      &      &      &      &      & \ccy & \ccy & \ccy & \ccy & \ccy & \ccy & \ccy \\ \hline
+    \end{tabular}
+  }
 \end{table}
 
 % \break
