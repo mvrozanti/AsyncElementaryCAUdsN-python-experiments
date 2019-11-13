@@ -146,7 +146,7 @@ Orientador: \orientador
 \maketitle
 
 \begin{abstract}
-Autômatos Celulares são sistemas computacionais discretos que se têm provado úteis como modelos genéricos de complexidade e representação de diversas dinâmicas em uma varidade de áreas científicas. Estes sistemas podem ser especificados puramente em termos matemáticos e até implementados em estruturas físicas. Muitos deles podem computar funções e resolver problemas algorítmicos. O presente projeto explora um conjunto fundamental deles, chamados Automatos Celulares Elementares com um tipo específico de atualização assíncrona baseada em prioridade da vizinhança com a esperança de encontrar modelos conservativos que podem ser usados em aplicações práticas relativas a . 
+Autômatos Celulares são sistemas computacionais discretos que se têm provado úteis como modelos genéricos de complexidade e representação de diversas dinâmicas em uma varidade de áreas científicas. Estes sistemas podem ser especificados puramente em termos matemáticos e até implementados em estruturas físicas. Muitos deles podem computar funções e resolver problemas algorítmicos. O presente projeto explora um conjunto fundamental deles, chamados Automatos Celulares Elementares com um tipo específico de atualização assíncrona baseada em prioridade da vizinhança com a esperança de encontrar modelos que podem ser usados em aplicações práticas onde há ambientes dinâmicos que apresentam conservabilidade. 
 % O código correspondende a este trabalho pode ser acessado no repositório \url{https://github.com/mvrozanti/TCC}.
 \end{abstract}
 Palavras-chave: Autômatos celulares elementares, atualização assíncrona por prioridade da vizinhança, New Kind of Science, Sistemas dinâmicos discretos, Conservabilidade
@@ -233,20 +233,14 @@ O objetivo do presente trabalho foi identificar e quantificar
     \item Definição de conservabilidade.
     \item Identificação de conservabilidade.
     \item Renderização das evoluções temporais.
-    \item Otimização da pesquisa por via de filtragem de esquemas equivalentes.
+    \item Otimização da pesquisa via filtragem de esquemas equivalentes.
 \end{itemize}
 
 \subsection{JUSTIFICATIVA}
-A motivação para o presente trabalho é explorar em que condições os ACEs conservativos 
+A motivação para o presente trabalho é explorar em que condições os ACEs são conservativos com o propósito de enumerar evoluções conservativas que podem ser usadas para <+>.
 
 \subsection{DELIMITAÇÃO DO ESTUDO} \label{delimitacao}
-<+>
-% \tab Deve-se restringir a implementação dos algoritmos evidenciados no item \ref{problema}:
-
-% \begin{itemize}
-% \end{itemize}
-
-% \break
+A pesquisa se limitou a ACEs com o tipo de atualização evidenciado em \ref{objetopesq}, com largura de reticulados testados até N=15. Os 4683 esquemas de atualização foram filtrados a fim de se eliminar esquemas equivalentes, já que produzem evoluções idênticas. <+>
 
 \subsection{ORGANIZAÇÃO DO ESTUDO}
 
@@ -268,7 +262,7 @@ Descrição dos capítulos:
 
 \subsection{AUTÔMATOS CELULARES} \label{ref_ac}
 
-Um AC pode ser descrito simplesmente por seu \textit{espaço celular} e \textit{regra de transição}. O espaço celular é um conjunto finito \textit{d-dimensional} ordenado de células onde cada célula no índice \textbf{i} tem um estado entre \textit{k} estados. As regras de transição definem o novo estado de uma determinada célula em função de sua vizinhança de tamanho \textit{r}, dito o raio do AC. O comportamento da aplicação das regras de transição nas bordas do espaço pode ser especificado de várias formas, muitas vezes como conexo com a borda contrária tornando o espaço efetivamente contínuo.
+Um AC pode ser descrito simplesmente por seu \textit{espaço celular} e \textit{regra de transição}. O espaço celular é um conjunto finito \textit{d-dimensional} ordenado de células onde cada célula no índice \textbf{i} tem um estado entre \textit{k} estados. As regras de transição definem o novo estado de uma determinada célula em função de sua vizinhança de tamanho \textit{r}, dito o raio do AC. O comportamento da aplicação das regras de transição nas bordas do espaço pode ser especificado de várias formas, muitas vezes como conexo com a borda oposta tornando o espaço efetivamente contínuo.
 
 % \cite{wolfram2002new}
 
@@ -301,8 +295,6 @@ Um AC pode ser descrito simplesmente por seu \textit{espaço celular} e \textit{
 \centerline{\includegraphics[width=10cm]{imgs/256ecas.png}}
 \caption{Ilustração das 256 regras elementares. }
 \end{figure}
-
-
 
 % ACs de 1 dimensão, elementares, com vizinhança \texttt{\{-1,0,1\}}, com conjunto de estados \texttt{\{0,1\}}, na ordem lexicográfica \{\textit{\(w_0\)}, ..., \textit{\(w_7\)},\} em \(\{0,1\}^3\), se \(\delta(\textit{w}_i)=s_i,s_0,...s_7\) representa \(\delta\). Analogamente, qualquer inteiro positivo menor que 256 = \(2^8\) define um ACE \cite[cap. 2]{delorme1999introduction}.
 
