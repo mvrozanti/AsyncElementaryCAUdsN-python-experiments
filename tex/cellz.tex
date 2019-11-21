@@ -184,8 +184,6 @@ Keywords: \@pdfkeywords
 
 \tab Há uma infinitude de ACs possíveis de serem engenhados. Um problema de possível realização através de ACs com propriedades conservativas, como é notado por \citeonline{yuen2009applications}, é na modelagem de trânsito de veículos: ``Uma abordagem para reduzir o congestionamento seria construir estradas novas ou ampliar as existentes para fornecer faixas adicionais e consequentemente, aumentar a capacidade da infraestrutura rodoviária. No entanto, essa abordagem pode ser muito custosa e os atrasos podem piorar enquanto as obras rodoviárias estão em andamento. Às vezes é difícil melhorar a estrada existente devido a objetivos ambientais ou sociais. Outra abordagem pode ser controlar o tráfego de tal maneira que o congestionamento seja resolvido com o uso de semáforos ou fazendo ajustes nas marcações das estradas. No entanto, não é uma tarefa simples decidir qual abordagem seria mais eficaz para uma rede rodoviária específica, a fim de limitar tráfego congestionado. O uso de um modelo de tráfego é necessário para prever a comportamento dos veículos e as interações entre eles nas estradas.''
 
-% ``One approach to reducing congestion would be to construct new or widen existing roads to provide additional lanes and hence increase the capacity of the road infrastructure. However, this approach can be very costly and delays may  worsen  while  road  works  are  in  progress.   Sometimes  it  is  difficult  to improve the existing road system due to environmental or social objectives.  Another approach may be to control the traffic in such a way that congestion would be solved with the use of traffic lights or making adjustments to road marking.  However, it is not a simple task to decide which approach would be most effective for a particular road network in order to limit traffic congestion.  The use of a traffic model is needed to predict the behaviour of vehicles and the interactions between them on the roads.''
-
 \subsection{OBJETO DE PESQUISA} \label{objetopesq}
 
 \tab O objeto de pesquisa deste trabalho são ACEs com atualização assíncrona por prioridade da vizinhança, em especial, na regra 184.
@@ -193,14 +191,10 @@ Keywords: \@pdfkeywords
 % \subsubsection{PROBLEMA DE PESQUISA} \label{problema}
 Dentre o conjunto de esquemas de atualização não-equivalentes, encontrar quais pares \texttt{(R,E)} são conservativos.    
 
-% \break
-
-% \subsubsection{HIPÓTESE BÁSICA} 
-
-\tab Dados os esquemas de atualização mencionados na seção \ref{objetopesq}, encontrar quais esquemas apresentaram conservabilidade numérica <<isso nao eh uma hipotese>>.
+\tab Dados os esquemas de atualização mencionados na seção \ref{objetopesq}, encontrar quais esquemas apresentaram conservabilidade numérica.
 
 % \subsubsection{VARIÁVEIS} \label{varia}
-A implementação do simulador tem como parâmetros os seguintes itens:
+A implementação do simulador tem como parâmetros as seguintes variáveis:
 
 \begin{itemize}
   \item Largura do espaço celular\\
@@ -215,11 +209,13 @@ A implementação do simulador tem como parâmetros os seguintes itens:
     \tab Ordem em que as vizinhanças são atualizadas nos microtimesteps.
 \end{itemize}
 
+Estes conceitos são mais profundamente discutidos no item \ref{referencial}.
+
 \subsection{OBJETIVOS DO ESTUDO} 
 O objetivo do presente trabalho foi identificar e quantificar pares (R,E) em que há conservabilidade nas evoluções de ACEs com atualização por prioridade da vizinhança.
 
-\subsubsection{OBJETIVO GERAL}
-<+>
+% \subsubsection{OBJETIVO GERAL}
+% <+>
 
 \subsubsection{OBJETIVOS ESPECÍFICOS}
 
@@ -234,7 +230,7 @@ O objetivo do presente trabalho foi identificar e quantificar pares (R,E) em que
 \end{itemize}
 
 \subsection{JUSTIFICATIVA}
-A motivação para o presente trabalho é explorar em que condições os ACEs são conservativos com o propósito de enumerar evoluções conservativas que podem ser usadas para <+>.
+A motivação para o presente trabalho é explorar em que condições os ACEs são conservativos com o propósito de enumerar evoluções conservativas que podem ser usadas para modelagem de ambientes com propriedades conservativas.
 
 \subsection{DELIMITAÇÃO DO ESTUDO} \label{delimitacao}
 A pesquisa se limita a ACEs com o tipo de atualização evidenciado no item \ref{objetopesq}, com largura de reticulados testados até N=15. Os esquemas de atualização foram filtrados a fim de se eliminar esquemas equivalentes, já que produzem evoluções idênticas, resultando em 4683 esquemas. 
@@ -305,9 +301,11 @@ Descrição dos capítulos:
 \subsubsection{ATUALIZAÇÃO ASSÍNCRONA \\POR PRIORIDADE DA VIZINHANÇA} \label{tiposatt}
 \tab Parte imprescindível da definição de um AC é a ordem de atualização das células no espaço celular. Apesar de serem fundamentalmente concebidos com o comportamento de atualização síncrona, é possível se utilizar das mais diversas e criativas estratégias de atualização.
 
-\tab  No presente trabalho foi empregado um tipo inédito de estratégia de atualização: em função da prioridade da vizinhança, que consiste em cada regra de transição estar associada a uma prioridade no intervalo \(\left[1, 8\right]\). Esse tipo de atualização requer uma distinção dos timesteps globais e locais (microtimesteps):  as prioridades de vizinhanças são iteradas sequencialmente de menor a maior e para cada prioridade, o espaço celular é varrido e atualizam-se apenas as células que tenham vizinhança com a prioridade atual, mantendo-se o estado das vizinhanças que não estejam na prioridade atual da iteração. Ao fim da varredura do espaço celular, o processo se repete para a próxima prioridade, agora iterando sobre o reticulado gerado no processo descrito anteriormente. O reticulado resultante após iterar sobre todas as prioridades é chamado de timestep global (ou macrotimestep) e é incluído nas renderizações, o que não acontece com os microtimesteps.
+\tab No presente trabalho foi empregado um tipo inédito de estratégia de atualização: em função da prioridade da vizinhança, que consiste em cada uma das 8 regras de transição estar associada a uma prioridade no intervalo \(\left[1, 8\right]\), (e.g.: 12344321). Esse tipo de atualização requer uma distinção dos timesteps globais e locais (microtimesteps):  as prioridades de vizinhanças são iteradas sequencialmente de menor a maior e para cada prioridade, o espaço celular é varrido e atualizam-se apenas as células que tenham vizinhança com a prioridade atual, mantendo-se o estado das vizinhanças que não estejam na prioridade atual da iteração. Ao fim da varredura do espaço celular, o processo se repete para a próxima prioridade, agora iterando sobre o reticulado gerado no processo descrito anteriormente. O reticulado resultante após iterar sobre todas as prioridades é chamado de timestep global (ou macrotimestep) e é incluído nas renderizações, o que não acontece com os microtimesteps.
 
-\tab Esta forma de atualizar assincronamente o espaço celular pode ser descrita como um par \textit{(R,E)}, onde \textit{R} é a regra e \textit{E} é um esquema de prioridade. Eliminados os esquemas equivalentes, para ACEs, é possível gerar 1.194.165 combinações de pares \textit{(R,E)}. 
+\tab Esse modo de atualização inclui também a atualização síncrona, bastando definir todas as prioridades do esquema como de mesmo valor (11111111, 22222222, ..., etc). Diferentes esquemas de prioridade podem gerar evoluções idênticas. Estes são chamados esquemas equivalentes.
+
+\tab As evoluções podem ser identificadas como um par \textit{(R,E)}, onde \textit{R} é a regra e \textit{E} é um esquema de prioridade. Eliminados os esquemas equivalentes, para ACEs, é possível gerar 1.194.165 combinações de pares \textit{(R,E)}. 
 
 \subsection{CONSERVABILIDADE NUMÉRICA} \label{num-conserv}
 Segundo \citeonline{boccara2002number}, ``A one-dimensional q-state n-input CA rule f is number-conserving if, for all cyclic configurations of length L \(\geq\) n, it satisfies'':
