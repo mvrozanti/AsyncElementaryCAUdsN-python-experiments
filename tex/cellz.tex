@@ -182,22 +182,24 @@ Keywords: \@pdfkeywords
 
 \tab A motivação inicial para o estudo de ACs por parte de von Neumann não era matemática mas tinha como diretriz encontrar uma forma viável de tratar do problema de como fazer máquinas se reproduzirem. Hoje é sabido que esses sistemas são aplicáveis para resolver problemas relativos a classificação de densidade, simulação de partículas, compressão de dados, design estrutural, representação de comportamentos dinâmicos como trânsito em cidades ou movimentação de seres vivos entre muitos outros.
 
-\tab Há uma infinitude de ACs possíveis de serem engenhados. Um problema de possível realização através de ACs com propriedades conservativas, como é notado por \citeonline{yuen2009applications}, é na modelagem de trânsito de veículos: ``One approach to reducing congestion would be to construct new or widen existing roads to provide additional lanes and hence increase the capacity of the road infrastructure. However, this approach can be very costly and delays may  worsen  while  road  works  are  in  progress.   Sometimes  it  is  difficult  to improve the existing road system due to environmental or social objectives.  Another approach may be to control the traffic in such a way that congestion would be solved with the use of traffic lights or making adjustments to road marking.  However, it is not a simple task to decide which approach would be most effective for a particular road network in order to limit traffic congestion.  The use of a traffic model is needed to predict the behaviour of vehicles and the interactions between them on the roads.''
+\tab Há uma infinitude de ACs possíveis de serem engenhados. Um problema de possível realização através de ACs com propriedades conservativas, como é notado por \citeonline{yuen2009applications}, é na modelagem de trânsito de veículos: ``Uma abordagem para reduzir o congestionamento seria construir estradas novas ou ampliar as existentes para fornecer faixas adicionais e consequentemente, aumentar a capacidade da infraestrutura rodoviária. No entanto, essa abordagem pode ser muito custosa e os atrasos podem piorar enquanto as obras rodoviárias estão em andamento. Às vezes é difícil melhorar a estrada existente devido a objetivos ambientais ou sociais. Outra abordagem pode ser controlar o tráfego de tal maneira que o congestionamento seja resolvido com o uso de semáforos ou fazendo ajustes nas marcações das estradas. No entanto, não é uma tarefa simples decidir qual abordagem seria mais eficaz para uma rede rodoviária específica, a fim de limitar tráfego congestionado. O uso de um modelo de tráfego é necessário para prever a comportamento dos veículos e as interações entre eles nas estradas.''
+
+% ``One approach to reducing congestion would be to construct new or widen existing roads to provide additional lanes and hence increase the capacity of the road infrastructure. However, this approach can be very costly and delays may  worsen  while  road  works  are  in  progress.   Sometimes  it  is  difficult  to improve the existing road system due to environmental or social objectives.  Another approach may be to control the traffic in such a way that congestion would be solved with the use of traffic lights or making adjustments to road marking.  However, it is not a simple task to decide which approach would be most effective for a particular road network in order to limit traffic congestion.  The use of a traffic model is needed to predict the behaviour of vehicles and the interactions between them on the roads.''
 
 \subsection{OBJETO DE PESQUISA} \label{objetopesq}
 
 \tab O objeto de pesquisa deste trabalho são ACEs com atualização assíncrona por prioridade da vizinhança, em especial, na regra 184.
 
-\subsubsection{PROBLEMA DE PESQUISA} \label{problema}
+% \subsubsection{PROBLEMA DE PESQUISA} \label{problema}
 Dentre o conjunto de esquemas de atualização não-equivalentes, encontrar quais pares \texttt{(R,E)} são conservativos.    
 
 % \break
 
-\subsubsection{HIPÓTESE BÁSICA} 
+% \subsubsection{HIPÓTESE BÁSICA} 
 
 \tab Dados os esquemas de atualização mencionados na seção \ref{objetopesq}, encontrar quais esquemas apresentaram conservabilidade numérica <<isso nao eh uma hipotese>>.
 
-\subsubsection{VARIÁVEIS} \label{varia}
+% \subsubsection{VARIÁVEIS} \label{varia}
 A implementação do simulador tem como parâmetros os seguintes itens:
 
 \begin{itemize}
@@ -313,7 +315,7 @@ Segundo \citeonline{boccara2002number}, ``A one-dimensional q-state n-input CA r
 \[f(x_1,x_2,...,x_{n-1},x_n) + f(x_2,x_3,...,x_n,x_{n+1}) + ... \]
 \tab \[ + \;   f(x_L,x_1,...,x_{n-2},x_{n-1} = x_1 + x_2 + ... + x_L\]
 
-\tab Como é mencionado no item \ref{contex}, ACs conservativos podem ser usados para modelar ambientes em que há conservabilidade, como trânsito automobilístico, simulação de partículas, entre outros. A regra 184 \ref{184} é uma regra que, com execução síncrona e (como este trabalho apresenta) assíncrona, gera evoluções conservativas pela definição anterior de conservabilidade.
+\tab Como é mencionado no item \ref{contex}, ACs conservativos podem ser usados para modelar ambientes em que há conservabilidade, como trânsito automobilístico, simulação de partículas, entre outros. A regra 184 é uma regra que, com execução síncrona e (como este trabalho apresenta) assíncrona, gera evoluções conservativas pela definição anterior de conservabilidade.
 
 \section{METODOLOGIA DA PESQUISA}
 \tab No que tange à Metodologia empregada neste TCC, o trabalho teve início com uma revisão da literatura específica sobre o tema da pesquisa. Esta pesquisa abrange conceitos fundamentais de teoria da computação e o ``estado da arte'' em termos de análise de conservabilidade.
@@ -344,7 +346,7 @@ Assim, pode-se dizer que as etapas desenvolvidas neste estudo foram:
 \subsection{CLASSIFICAÇÃO DA PESQUISA}
 \tab O tempo total previsto para a conclusão desta pesquisa é de 1 ano, como mostrado no capítulo \ref{cron}.
 
-\tab Esta é uma pesquisa exploratória, dada a natureza desconhecida das propriedades de ACEs com o tipo de atualização mencionado em \ref{objetopesq}. Baseada em medidas objetivas e dados verificáveis, esta pesquisa foi voltada para encontrar caminhos, formas, maneiras e procedimentos para atingir um determinado fim, buscando definir um processo ou uma ferramenta que leve à solução do problema proposto (\ref{problema}).  Quanto aos meios, foram utilizados os recursos mencionados na Bibliografia.
+\tab Esta é uma pesquisa exploratória, dada a natureza desconhecida das propriedades de ACEs com o tipo de atualização mencionado em \ref{objetopesq}. Baseada em medidas objetivas e dados verificáveis, esta pesquisa foi voltada para encontrar caminhos, formas, maneiras e procedimentos para atingir um determinado fim, buscando definir um processo ou uma ferramenta que leve à solução do problema proposto.  Quanto aos meios, foram utilizados os recursos mencionados na Bibliografia.
 
 \break
 
