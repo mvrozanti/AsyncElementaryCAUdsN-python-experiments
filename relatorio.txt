@@ -1,0 +1,26 @@
+Integrantes:
+
+Marcelo Vironda Rozanti - 31417485
+Felipe Stefanelli de Aguiar Silva - 31473768
+
+Curso:
+Ciência da Computação.
+
+Orientador: 
+
+Prof. Dr. Pedro Paulo Balbi de Oliveira.
+
+Título do TCC: 
+
+Conservabilidade de estados de autômatos celulares elementares com atualizações assíncronas por prioridade da vizinhança.
+
+Breve resumo do trabalho:
+
+Autômatos Celulares são sistemas computacionais discretos que se têm provado úteis como modelos genéricos de complexidade e representação de diversas dinâmicas em uma varidade de áreas científicas. Estes sistemas podem ser especificados puramente em termos matemáticos e até implementados em estruturas físicas. Muitos deles podem computar funções e resolver problemas algorítmicos. O presente projeto explora um conjunto fundamental deles, chamados Automatos Celulares Elementares com um tipo específico de atualização assíncrona baseada em prioridade da vizinhança com a esperança de encontrar modelos que podem ser usados em aplicações práticas onde há ambientes dinâmicos que apresentam conservabilidade. 
+
+Descrição das atividades a serem realizadas no TCC II:
+<+>
+
+Cronograma das atividades a serem realizadas no TCC II, lembrando que a Sessão de Pôsteres deverá ocorrer na primeira semana de abril de 2019:
+<+>
+
