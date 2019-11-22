@@ -186,19 +186,19 @@ Keywords: \@pdfkeywords
 
 \subsection{OBJETO DE PESQUISA} \label{objetopesq}
 
-\tab O objeto de pesquisa deste trabalho são ACEs com atualização assíncrona por prioridade da vizinhança, em especial, na regra 184. Esses conceitos são aprofundados no item \ref{referencial}.
+\tab O objeto de pesquisa deste trabalho são ACEs com atualização assíncrona por prioridade da vizinhança, em especial, na regra 184. 
+
+% Esses conceitos são aprofundados no item \ref{referencial}.
 
 % \subsubsection{PROBLEMA DE PESQUISA} \label{problema}
-Dentre o conjunto de esquemas de atualização não-equivalentes, encontrar quais pares \texttt{(R,E)} são conservativos.
-
-\tab Dados os esquemas de atualização mencionados na seção \ref{objetopesq}, encontrar quais esquemas apresentaram conservabilidade numérica.
-
 % \subsubsection{VARIÁVEIS} \label{varia}
-A implementação do simulador tem como parâmetros as seguintes variáveis:
+\tab Dentre o conjunto de esquemas de atualização não-equivalentes, o objetivo é encontrar quais pares \texttt{(R,E)} são conservativos. Dados os esquemas de atualização mencionados na seção \ref{objetopesq}, encontrar quais esquemas apresentaram conservabilidade numérica.
+
+\tab A implementação do simulador tem como parâmetros as seguintes variáveis:
 
 \begin{itemize}
   \item Largura do espaço celular\\
-    \tab N, como definido em \ref{referencial}. É o tamanho do espaço celular unidimensional.
+    \tab É o tamanho do espaço celular unidimensional, definido como \textit{n}.
   \item Configuração inicial:\\
     \tab Estado global de início do AC.
   \item Timesteps:\\
@@ -253,7 +253,7 @@ Descrição dos capítulos:
 
 \tab Um AC pode ser descrito simplesmente por seu \textit{espaço celular} e \textit{regra de transição}. O espaço celular é um conjunto finito \textit{d-dimensional} ordenado de células onde cada célula no índice \textbf{i} tem um estado entre \textit{k} estados. As regras de transição definem o novo estado de uma determinada célula em função de sua vizinhança de tamanho \textit{r}, dito o raio do AC. O comportamento da aplicação das regras de transição nas bordas do espaço pode ser especificado de várias formas, muitas vezes como conexo com a borda oposta tornando o espaço efetivamente contínuo.
 
-\tab ACEs formam a família de ACs com \textit{d}=1, \textit{k}=2 e \textit{r}=1, ou seja, são unidimensionais, com células binárias e vizinhanças são definidas por 3 células contíguas. O espaço celular é dito ter largura N, isto é, tem N células em cada reticulado da evolução e permanece constante até o fim das evoluções.
+\tab ACEs formam a família de ACs com \textit{d}=1, \textit{k}=2 e \textit{r}=1, ou seja, são unidimensionais, com células binárias e vizinhanças são definidas por 3 células contíguas. O espaço celular é dito ter largura N, isto é, tem n células em cada reticulado da evolução e permanece constante até o fim das evoluções.
 
 % \begin{figure}[!htbp]
 % \centerline{\includegraphics[width=10cm]{imgs/typical-config.png}}
@@ -282,7 +282,7 @@ Descrição dos capítulos:
 
 % \cite{wolfram2002new}
 
-% \tab ``O \textit{espaço celular} é um reticulado de N células idênticas, cada qual com um padrão idêntico de conexões locais para outras células e com condições de contorno. O conjunto de estados possíveis da célula é denotado por \(\Sigma\) e o número de estados desse conjunto é denotado por \textbf{k}. Cada célula é denotada por um índice \textbf{i} e seu estado a um dado tempo \textbf{t} é denotado por \(n_i^t\), onde \(S_i^t \in \Sigma\). O estado \(S_i^t\) da célula \textbf{i} e os estados das células às quais a célula \textbf{i} está conectada são chamados de vizinhança \(n_i^t\) da célula \textbf{i}.
+% \tab ``O \textit{espaço celular} é um reticulado de n células idênticas, cada qual com um padrão idêntico de conexões locais para outras células e com condições de contorno. O conjunto de estados possíveis da célula é denotado por \(\Sigma\) e o número de estados desse conjunto é denotado por \textbf{k}. Cada célula é denotada por um índice \textbf{i} e seu estado a um dado tempo \textbf{t} é denotado por \(n_i^t\), onde \(S_i^t \in \Sigma\). O estado \(S_i^t\) da célula \textbf{i} e os estados das células às quais a célula \textbf{i} está conectada são chamados de vizinhança \(n_i^t\) da célula \textbf{i}.
 %
 % \tab A \textit{regra de transição} é denotada por \(\Phi(n_i^t)\) que fornece o próximo estado \(S_i^{t+1}\) para cada célula \textbf{i}, como uma função de \(n_i^t\). A cada passo de tempo, todas as células atualizam seus estados sincronicamente de acordo com \(\Phi(n_i^t)\). 
 
@@ -307,14 +307,14 @@ Descrição dos capítulos:
 \[f(x_1,x_2,...,x_{n-1},x_n) + f(x_2,x_3,...,x_n,x_{n+1}) + ... \]
 \tab \[ + \;   f(x_L,x_1,...,x_{n-2},x_{n-1} = x_1 + x_2 + ... + x_L\] 
 
-\break
+% \break
 
-\tab Como é mencionado no item \ref{contex}, ACs conservativos podem ser usados para modelar ambientes em que há conservabilidade, como trânsito automobilístico, simulação de partículas, entre outros. A regra 184 é uma regra que, com execução síncrona e (como este trabalho apresenta) assíncrona, gera evoluções conservativas pela definição anterior de conservabilidade.
+\tab No contexto de ACEs, uma evolução é dita conservativa caso, para qualquer configuração inicial, a quantidade de um determinado estado é sempre a mesma para todos os timesteps. Como é mencionado no item \ref{contex}, ACs conservativos podem ser usados para modelar ambientes em que há conservabilidade, como trânsito automobilístico, simulação de partículas, entre outros. A regra 184 é uma regra que, com execução síncrona e (como este trabalho apresenta) assíncrona, gera evoluções conservativas pela definição anterior de conservabilidade.
 
 \section{METODOLOGIA DA PESQUISA}
 \tab No que tange à Metodologia empregada neste TCC, o trabalho teve início com uma revisão da literatura específica sobre o tema da pesquisa. Esta pesquisa abrange conceitos fundamentais de teoria da computação e o ``estado da arte'' em termos de análise de conservabilidade.
 
-\tab Este alicerce teórico foi obtido através de autores como: Wolfram; Yuen e Kay;
+\tab Este alicerce teórico foi obtido através de autores como: Wolfram; Yuen e Kay; Boccara;
 entre outros, além de pesquisas em periódicos científicos, sites, publicações em empresas, teses e dissertações em universidades e publicações de associações técnicas.  A leitura, análise e comparação da fundamentação teórica tiveram início com ACEs síncronos, modificados em seguida para viabilizar o tipo de atualização mencionado no item \ref{tiposatt}.
 
 \subsection{ETAPAS DA PESQUISA}
@@ -322,7 +322,7 @@ entre outros, além de pesquisas em periódicos científicos, sites, publicaçõ
 
 \tab Os 4683 esquemas de atualização mencionados no item \ref{objetopesq} foram testados primeiramente contra a regra 184, que é conservativa em modo síncrono. A extensão de evoluções celulares se limitou a N=15, como é explicitado no item \ref{delimitacao}.
 
-\break
+% \break
 
 Assim, pode-se dizer que as etapas desenvolvidas neste estudo foram:
 
