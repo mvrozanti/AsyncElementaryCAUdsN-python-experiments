@@ -183,7 +183,7 @@ Keywords: \@pdfkeywords
 
 \tab A motivação inicial para o estudo de ACs por parte de von Neumann não era matemática mas tinha como diretriz encontrar uma forma viável de tratar do problema de como fazer máquinas se reproduzirem. Hoje é sabido que esses sistemas são aplicáveis para resolver problemas relativos a classificação de densidade, simulação de partículas, compressão de dados, design estrutural, representação de comportamentos dinâmicos como trânsito em cidades ou movimentação de seres vivos entre muitos outros.
 
-\tab Há uma infinidade de ACs passíveis de construção para modelagem ou solução de problemas. Um deles é a modelagem de tráfego de veículos, como é notado por \citeonline{rosenblueth2011model}:  ``ACEs podem modelar tráfego também. Podemos presumir que um veículo se move para frente ou não dependendo apenas na presença ou ausência de outro veículo em sua frente. Supondo que um veículo se move uma célula para a direita se e apenas se uma a célula à direita está vazia, então a regra 184 corresponde ao tráfego se movendo à direita. Movimento aparente é criado do seguinte modo: se o estado de uma célula é 1 e a de seu vizinho à direita é 0, então esta regra atribui 0 ao estado da célula na próxima geração, eliminando o veículo de sua célula atual (que é representada por 110 e 010). Similarmente, se o estado atual da célula é 0 e de seu vizinho à esquerda é 1, então o próximo estado da célula é 1, aparentemente fazendo o veículo no vizinho da esquerda mover-se uma célula para a direita (cobrindo casos 100 e 101). Deve-se lidar com duas outras situações. Primeiro, um veículo não pode se mover se houver outro veículo diretamente em sua frente (i.e., 111 e 011). Segundo, se não há veículo na célula ou seu vizinho à esquerda, então na próxima geração a célula não terá um veículo também (i.e., 001 e 000).''.
+\tab Há uma infinidade de ACs passíveis de construção para modelagem ou solução de problemas. Um deles é a modelagem de tráfego de veículos, como é notado por \citeonline{rosenblueth2011model}:  ``Autômatos Celulares Elementares'', discutidos nos próximos capítulos, ``podem modelar tráfego também. Podemos presumir que um veículo se move para frente ou não dependendo apenas na presença ou ausência de outro veículo em sua frente. Supondo que um veículo se move uma célula para a direita se e apenas se uma a célula à direita está vazia, então a regra 184 corresponde ao tráfego se movendo à direita. Movimento aparente é criado do seguinte modo: se o estado de uma célula é 1 e a de seu vizinho à direita é 0, então esta regra atribui 0 ao estado da célula na próxima geração, eliminando o veículo de sua célula atual (que é representada por 110 e 010). Similarmente, se o estado atual da célula é 0 e de seu vizinho à esquerda é 1, então o próximo estado da célula é 1, aparentemente fazendo o veículo no vizinho da esquerda mover-se uma célula para a direita (cobrindo casos 100 e 101). Deve-se lidar com duas outras situações. Primeiro, um veículo não pode se mover se houver outro veículo diretamente em sua frente (i.e., 111 e 011). Segundo, se não há veículo na célula ou seu vizinho à esquerda, então na próxima geração a célula não terá um veículo também (i.e., 001 e 000).''.
 
 % ``Uma abordagem para reduzir o congestionamento seria construir estradas novas ou ampliar as existentes para fornecer faixas adicionais e consequentemente, aumentar a capacidade da infraestrutura rodoviária. No entanto, essa abordagem pode ser muito custosa e os atrasos podem piorar enquanto as obras rodoviárias estão em andamento. Às vezes é difícil melhorar a estrada existente devido a objetivos ambientais ou sociais. Outra abordagem pode ser controlar o tráfego de tal maneira que o congestionamento seja resolvido com o uso de semáforos ou fazendo ajustes nas marcações das estradas. No entanto, não é uma tarefa simples decidir qual abordagem seria mais eficaz para uma rede rodoviária específica, a fim de limitar tráfego congestionado. O uso de um modelo de tráfego é necessário para prever a comportamento dos veículos e as interações entre eles nas estradas.''
 
@@ -225,7 +225,7 @@ A simulação da regra 184 para todos os esquemas de prioridade não-equivalente
     \caption{As evoluções geradas por esses pares <R,E> são idênticas}
     % \rule{6cm}{6cm} %to simulate an actual figure
   \end{minipage}%
-  \begin{minipage}[htb]{0.40\linewidth}
+  \begin{minipage}[htb]{0.60\linewidth}
     \centering
     \begin{tabular}{ | c | c | } \hline
       Regra & Esquema  \\\hline 
@@ -248,35 +248,6 @@ A simulação da regra 184 para todos os esquemas de prioridade não-equivalente
 \end{minipage}
 \label{fig:test}
 \end{figure}
-
-% \begin{table}[h]
-%   \caption{Evoluções conservativas}
-%   \begin{center}
-%     \begin{tabular}{ | c | c | } \hline
-%       Regra & Esquema  \\\hline 
-%       \multirow{13}{*}{184} 
-% 	    & 32222221 \\
-% 	    & 31111112 \\      
-% 	    & 23333331 \\      
-% 	    & 21111113 \\      
-% 	    & 13333332 \\      
-% 	    & 12222223 \\      
-% 	    & 22222221 \\      
-% 	    & 21111112 \\      
-% 	    & 21111111 \\      
-% 	    & 12222222 \\      
-% 	    & 12222221 \\      
-% 	    & 11111112 \\      
-% 	    & 11111111 \\       
-%       \hline
-%     \end{tabular}
-%   \end{center}
-% \end{table}
-%
-% \begin{figure}[!htbp]
-%   \centerline{\includegraphics[width=1cm]{imgs/184-5x33-11111111.png}}
-%   \caption{As evoluções geradas por esses pares <R,E> são idênticas}
-% \end{figure}
 
 \subsection{OBJETIVOS DO ESTUDO} 
 \tab O objetivo do presente trabalho foi identificar e quantificar pares (R,E) em que há conservabilidade nas evoluções de ACEs com atualização por prioridade da vizinhança. Para alcançar o objetivo geral proposto para a resolução do problema de pesquisa, os seguintes objetivos específicos foram estabelecidos:
