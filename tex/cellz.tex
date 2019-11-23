@@ -183,7 +183,7 @@ Keywords: \@pdfkeywords
 
 \tab A motivação inicial para o estudo de ACs por parte de von Neumann não era matemática mas tinha como diretriz encontrar uma forma viável de tratar do problema de como fazer máquinas se reproduzirem. Hoje é sabido que esses sistemas são aplicáveis para resolver problemas relativos a classificação de densidade, simulação de partículas, compressão de dados, design estrutural, representação de comportamentos dinâmicos como trânsito em cidades ou movimentação de seres vivos entre muitos outros.
 
-\tab Há uma infinidade de ACs passíveis de construção para modelagem ou solução de problemas. Um deles é a modelagem de tráfego de veículos, como é notado por \citeonline{rosenblueth2011model}:  ``Autômatos Celulares Elementares'', discutidos nos próximos capítulos, ``podem modelar tráfego também. Podemos presumir que um veículo se move para frente ou não dependendo apenas na presença ou ausência de outro veículo em sua frente. Supondo que um veículo se move uma célula para a direita se e apenas se uma a célula à direita está vazia, então a regra 184 corresponde ao tráfego se movendo à direita. Movimento aparente é criado do seguinte modo: se o estado de uma célula é 1 e a de seu vizinho à direita é 0, então esta regra atribui 0 ao estado da célula na próxima geração, eliminando o veículo de sua célula atual (que é representada por 110 e 010). Similarmente, se o estado atual da célula é 0 e de seu vizinho à esquerda é 1, então o próximo estado da célula é 1, aparentemente fazendo o veículo no vizinho da esquerda mover-se uma célula para a direita (cobrindo casos 100 e 101). Deve-se lidar com duas outras situações. Primeiro, um veículo não pode se mover se houver outro veículo diretamente em sua frente (i.e., 111 e 011). Segundo, se não há veículo na célula ou seu vizinho à esquerda, então na próxima geração a célula não terá um veículo também (i.e., 001 e 000).''.
+\tab Há uma infinidade de ACs passíveis de construção para modelagem ou solução de problemas. Um deles é a modelagem de tráfego de veículos, como é notado por \citeonline[p. 307]{rosenblueth2011model}:  ``Autômatos Celulares Elementares'', discutidos nos próximos capítulos, ``podem modelar tráfego também. Podemos presumir que um veículo se move para frente ou não dependendo apenas na presença ou ausência de outro veículo em sua frente. Supondo que um veículo se move uma célula para a direita se e apenas se uma a célula à direita está vazia, então a regra 184 corresponde ao tráfego se movendo à direita. Movimento aparente é criado do seguinte modo: se o estado de uma célula é 1 e a de seu vizinho à direita é 0, então esta regra atribui 0 ao estado da célula na próxima geração, eliminando o veículo de sua célula atual (que é representada por 110 e 010). Similarmente, se o estado atual da célula é 0 e de seu vizinho à esquerda é 1, então o próximo estado da célula é 1, aparentemente fazendo o veículo no vizinho da esquerda mover-se uma célula para a direita (cobrindo casos 100 e 101). Deve-se lidar com duas outras situações. Primeiro, um veículo não pode se mover se houver outro veículo diretamente em sua frente (i.e., 111 e 011). Segundo, se não há veículo na célula ou seu vizinho à esquerda, então na próxima geração a célula não terá um veículo também (i.e., 001 e 000).''.
 
 % ``Uma abordagem para reduzir o congestionamento seria construir estradas novas ou ampliar as existentes para fornecer faixas adicionais e consequentemente, aumentar a capacidade da infraestrutura rodoviária. No entanto, essa abordagem pode ser muito custosa e os atrasos podem piorar enquanto as obras rodoviárias estão em andamento. Às vezes é difícil melhorar a estrada existente devido a objetivos ambientais ou sociais. Outra abordagem pode ser controlar o tráfego de tal maneira que o congestionamento seja resolvido com o uso de semáforos ou fazendo ajustes nas marcações das estradas. No entanto, não é uma tarefa simples decidir qual abordagem seria mais eficaz para uma rede rodoviária específica, a fim de limitar tráfego congestionado. O uso de um modelo de tráfego é necessário para prever a comportamento dos veículos e as interações entre eles nas estradas.''
 
@@ -195,7 +195,7 @@ Keywords: \@pdfkeywords
 
 % \subsubsection{PROBLEMA DE PESQUISA} \label{problema}
 % \subsubsection{VARIÁVEIS} \label{varia}
-\tab Dentre o conjunto de esquemas de atualização não-equivalentes, o objetivo é encontrar quais pares \texttt{(R,E)} são conservativos. Dados os esquemas de atualização mencionados na seção \ref{referencial}, encontrar quais esquemas apresentam conservabilidade numérica.
+\tab Dentre o conjunto de esquemas de atualização não-equivalentes, o objetivo é encontrar quais pares $\langle\,R,E\,\rangle$ são conservativos. Dados os esquemas de atualização mencionados na seção \ref{referencial}, encontrar quais esquemas apresentam conservabilidade numérica.
 
 \tab A implementação do simulador tem como parâmetros as seguintes variáveis:
 
@@ -216,41 +216,8 @@ Estes conceitos são mais profundamente discutidos no item \ref{referencial}.
 
 \break
 
-A simulação da regra 184 para todos os esquemas de prioridade não-equivalentes até largura \textit{n}=15 mostra em quais esquemas a regra permanece conservativa:
-
-\begin{figure}[h]
-  \begin{minipage}[htb]{0.40\linewidth}
-    \centering
-    \includegraphics[width=0.1\linewidth]{imgs/184-5x33-11111111.png}
-    \caption{As evoluções geradas por esses pares <R,E> são idênticas}
-    % \rule{6cm}{6cm} %to simulate an actual figure
-  \end{minipage}%
-  \begin{minipage}[htb]{0.60\linewidth}
-    \centering
-    \begin{tabular}{ | c | c | } \hline
-      Regra & Esquema  \\\hline 
-      \multirow{13}{*}{184} 
-	    & 32222221 \\
-	    & 31111112 \\      
-	    & 23333331 \\      
-	    & 21111113 \\      
-	    & 13333332 \\      
-	    & 12222223 \\      
-	    & 22222221 \\      
-	    & 21111112 \\      
-	    & 21111111 \\      
-	    & 12222222 \\      
-	    & 12222221 \\      
-	    & 11111112 \\      
-	    & 11111111 \\       
-      \hline
-    \end{tabular}
-\end{minipage}
-\label{fig:test}
-\end{figure}
-
 \subsection{OBJETIVOS DO ESTUDO} 
-\tab O objetivo do presente trabalho foi identificar e quantificar pares (R,E) em que há conservabilidade nas evoluções de ACEs com atualização por prioridade da vizinhança. Para alcançar o objetivo geral proposto para a resolução do problema de pesquisa, os seguintes objetivos específicos foram estabelecidos:
+\tab O objetivo do presente trabalho foi identificar e quantificar pares $\langle\,R,E\,\rangle$ em que há conservabilidade nas evoluções de ACEs com atualização por prioridade da vizinhança. Para alcançar o objetivo geral proposto para a resolução do problema de pesquisa, os seguintes objetivos específicos foram estabelecidos:
 
 \begin{itemize}
   \item Definição formal da estratégia de atualização.
@@ -277,6 +244,8 @@ Descrição dos capítulos:
     \subitem Sustentação argumentativa sobre o tema proposto.
   \item Metodologia de Pesquisa
     \subitem Sistematização dos instrumentos e processos de estudo empregados no presente trabalho.
+  \item Resultados dos Experimentos
+    \subitem Análise e apresentação dos resultados das evoluções propostas.
   \item Cronograma
     \subitem Planejamento das tarefas necessárias para a conclusão deste trabalho, bem como suas expectativas de início e conclusão.
 \end{enumerate}
@@ -287,7 +256,14 @@ Descrição dos capítulos:
 % \subsection{AUTÔMATOS CELULARES} \label{ref_ac}
 \subsection{AUTÔMATOS CELULARES ELEMENTARES} \label{ref_ace}
 
-\tab Um AC pode ser descrito simplesmente por seu \textit{reticulado} e sua \textit{regra de transição}. O reticulado é um conjunto finito \textit{d-dimensional} ordenado de células onde cada célula no índice \textbf{i} tem um estado entre \textit{k} estados. As regras de transição definem o novo estado de uma determinada célula em função de sua vizinhança de tamanho \textit{2r+1}, sendo \textit{r} raio do AC. O comportamento da aplicação das regras de transição nas bordas do espaço pode ser especificado de várias formas, muitas vezes como conexo com a borda oposta, tornando o espaço efetivamente contínuo.
+\tab Um AC pode ser descrito simplesmente por seu \textit{reticulado} e sua \textit{regra de transição}. O reticulado é um conjunto finito \textit{d-dimensional} ordenado de células onde cada célula no índice \textbf{i} tem um estado entre \textit{k} estados. As regras de transição definem o novo estado de uma determinada célula em função de sua vizinhança de tamanho \textit{2r+1}, sendo \textit{r} raio do AC. O comportamento da aplicação das regras de transição nas bordas do espaço pode ser especificado de várias formas, muitas vezes como conexo com a borda oposta, tornando o espaço efetivamente contínuo. 
+
+\tab Uma definição direta das regras de transição consiste na enumeração de todos os estados possíveis da própria célula, das células vizinhas e do próximo estado, contendo a informação necessária para computar o estado futuro das células em função de sua vizinhança e, consequentemente, da evolução como um todo. A regra do AC corresponde a função local, formada por transições de estado. A ação dela sobre cada célula de uma configuração pode ser vista como resultado da ação de uma função global sobre o reticulado, que é distinta da função local.
+
+\begin{figure}[!htbp]
+  \centerline{\includegraphics[width=10cm]{imgs/rule_22.png}}
+  \caption{Ilustração das regras de transição para a regra 22 no código Wolfram. }
+\end{figure}
 
 \tab ACEs formam a família de ACs com \textit{d}=1, \textit{k}=2 e \textit{r}=1, ou seja, são unidimensionais, com células binárias e vizinhanças definidas como 3 células contíguas. O reticulado é dito ter largura \textit{n}, isto é, tem \textit{n} células em cada reticulado da evolução e permanece constante até o fim das evoluções.
 
@@ -296,35 +272,12 @@ Descrição dos capítulos:
 % \caption{Nas renderizações, é convenção representar 1s como células em preto e 0s em branco. }
 % \end{figure}
 
-\tab Os ACEs são comumente representados por seu respectivo \textit{Wolfram code}, uma nomenclatura que dá a cada regra um identificador no intervalo \(\left[0, 255\right]\). Segundo \cite[p. 24]{wolfram2002new}, ``A linha superior em cada caixa dá uma das possíveis combinações de cores para uma célula e sua vizinhança imediata. A linha inferior então especifica qual será a cor da célula central no próximo passo em cada um desses casos.''
-
-\begin{figure}[!htbp]
-  \centerline{\includegraphics[width=10cm]{imgs/rule_22.png}}
-  \caption{Ilustração do mapa de transições para a regra 22 no código Wolfram. }
-\end{figure}
+\tab Os ACEs são comumente representados por seu respectivo \textit{Wolfram code}, uma nomenclatura que dá a cada regra um identificador no intervalo \(\left[0, 255\right]\). Segundo \citeonline[p. 24]{wolfram2002new}, ``A linha superior em cada caixa dá uma das possíveis combinações de cores para uma célula e sua vizinhança imediata. A linha inferior então especifica qual será a cor da célula central no próximo passo em cada um desses casos.''
 
 \begin{figure}[!htbp]
   \centerline{\includegraphics[width=8cm]{imgs/256ecas.png}}
   \caption{Ilustração das 256 regras elementares. }
 \end{figure}
-
-% ACs de 1 dimensão, elementares, com vizinhança \texttt{\{-1,0,1\}}, com conjunto de estados \texttt{\{0,1\}}, na ordem lexicográfica \{\textit{\(w_0\)}, ..., \textit{\(w_7\)},\} em \(\{0,1\}^3\), se \(\delta(\textit{w}_i)=s_i,s_0,...s_7\) representa \(\delta\). Analogamente, qualquer inteiro positivo menor que 256 = \(2^8\) define um ACE \cite[cap. 2]{delorme1999introduction}.
-
-% \begin{figure}[!htbp]
-% \centerline{\includegraphics[width=10cm]{imgs/rule-transitions.png}}
-% \caption{Ilustração do mapa de transições para a regra 90 na notação de \citeonline{wolfram1983cellular}}
-% \end{figure}
-
-
-% \cite{wolfram2002new}
-
-% \tab ``O \textit{reticulado} é um reticulado de n células idênticas, cada qual com um padrão idêntico de conexões locais para outras células e com condições de contorno. O conjunto de estados possíveis da célula é denotado por \(\Sigma\) e o número de estados desse conjunto é denotado por \textbf{k}. Cada célula é denotada por um índice \textbf{i} e seu estado a um dado tempo \textbf{t} é denotado por \(n_i^t\), onde \(S_i^t \in \Sigma\). O estado \(S_i^t\) da célula \textbf{i} e os estados das células às quais a célula \textbf{i} está conectada são chamados de vizinhança \(n_i^t\) da célula \textbf{i}.
-%
-% \tab A \textit{regra de transição} é denotada por \(\Phi(n_i^t)\) que fornece o próximo estado \(S_i^{t+1}\) para cada célula \textbf{i}, como uma função de \(n_i^t\). A cada passo de tempo, todas as células atualizam seus estados sincronicamente de acordo com \(\Phi(n_i^t)\). 
-
-% \tab Para ACs unidimensionais, o tamanho da vizinhança \(n_i\) é normalmente escrito como \(\lvert n_i\rvert = 2r + 1\), onde \textbf{r} é chamado o raio do AC.''
-
-% (como é descrito\ref{varia}).
 
 \break
 \subsubsection{ATUALIZAÇÃO ASSÍNCRONA \\POR PRIORIDADE DA VIZINHANÇA} \label{tiposatt}
@@ -332,7 +285,9 @@ Descrição dos capítulos:
 
 \tab No presente trabalho foi empregado um tipo inédito de estratégia de atualização: em função da prioridade da vizinhança, que consiste em cada uma das 8 regras de transição estar associada a uma prioridade no intervalo \(\left[1, 8\right]\), (e.g.: 12344321). Esse tipo de atualização requer uma distinção das iterações globais e locais (microiterações):  as prioridades de vizinhanças são iteradas sequencialmente de menor a maior e para cada prioridade, o reticulado é varrido e atualizam-se apenas as células que tenham vizinhança com a prioridade atual, mantendo-se o estado das vizinhanças que não estejam na prioridade atual da iteração. Ao fim da varredura do reticulado, o processo se repete para a próxima prioridade, agora iterando sobre o reticulado gerado no processo descrito anteriormente. O reticulado resultante após iterar sobre todas as prioridades é chamado de iteração global (ou macroiteração) e é incluído nas renderizações, o que não acontece com as microiterações.
 
-\tab Esse modo de atualização inclui também a atualização síncrona, que pode ser simulada quando as prioridades do esquema têm mesmo valor (11111111, 22222222, ..., etc). Diferentes esquemas de prioridade aplicados a uma mesma regra podem gerar evoluções idênticas para quaisquer configurações iniciais. Estes esquemas são chamados esquemas equivalentes. As evoluções podem ser identificadas como um par \textit{(R,E)}, onde \textit{R} é a regra e \textit{E} é um esquema de prioridade. Eliminados os esquemas equivalentes, para ACEs, é possível gerar 1.194.165 combinações de pares \textit{(R,E)}. 
+\tab Esse modo de atualização inclui também a atualização síncrona, que pode ser simulada quando as prioridades do esquema têm mesmo valor (11111111, 22222222, ..., etc). Diferentes esquemas de prioridade aplicados a uma mesma regra podem gerar evoluções equivalentes para quaisquer configurações iniciais. Estes esquemas são chamados esquemas equivalentes. As evoluções podem ser identificadas como um par $\langle\,R,E\,\rangle$, onde \textit{R} é a regra e \textit{E} é um esquema de prioridade. 
+
+\tab No presente trabalho, são filtrados os esquemas simetricamente equivalentes, isto é, os esquemas semi-totalísticos: ``Regras totalísticas dependem apenas do número total de células pretas em uma vizinhança; regras semi-totalísticas [...] também dependem da cor da célula central'' de acordo com \citeonline{wolfram2002new}. Para ACEs, é possível gerar 1.194.165 combinações de pares $\langle\,R,E\,\rangle$. 
 
 % \break 
 \subsection{CONSERVABILIDADE NUMÉRICA} \label{num-conserv}
@@ -379,6 +334,41 @@ Assim, pode-se dizer que as etapas desenvolvidas neste estudo foram:
 \tab Esta é uma pesquisa exploratória, dada a natureza desconhecida das propriedades de ACEs com o tipo de atualização mencionado em \ref{ref_ace}. Baseada em medidas objetivas e dados verificáveis, esta pesquisa foi voltada para encontrar caminhos, formas, maneiras e procedimentos para atingir um determinado fim, buscando definir um processo ou uma ferramenta que leve à solução do problema proposto.  Quanto aos meios, foram utilizados os recursos mencionados na Bibliografia.
 
 \break
+
+\section{RESULTADOS DOS EXPERIMENTOS}
+
+A simulação da regra 184 para todos os esquemas de prioridade não-equivalentes até largura \textit{n}=15 mostra em quais esquemas a regra permanece conservativa:
+
+\begin{figure}[h]
+  \begin{minipage}[htb]{.4\linewidth}
+    \centering
+    \includegraphics[width=0.1\linewidth]{imgs/184-5x33-11111111.png}
+    \caption{As evoluções geradas por esses pares $\langle\,R,E\,\rangle$ são idênticas}
+    % \rule{6cm}{6cm} %to simulate an actual figure
+  \end{minipage}%
+  \begin{minipage}[htb]{.6\linewidth}
+    \centering
+    \begin{tabular}{ | c | c | } \hline
+      Regra & Esquema  \\\hline 
+      \multirow{13}{*}{184} 
+	    & 32222221 \\
+	    & 31111112 \\      
+	    & 23333331 \\      
+	    & 21111113 \\      
+	    & 13333332 \\      
+	    & 12222223 \\      
+	    & 22222221 \\      
+	    & 21111112 \\      
+	    & 21111111 \\      
+	    & 12222222 \\      
+	    & 12222221 \\      
+	    & 11111112 \\      
+	    & 11111111 \\       
+      \hline
+    \end{tabular}
+\end{minipage}
+\label{fig:test}
+\end{figure}
 
 \section{CRONOGRAMA} \label{cron}
 
