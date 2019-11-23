@@ -141,7 +141,8 @@ Orientador: \orientador
 \maketitle
 
 \begin{abstract}
-  Autômatos Celulares são sistemas computacionais discretos que se têm provado úteis como modelos genéricos de complexidade e representação de diversas dinâmicas em uma varidade de áreas científicas. Estes sistemas podem ser especificados puramente em termos matemáticos e até implementados em estruturas físicas. Muitos deles podem computar funções e resolver problemas algorítmicos. O presente projeto explora um conjunto fundamental deles, chamados Automatos Celulares Elementares com um tipo específico de atualização assíncrona baseada em prioridade da vizinhança com a esperança de encontrar modelos que podem ser usados em aplicações práticas onde há ambientes dinâmicos que apresentam conservabilidade. 
+  Autômatos Celulares são sistemas computacionais discretos que se têm provado úteis como modelos genéricos de complexidade e representação de diversas dinâmicas em uma variedade de áreas científicas. Estes sistemas podem ser especificados puramente em termos matemáticos e até implementados em estruturas físicas. Muitos deles podem computar funções e resolver problemas algorítmicos. O presente projeto explora um conjunto fundamental deles, chamados Autômatos Celulares Elementares, com a finalidade de avaliar a conservabilidade no espaço elementar através de um tipo específico de atualização assíncrona, baseada em prioridade da vizinhança.
+ % com a esperança de encontrar, no espaço elementar, pares de esquemas de atualização e regras que possam ser usados em aplicações práticas onde haja ambientes dinâmicos que apresentem conservabilidade. 
   % O código correspondende a este trabalho pode ser acessado no repositório \url{https://github.com/mvrozanti/TCC}.
 \end{abstract}
 Palavras-chave: Autômatos celulares elementares, atualização assíncrona por prioridade da vizinhança, New Kind of Science, Sistemas dinâmicos discretos, Conservabilidade
@@ -150,7 +151,7 @@ Palavras-chave: Autômatos celulares elementares, atualização assíncrona por 
 
 \selectlanguage{english}
 \begin{abstract}
-  Cellular Automata are discrete computational systems that have proved useful as general models of complexity and representations of dynamics on a variety of scientific fields. These systems can be specified in purely mathematical terms and be implemented in physical structures. Many of them can compute functions and solve algorithmic problems. The present project attempts to explore a fundamental subset of them, called Elementary Cellular Automata with a specific kind of neighbourhood-priority-based asynchronous updating in the search of number-conserving models, which can be used for a variety of practical applications. 
+  Cellular Automata are discrete computational systems that have proved useful as general models of complexity and representations of dynamics on a variety of scientific fields. These systems can be specified in purely mathematical terms and be implemented in physical structures. Many of them can compute functions and solve algorithmic problems. The present project attempts to explore a fundamental subset of them, called Elementary Cellular Automata with a specific kind of neighbourhood-priority-based asynchronous updating in the search of number-conserving models, which can be used for many practical applications. 
   %The implementation developed is hosted at \url{https://github.com/mvrozanti/TCC}.
 \end{abstract}
 Keywords: \@pdfkeywords
@@ -172,7 +173,7 @@ Keywords: \@pdfkeywords
 
 % \tab Este projeto teve como objetivo explorar propriedades conservativas em autômatos celulares (ACs) elementares com atualização assíncrona baseada em prioridade da vizinhança. 
 
-\tab Autômatos Celulares (ACs) são uma categoria de sistemas discretos. Por sua própria simplicidade, estes sistemas têm ocupado uma posição privilegiada no estudo de complexidade nos mais diversos campos da ciência, de biologia teórica a economia, entre muitos outros. O desenvolvimento de ACs é tipicamente atribuído a John von Neumann através de suas tentativas de desenvolver um modelo abstrato de autoreprodução biológica. Ao fim de 1950, foi notado que ACs poderiam ser vistos como computadores paralelos \cite[p. 876]{wolfram2002new}. Apesar de falta de investigação científica até 1970, um exemplo de AC se tornou muito famoso por seu comportamento complexo e regras simplesmente descritas inventadas por John Conway, \textit{The Game of Life}, que se popularizou após sua aparição na revista \textit{Scientific American}. 
+\tab Autômatos Celulares (ACs) são uma categoria de sistemas discretos. Por sua própria simplicidade, estes sistemas têm ocupado uma posição privilegiada no estudo de complexidade nos mais diversos campos da ciência, de biologia teórica a economia, entre muitos outros. O desenvolvimento de ACs é tipicamente atribuído a John von Neumann através de suas tentativas de criar um modelo abstrato de autoreprodução biológica. Ao fim de 1950, foi notado que ACs poderiam ser vistos como computadores paralelos \cite[p. 876]{wolfram2002new}. Apesar de falta de investigação científica até 1970, um exemplo de AC se tornou muito famoso por seu comportamento complexo e regras simplesmente descritas inventadas por John Conway, \textit{The Game of Life}, que se popularizou após sua aparição na revista \textit{Scientific American}. 
 
 \tab Desde então, múltiplos estudos compreensivos foram realizados por cientistas ao redor do mundo, destacando os trabalhos feitos por Stephen Wolfram na década de 1980, culminando na publicação do livro A New Kind of Science em que Wolfram apresenta uma coleção de resultados a respeito de ACs, com uma série de descobertas revolucionárias. 
 
@@ -182,38 +183,38 @@ Keywords: \@pdfkeywords
 
 \tab A motivação inicial para o estudo de ACs por parte de von Neumann não era matemática mas tinha como diretriz encontrar uma forma viável de tratar do problema de como fazer máquinas se reproduzirem. Hoje é sabido que esses sistemas são aplicáveis para resolver problemas relativos a classificação de densidade, simulação de partículas, compressão de dados, design estrutural, representação de comportamentos dinâmicos como trânsito em cidades ou movimentação de seres vivos entre muitos outros.
 
-\tab Há uma infinitude de ACs possíveis de serem engenhados. Um problema de possível realização através de ACs com propriedades conservativas, como é notado por \citeonline[p. 3]{yuen2009applications}, é na modelagem de trânsito de veículos: ``Uma abordagem para reduzir o congestionamento seria construir estradas novas ou ampliar as existentes para fornecer faixas adicionais e consequentemente, aumentar a capacidade da infraestrutura rodoviária. No entanto, essa abordagem pode ser muito custosa e os atrasos podem piorar enquanto as obras rodoviárias estão em andamento. Às vezes é difícil melhorar a estrada existente devido a objetivos ambientais ou sociais. Outra abordagem pode ser controlar o tráfego de tal maneira que o congestionamento seja resolvido com o uso de semáforos ou fazendo ajustes nas marcações das estradas. No entanto, não é uma tarefa simples decidir qual abordagem seria mais eficaz para uma rede rodoviária específica, a fim de limitar tráfego congestionado. O uso de um modelo de tráfego é necessário para prever a comportamento dos veículos e as interações entre eles nas estradas.''
+\tab Há uma infinitude de ACs possíveis de serem construídos. Um problema de possível solução através de ACs com propriedades conservativas, como é notado por                                        , é na modelagem de trânsito de veículos: ``Uma abordagem para reduzir o congestionamento seria construir estradas novas ou ampliar as existentes para fornecer faixas adicionais e consequentemente, aumentar a capacidade da infraestrutura rodoviária. No entanto, essa abordagem pode ser muito custosa e os atrasos podem piorar enquanto as obras rodoviárias estão em andamento. Às vezes é difícil melhorar a estrada existente devido a objetivos ambientais ou sociais. Outra abordagem pode ser controlar o tráfego de tal maneira que o congestionamento seja resolvido com o uso de semáforos ou fazendo ajustes nas marcações das estradas. No entanto, não é uma tarefa simples decidir qual abordagem seria mais eficaz para uma rede rodoviária específica, a fim de limitar tráfego congestionado. O uso de um modelo de tráfego é necessário para prever a comportamento dos veículos e as interações entre eles nas estradas.''
 
 \subsection{OBJETO DE PESQUISA} \label{objetopesq}
 
-\tab O objeto de pesquisa deste trabalho são ACEs com atualização assíncrona por prioridade da vizinhança, em especial, na regra 184. 
+\tab O objeto de pesquisa deste trabalho são Autômatos Celulares Elementares (ACEs) com atualização assíncrona por prioridade da vizinhança, em especial, na regra 184. 
 
 % Esses conceitos são aprofundados no item \ref{referencial}.
 
 % \subsubsection{PROBLEMA DE PESQUISA} \label{problema}
 % \subsubsection{VARIÁVEIS} \label{varia}
-\tab Dentre o conjunto de esquemas de atualização não-equivalentes, o objetivo é encontrar quais pares \texttt{(R,E)} são conservativos. Dados os esquemas de atualização mencionados na seção \ref{objetopesq}, encontrar quais esquemas apresentaram conservabilidade numérica.
+\tab Dentre o conjunto de esquemas de atualização não-equivalentes, o objetivo é encontrar quais pares \texttt{(R,E)} são conservativos. Dados os esquemas de atualização mencionados na seção \ref{referencial}, encontrar quais esquemas apresentam conservabilidade numérica.
 
 \tab A implementação do simulador tem como parâmetros as seguintes variáveis:
 
 \begin{itemize}
-  \item Largura do espaço celular\\
-    \tab É o tamanho do espaço celular unidimensional, definido como \textit{n}.
+  \item Largura do reticulado:\\
+    \tab É o tamanho do reticulado unidimensional, definido como \textit{n}.
   \item Configuração inicial:\\
-    \tab Estado global de início do AC.
-  \item Timesteps:\\
-    \tab Quantidade de reticulados resultantes. É a altura das evoluções, para ACEs.
-  \item Regra de transição:\\
-    \tab Função que recebe uma configuração e produz o reticulado seguinte.
+    \tab Conjunto ordenado de células do AC, cada uma com um estado definido.
+  \item Time steps:\\
+    \tab Quantidade de reticulados resultantes ou, de iterações da simulação. É a altura das evoluções, para ACEs.
+  % \item Regra de transição:\\
+  %   \tab Função que recebe uma vizinhança e produz o estado seguinte da célula central da vizinhança.
   \item Esquema de prioridades de atualização:\\
-    \tab Ordem em que as vizinhanças são atualizadas nos microtimesteps.
+    \tab Ordem em que as vizinhanças são atualizadas nas microiterações.
 \end{itemize}
 
 Estes conceitos são mais profundamente discutidos no item \ref{referencial}.
 
 \break
 
-A simulação da regra 184 para todos os esquemas de prioridade não-equivalentes até largura N=15 mostra em quais esquemas a regra permanece conservativa:
+A simulação da regra 184 para todos os esquemas de prioridade não-equivalentes até largura \textit{n}=15 mostra em quais esquemas a regra permanece conservativa:
 
 \begin{figure}[h]
   \begin{minipage}[htb]{0.40\linewidth}
@@ -287,10 +288,10 @@ A simulação da regra 184 para todos os esquemas de prioridade não-equivalente
 \end{itemize}
 
 \subsection{JUSTIFICATIVA}
-\tab A motivação para o presente trabalho é explorar em que condições os ACEs são conservativos com o propósito de enumerar evoluções conservativas que podem ser usadas para modelagem de ambientes com propriedades conservativas.
+\tab A motivação para o presente trabalho é explorar em que condições os ACEs são conservativos com o propósito de enumerar evoluções conservativas que podem ser usadas para modelagem de ambientes em que há conservabilidade numérica, questão que será aprofundada no item \ref{referencial}.
 
 \subsection{ORGANIZAÇÃO E DELIMITAÇÃO DO ESTUDO} \label{delimitacao}
-\tab A pesquisa se limita a ACEs com o tipo de atualização evidenciado no item \ref{objetopesq}, com largura de reticulados testados até N=15. Os esquemas de atualização são filtrados a fim de se eliminar esquemas equivalentes, já que produzem evoluções idênticas para quaisquer configurações iniciais, resultando em 4683 esquemas. 
+\tab A pesquisa se limita a ACEs com o tipo de atualização evidenciado no item \ref{ref_ace}, com largura de reticulados testados até \textit{n}=15. Os esquemas de atualização foram filtrados a fim de eliminar esquemas equivalentes, que produzem evoluções idênticas para quaisquer configurações iniciais, de modo que restassem 4683 esquemas no total. Cada esquema contém a prioridade de cada uma das 8 vizinhanças possíveis do espaço elementar, correspondendo às vizinhanças, respectivamente: (111, 110, 101, 100, 011, 010, 001, 000).  Em cada esquema, o número 1 indica que a vizinhança será a primeira a ser atualizada (ou seja, máxima prioridade), o número 2 indica que a vizinhança será a segunda a ser atualizada, e assim por diante. 
 
 % \subsection{ORGANIZAÇÃO DO ESTUDO}
 
@@ -311,11 +312,11 @@ Descrição dos capítulos:
 \tab Em relação ao referencial teórico estudado neste TCC, foi de suma importância entender os seguintes tópicos:
 
 % \subsection{AUTÔMATOS CELULARES} \label{ref_ac}
-\subsection{AUTÔMATOS CELULARES ELEMENTARES}
+\subsection{AUTÔMATOS CELULARES ELEMENTARES} \label{ref_ace}
 
-\tab Um AC pode ser descrito simplesmente por seu \textit{espaço celular} e \textit{regra de transição}. O espaço celular é um conjunto finito \textit{d-dimensional} ordenado de células onde cada célula no índice \textbf{i} tem um estado entre \textit{k} estados. As regras de transição definem o novo estado de uma determinada célula em função de sua vizinhança de tamanho \textit{r}, dito o raio do AC. O comportamento da aplicação das regras de transição nas bordas do espaço pode ser especificado de várias formas, muitas vezes como conexo com a borda oposta tornando o espaço efetivamente contínuo.
+\tab Um AC pode ser descrito simplesmente por seu \textit{reticulado} e sua \textit{regra de transição}. O reticulado é um conjunto finito \textit{d-dimensional} ordenado de células onde cada célula no índice \textbf{i} tem um estado entre \textit{k} estados. As regras de transição definem o novo estado de uma determinada célula em função de sua vizinhança de tamanho \textit{2r+1}, sendo \textit{r} raio do AC. O comportamento da aplicação das regras de transição nas bordas do espaço pode ser especificado de várias formas, muitas vezes como conexo com a borda oposta, tornando o espaço efetivamente contínuo.
 
-\tab ACEs formam a família de ACs com \textit{d}=1, \textit{k}=2 e \textit{r}=1, ou seja, são unidimensionais, com células binárias e vizinhanças são definidas por 3 células contíguas. O espaço celular é dito ter largura N, isto é, tem n células em cada reticulado da evolução e permanece constante até o fim das evoluções.
+\tab ACEs formam a família de ACs com \textit{d}=1, \textit{k}=2 e \textit{r}=1, ou seja, são unidimensionais, com células binárias e vizinhanças definidas como 3 células contíguas. O reticulado é dito ter largura \textit{n}, isto é, tem \textit{n} células em cada reticulado da evolução e permanece constante até o fim das evoluções.
 
 % \begin{figure}[!htbp]
 % \centerline{\includegraphics[width=10cm]{imgs/typical-config.png}}
@@ -344,7 +345,7 @@ Descrição dos capítulos:
 
 % \cite{wolfram2002new}
 
-% \tab ``O \textit{espaço celular} é um reticulado de n células idênticas, cada qual com um padrão idêntico de conexões locais para outras células e com condições de contorno. O conjunto de estados possíveis da célula é denotado por \(\Sigma\) e o número de estados desse conjunto é denotado por \textbf{k}. Cada célula é denotada por um índice \textbf{i} e seu estado a um dado tempo \textbf{t} é denotado por \(n_i^t\), onde \(S_i^t \in \Sigma\). O estado \(S_i^t\) da célula \textbf{i} e os estados das células às quais a célula \textbf{i} está conectada são chamados de vizinhança \(n_i^t\) da célula \textbf{i}.
+% \tab ``O \textit{reticulado} é um reticulado de n células idênticas, cada qual com um padrão idêntico de conexões locais para outras células e com condições de contorno. O conjunto de estados possíveis da célula é denotado por \(\Sigma\) e o número de estados desse conjunto é denotado por \textbf{k}. Cada célula é denotada por um índice \textbf{i} e seu estado a um dado tempo \textbf{t} é denotado por \(n_i^t\), onde \(S_i^t \in \Sigma\). O estado \(S_i^t\) da célula \textbf{i} e os estados das células às quais a célula \textbf{i} está conectada são chamados de vizinhança \(n_i^t\) da célula \textbf{i}.
 %
 % \tab A \textit{regra de transição} é denotada por \(\Phi(n_i^t)\) que fornece o próximo estado \(S_i^{t+1}\) para cada célula \textbf{i}, como uma função de \(n_i^t\). A cada passo de tempo, todas as células atualizam seus estados sincronicamente de acordo com \(\Phi(n_i^t)\). 
 
@@ -354,15 +355,15 @@ Descrição dos capítulos:
 
 \break
 \subsubsection{ATUALIZAÇÃO ASSÍNCRONA \\POR PRIORIDADE DA VIZINHANÇA} \label{tiposatt}
-\tab Parte imprescindível da definição de um AC é a ordem de atualização das células no espaço celular. Apesar de serem fundamentalmente concebidos com o comportamento de atualização síncrona, é possível se utilizar das mais diversas e criativas estratégias de atualização.
+\tab Parte imprescindível da definição de um AC é a ordem de atualização das células no reticulado. Apesar de os ACs serem fundamentalmente concebidos com o comportamento de atualização síncrona, é possível se utilizar das mais diversas e criativas estratégias de atualização.
 
-\tab No presente trabalho foi empregado um tipo inédito de estratégia de atualização: em função da prioridade da vizinhança, que consiste em cada uma das 8 regras de transição estar associada a uma prioridade no intervalo \(\left[1, 8\right]\), (e.g.: 12344321). Esse tipo de atualização requer uma distinção dos timesteps globais e locais (microtimesteps):  as prioridades de vizinhanças são iteradas sequencialmente de menor a maior e para cada prioridade, o espaço celular é varrido e atualizam-se apenas as células que tenham vizinhança com a prioridade atual, mantendo-se o estado das vizinhanças que não estejam na prioridade atual da iteração. Ao fim da varredura do espaço celular, o processo se repete para a próxima prioridade, agora iterando sobre o reticulado gerado no processo descrito anteriormente. O reticulado resultante após iterar sobre todas as prioridades é chamado de timestep global (ou macrotimestep) e é incluído nas renderizações, o que não acontece com os microtimesteps.
+\tab No presente trabalho foi empregado um tipo inédito de estratégia de atualização: em função da prioridade da vizinhança, que consiste em cada uma das 8 regras de transição estar associada a uma prioridade no intervalo \(\left[1, 8\right]\), (e.g.: 12344321). Esse tipo de atualização requer uma distinção das iterações globais e locais (microiterações):  as prioridades de vizinhanças são iteradas sequencialmente de menor a maior e para cada prioridade, o reticulado é varrido e atualizam-se apenas as células que tenham vizinhança com a prioridade atual, mantendo-se o estado das vizinhanças que não estejam na prioridade atual da iteração. Ao fim da varredura do reticulado, o processo se repete para a próxima prioridade, agora iterando sobre o reticulado gerado no processo descrito anteriormente. O reticulado resultante após iterar sobre todas as prioridades é chamado de iteração global (ou macroiteração) e é incluído nas renderizações, o que não acontece com as microiterações.
 
-\tab Esse modo de atualização inclui também a atualização síncrona, que pode ser simulada quando as prioridades do esquema têm mesmo valor (11111111, 22222222, ..., etc). Diferentes esquemas de prioridade aplicados a uma mesma regra podem gerar evoluções idênticas. Estes esquemas são chamados esquemas equivalentes. As evoluções podem ser identificadas como um par \textit{(R,E)}, onde \textit{R} é a regra e \textit{E} é um esquema de prioridade. Eliminados os esquemas equivalentes, para ACEs, é possível gerar 1.194.165 combinações de pares \textit{(R,E)}. 
+\tab Esse modo de atualização inclui também a atualização síncrona, que pode ser simulada quando as prioridades do esquema têm mesmo valor (11111111, 22222222, ..., etc). Diferentes esquemas de prioridade aplicados a uma mesma regra podem gerar evoluções idênticas para quaisquer configurações iniciais. Estes esquemas são chamados esquemas equivalentes. As evoluções podem ser identificadas como um par \textit{(R,E)}, onde \textit{R} é a regra e \textit{E} é um esquema de prioridade. Eliminados os esquemas equivalentes, para ACEs, é possível gerar 1.194.165 combinações de pares \textit{(R,E)}. 
 
 % \break 
 \subsection{CONSERVABILIDADE NUMÉRICA} \label{num-conserv}
-\tab Segundo \citeonline{boccara2002number}, ``Uma regra de AC \textit{f} de \textit{q} estados, unidimensional, de largura \textit{n} é conservativa se, para todas as configurações cíclicas de tamanho \textit{L} \(\geq\) n satisfaz'':
+\tab Segundo \citeonline{boccara2002number}, ``Uma regra de AC \textit{f} de \textit{q} estados, unidimensional, de largura \textit{n} é conservativa se, para todas as configurações cíclicas de tamanho \textit{L} \(\geq\) \textit{n} satisfaz'':
 
 % ``A one-dimensional q-state n-input CA rule f is number-conserving if, for all cyclic configurations of length L \(\geq\) n, it satisfies'':
 
@@ -371,20 +372,20 @@ Descrição dos capítulos:
 
 % \break
 
-\tab No contexto de ACEs, uma evolução é dita conservativa caso, para qualquer configuração inicial, a quantidade de um determinado estado é sempre a mesma para todos os timesteps. Como é mencionado no item \ref{contex}, ACs conservativos podem ser usados para modelar ambientes em que há conservabilidade, como trânsito automobilístico, simulação de partículas, entre outros. A regra 184 é uma regra que, com execução síncrona e (como este trabalho apresenta) assíncrona, gera evoluções conservativas pela definição anterior de conservabilidade.
+\tab No contexto de ACEs, uma evolução é dita conservativa caso, para qualquer configuração inicial, a quantidade de um determinado estado é sempre a mesma para todas as iterações. Como é mencionado no item \ref{contex}, ACs conservativos podem ser usados para modelar ambientes em que há conservabilidade, como trânsito automobilístico, simulação de partículas, entre outros. A regra 184 é uma regra que, com execução síncrona e (como este trabalho apresenta) assíncrona, gera evoluções conservativas pela definição anterior de conservabilidade.
 
 
 
 \section{METODOLOGIA DA PESQUISA}
 \tab No que tange à Metodologia empregada neste TCC, o trabalho teve início com uma revisão da literatura específica sobre o tema da pesquisa. Esta pesquisa abrange conceitos fundamentais de teoria da computação e o ``estado da arte'' em termos de análise de conservabilidade.
 
-\tab Este alicerce teórico foi obtido através de autores como: Wolfram; Yuen e Kay; Boccara;
+\tab Este alicerce teórico foi obtido através de autores como: Wolfram; Boccara;
 entre outros, além de pesquisas em periódicos científicos, sites, publicações em empresas, teses e dissertações em universidades e publicações de associações técnicas.  A leitura, análise e comparação da fundamentação teórica tiveram início com ACEs síncronos, modificados em seguida para viabilizar o tipo de atualização mencionado no item \ref{tiposatt}.
 
 \subsection{ETAPAS DA PESQUISA}
 \tab Para definir as etapas da pesquisa, foi necessário examinar as delimitações de estudo (item \ref{delimitacao}), desenvolvendo uma implementação que atendesse à execução dos ACE com esquemas totalmente distintos, como descrito no Cronograma apresentado no item \ref{cron}. No decorrer da fundamentação teórica foram realizados experimentos para verificação de conservabilidade inicialmente em modo de atualização síncrona e então assíncrona, com o objetivo de verificar conservabilidade. 
 
-\tab Os 4683 esquemas de atualização mencionados no item \ref{objetopesq} foram testados primeiramente contra a regra 184, que é conservativa em modo síncrono. A extensão de evoluções celulares se limitou a N=15, como é explicitado no item \ref{delimitacao}.
+\tab Os 4683 esquemas de atualização mencionados no item \ref{ref_ace} foram testados primeiramente contra a regra 184, que é conservativa em modo síncrono. A extensão de evoluções celulares se limitou a n=15, como é explicitado no item \ref{delimitacao}.
 
 % \break
 
@@ -402,7 +403,7 @@ Assim, pode-se dizer que as etapas desenvolvidas neste estudo foram:
 \subsection{CLASSIFICAÇÃO DA PESQUISA}
 \tab O tempo total previsto para a conclusão desta pesquisa é de 1 ano, como mostrado no capítulo \ref{cron}.
 
-\tab Esta é uma pesquisa exploratória, dada a natureza desconhecida das propriedades de ACEs com o tipo de atualização mencionado em \ref{objetopesq}. Baseada em medidas objetivas e dados verificáveis, esta pesquisa foi voltada para encontrar caminhos, formas, maneiras e procedimentos para atingir um determinado fim, buscando definir um processo ou uma ferramenta que leve à solução do problema proposto.  Quanto aos meios, foram utilizados os recursos mencionados na Bibliografia.
+\tab Esta é uma pesquisa exploratória, dada a natureza desconhecida das propriedades de ACEs com o tipo de atualização mencionado em \ref{ref_ace}. Baseada em medidas objetivas e dados verificáveis, esta pesquisa foi voltada para encontrar caminhos, formas, maneiras e procedimentos para atingir um determinado fim, buscando definir um processo ou uma ferramenta que leve à solução do problema proposto.  Quanto aos meios, foram utilizados os recursos mencionados na Bibliografia.
 
 \break
 
