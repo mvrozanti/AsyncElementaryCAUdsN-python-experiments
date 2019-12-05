@@ -231,7 +231,7 @@ Estes conceitos são mais profundamente discutidos no item \ref{referencial}.
 \tab A motivação para o presente trabalho é explorar em que condições os ACEs são conservativos com o propósito de enumerar evoluções conservativas que podem ser usadas para modelagem de ambientes em que há conservabilidade numérica, questão que será aprofundada no item \ref{referencial}.
 
 \subsection{ORGANIZAÇÃO E DELIMITAÇÃO DO ESTUDO} \label{delimitacao}
-\tab A pesquisa se limita a ACEs com o tipo de atualização evidenciado no item \ref{ref_ace}, com largura de reticulados testados até \textit{n}=15 e com \textit{r}=1 e, numa segunda fase, \textit{r}=1.5. Os esquemas de atualização foram filtrados a fim de eliminar esquemas equivalentes, que produzem evoluções idênticas para quaisquer configurações iniciais, de modo que restassem 4683 esquemas no total. Cada esquema contém a prioridade de cada uma das 8 vizinhanças possíveis do espaço elementar, correspondendo às vizinhanças, respectivamente: (111, 110, 101, 100, 011, 010, 001, 000).  Em cada esquema, o número 1 indica que a vizinhança será a primeira a ser atualizada (ou seja, máxima prioridade), o número 2 indica que a vizinhança será a segunda a ser atualizada, e assim por diante. 
+\tab A pesquisa se limita a ACEs com o tipo de atualização evidenciado no item \ref{ref_ace}, com largura de reticulados testados até \textit{n}=15. Os esquemas de atualização foram filtrados a fim de eliminar esquemas equivalentes, que produzem evoluções idênticas para quaisquer configurações iniciais, de modo que restassem 4683 esquemas no total. Cada esquema contém a prioridade de cada uma das 8 vizinhanças possíveis do espaço elementar, correspondendo às vizinhanças, respectivamente: (111, 110, 101, 100, 011, 010, 001, 000).  Em cada esquema, o número 1 indica que a vizinhança será a primeira a ser atualizada (ou seja, máxima prioridade), o número 2 indica que a vizinhança será a segunda a ser atualizada, e assim por diante. 
 
 % \subsection{ORGANIZAÇÃO DO ESTUDO}
 
@@ -352,31 +352,24 @@ A simulação da regra 184 para todos os esquemas de prioridade não-equivalente
     \begin{tabular}{ | c | c | } \hline
       Regra & Esquema  \\\hline 
       \multirow{13}{*}{184} 
-	    & \underline{3}222\underline{2}2\underline{21} \\
-	    & \underline{3}111\underline{1}1\underline{12} \\      
-	    & \underline{2}333\underline{3}3\underline{31} \\      
-	    & \underline{2}111\underline{1}1\underline{13} \\      
-	    & \underline{1}333\underline{3}3\underline{32} \\      
-	    & \underline{1}222\underline{2}2\underline{23} \\      
-	    & \underline{2}222\underline{2}2\underline{21} \\      
-	    & \underline{2}111\underline{1}1\underline{12} \\      
-	    & \underline{2}111\underline{1}1\underline{11} \\      
-	    & \underline{1}222\underline{2}2\underline{22} \\      
-	    & \underline{1}222\underline{2}2\underline{21} \\      
-	    & \underline{1}111\underline{1}1\underline{12} \\      
-	    & \underline{1}111\underline{1}1\underline{11} \\       
+	    & 32222221 \\
+	    & 31111112 \\      
+	    & 23333331 \\      
+	    & 21111113 \\      
+	    & 13333332 \\      
+	    & 12222223 \\      
+	    & 22222221 \\      
+	    & 21111112 \\      
+	    & 21111111 \\      
+	    & 12222222 \\      
+	    & 12222221 \\      
+	    & 11111112 \\      
+	    & 11111111 \\       
       \hline
     \end{tabular}
 \end{minipage}
 \label{fig:test}
 \end{figure}
-
-\tab As prioridades com underscore significam que qualquer prioridade pode ser colocada em seu lugar. Isto se deve a, nesses índices, as transições de estado serem não-ativas e, portanto, serem irrelevantes em que ordem são atualizadas.
-No entanto, é possível ver que as prioridades das transições de estado ativas são iguais entre si, que são todas representações equivalentes da execução síncrona.
-
-\tab A seguir será apresentadada a análise dos ACEs com o tipo de atualização proposto para \textit{r}=1.5.
-
-\break
 
 \section{CRONOGRAMA} \label{cron}
 
@@ -388,15 +381,14 @@ No entanto, é possível ver que as prioridades das transições de estado ativa
   \centerline{
     \begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|l|l|} \hline
       \multirow{2}{*}{ATIVIDADE}                 & \multicolumn{12}{|c|}{MÊS} 							     \\
-						                                            & 1    & 2    & 3    & 4    & 5    & 6    & 7    & 8    & 9    & 10   & 11   & 12   \\ \hline
-      Revisão bibliográfica                             & \ccy & \ccy &      &      &      &      &      & \ccy &      &      &      &      \\ \hline
-      Fundamentação teórica                             &      & \ccy & \ccy &      &      &      &      &      &      &      &      &      \\ \hline
-      Desenvolvimento e implementação em Python         &      & \ccy & \ccy &      &      &      &      &      &      &      &      &      \\ \hline
-      Conclusão e documentação final da pesquisa        &      &      &      & \ccy & \ccy &      &      &      &      &      &      &      \\ \hline
-      Simulação com \textit{r}=1                        &      &      &      & \ccy & \ccy &      &      &      &      &      &      &      \\ \hline
-      Simulação com \textit{r}=1.5                      &      &      &      &      &      & \ccy & \ccy &      &      &      &      &      \\ \hline
-      Análise das simulações                            &      &      &      &      &      & \ccy & \ccy &      &      &      &      &      \\ \hline
-      Conclusão e documentação final da pesquisa        &      &      &      &      &      &      &      & \ccy & \ccy & \ccy & \ccy & \ccy \\ \hline
+						 & 1    & 2    & 3    & 4    & 5    & 6    & 7    & 8    & 9    & 10   & 11   & 12   \\ \hline
+      Revisão bibliográfica                      & \ccy & \ccy &      &      &      &      &      & \ccy &      &      &      &      \\ \hline
+      Fundamentação teórica                      &      & \ccy & \ccy &      &      &      &      &      &      &      &      &      \\ \hline
+      Desenvolvimento e implementação em Python     &      & \ccy & \ccy &      &      &      &      &      &      &      &      &      \\ \hline
+      Conclusão e documentação final da pesquisa &      &      &      & \ccy & \ccy &      &      &      &      &      &      &      \\ \hline
+      Simulação                                  &      &      &      & \ccy & \ccy &      &      &      &      &      &      &      \\ \hline
+      Análise das simulações                     &      &      &      &      &      & \ccy & \ccy &      &      &      &      &      \\ \hline
+      Conclusão e documentação final da pesquisa &      &      &      &      &      & \ccy & \ccy & \ccy & \ccy & \ccy & \ccy & \ccy \\ \hline
     \end{tabular}
   }
 \end{table}
