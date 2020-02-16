@@ -1,9 +1,7 @@
 #!/usr/bin/env python
-from curses import wrapper
 import atexit
 import argparse
 import code
-import curses
 import itertools
 import json
 import os
@@ -60,7 +58,7 @@ def print_spacetime(spacetime, zero=0, one=1):
         [print(one if cell else zero, end='') for cell in space]
         print()
 
-def render_image(spacetime, rule, scheme, measure_complexity=False, save_to=None):
+def render_image(spacetime, rule, scheme, measure_complexity=False):
     from PIL import Image
     w,t = len(spacetime[0]), len(spacetime)
     im = Image.new('RGB', (w, t))
@@ -82,9 +80,9 @@ def render_image(spacetime, rule, scheme, measure_complexity=False, save_to=None
     im.save(f'{dirname}/{dirname}{scheme}.png')
 
 def run_async(rule, w, t, ranks, init_space=None):
-    rule_transitions = get_rule_transitions(args.rule)
+    rule_transitions = get_rule_transitions(rule)
     # space = args.initial_configuration if args.initial_configuration else gen_mid_spacetime(args.width)[0] 
-    space = init_space if init_space else gen_mid_spacetime(args.width)[0]
+    space = init_space if init_space else gen_mid_spacetime(w)[0]
     macrospacetime = [space]
     gitr = [[tr_ix for tr_ix,rank in enumerate(ranks) if rank == i] for i in range(1,9)]
     yield macrospacetime[-1]
@@ -111,38 +109,21 @@ def is_spacetime_conservative(spacetime):
             return False
     return True
 
-def run_and_check(rule, w, t, scheme, init_space, save_to=None):
+def run_and_check(rule, w, t, scheme, init_space):
     spacetime = run_async(rule, w, t, scheme, init_space=init_space)
     spacetime_is_conservative = is_spacetime_conservative(spacetime)
     return spacetime_is_conservative
 
 def is_rule_conservative(rule, w, t, scheme=[1]*8, save_to=None):
-    return all(run_and_check(rule, w, t, scheme, init_space, save_to=save_to) for init_space in gen_space_combo(w))
-
-# def is_rule_conservative(rule, w, t, scheme=None, save_to=None):
-#     from concurrent.futures import ProcessPoolExecutor
-#     init_spaces = gen_space_combo(w)
-#     scheme = scheme if scheme else [1]*8
-#     with ProcessPoolExecutor() as executor:
-#         le_tqdm = tqdm.tqdm(executor.map(run_and_check, *zip(*[[rule, w, t, scheme, init_space] for init_space in init_spaces])), leave=False, dynamic_ncols=True, total=2**w)
-#         for conservative in le_tqdm:
-#             le_tqdm.set_description(f'Rule {rule}-{scheme} is conservative: {conservative}')
-#             if not conservative:
-#                 return False
-#         return True
+    return all(run_and_check(rule, w, t, scheme, init_space) for init_space in gen_space_combo(w))
 
 def normalize_args(args):
     if args.initial_configuration:
         args.initial_configuration = [int(c) for c in args.initial_configuration]
         args.width = len(args.initial_configuration)
-    # if args.conservative_check:
-        # if args.timesteps != (2 ** args.width + 1):
-        #     print('-c implies t=2**w+1', file=sys.stderr)
-        #     sys.exit(1)
-        # if (args.png_render is not None or args.terminal_render) and args.conservative_check:
-        #     print('-c imples not using -o or -O', file=sys.stderr)
-        #     sys.exit(1)
-    if args.schemes:
+    if args.pairs:
+        args.pairs = json.load(open(args.pairs))
+    elif args.schemes:
         prev_dirname = f'{args.rule:03d}-{args.width-1}x{T(args.width-1)}'
         schemes_json = f'{prev_dirname}/{prev_dirname}.json'
         if all([str.isdigit(c) for scheme in args.schemes for c in scheme]):
@@ -164,14 +145,59 @@ def gracefully_exit(conservative_at, savepoint_file_path):
     pickle.dump(conservative_at, open(savepoint_file_path, 'wb'))
     sys.exit(0)
 
+def listen(args):
+    from synthesizer import Player, Synthesizer, Waveform
+    player = Player()
+    player.open_stream()
+    synthesizer = Synthesizer(osc1_waveform=Waveform.sine, osc1_volume=1.0, use_osc2=False)
+    maxn = 2**args.width
+    from math import log
+    for s in spacetime:
+        out = 0
+        chords = []
+        for i,bit in enumerate(s):
+            out = (out << 1) | bit
+            if not i % 32: 
+                chords += [log(out,2) if out else 0]
+                out = 0
+        print(chords)
+        # player.play_wave(synthesizer.generate_constant_wave(out, 0.1))
+        player.play_wave(synthesizer.generate_chord(chords, 0.01))
+
+def spacetime_solves_majority_problem(spacetime):
+    init_space_majority_state = max(spacetime[0], key=spacetime[0].count)
+    for space in spacetime[1:]:
+        if space.count(init_space_majority_state) == len(space):
+            return True
+    return False
+
+def solves_majority_problem(rule, scheme, w, render=False):
+    if not w % 2:
+        print(f'Majority problem does not support w={w}')
+        return False
+    t = T(w)
+    for init_space in gen_space_combo(w):
+        spacetime = list(run_async(rule, w, t, scheme, init_space=init_space))
+        if not spacetime_solves_majority_problem(spacetime):
+            return False
+        if args.png_render:
+            render_image(spacetime, rule, scheme)
+    return True
+
 def main(args):
-    dirname = f'{args.rule:03d}-{args.width}x{args.timesteps}'
     normalize_args(args)
+    if args.dct_check:
+        for rule,schemes in args.pairs.items():
+            rule = int(rule)
+            for scheme in schemes:
+                if solves_majority_problem(rule, scheme, args.width, render=args.png_render):
+                    print(f'{rule:03d}-{scheme} solves the Majority Problem')
+        sys.exit(0)
+    dirname = f'{args.rules:03d}-{args.width}x{args.timesteps}'
     op.exists(dirname) or os.mkdir(dirname)
     savepoint_file_path = f'{dirname}/{dirname}.pkl'
     conservative_schemes = pickle.load(open(savepoint_file_path, 'rb')) if op.exists(savepoint_file_path) else []
     tqdm_schemes = tqdm.tqdm([s for s in args.schemes if (s not in conservative_schemes or not args.conservative_check)], dynamic_ncols=True)
-    # tqdm_schemes = [s for s in args.schemes if s not in conservative_schemes]
     args.conservative_check and atexit.register(gracefully_exit, conservative_schemes, savepoint_file_path)
     for scheme in tqdm_schemes:
         stringified_scheme = stringify_scheme(scheme)
@@ -182,23 +208,7 @@ def main(args):
         if not args.conservative_check:
             args.png_render is not None and render_image(spacetime, args.rule, scheme, measure_complexity=args.measure_complexity, save_to=args.png_render)
         if args.listen:
-            from synthesizer import Player, Synthesizer, Waveform
-            player = Player()
-            player.open_stream()
-            synthesizer = Synthesizer(osc1_waveform=Waveform.sine, osc1_volume=1.0, use_osc2=False)
-            maxn = 2**args.width
-            from math import log
-            for s in spacetime:
-                out = 0
-                chords = []
-                for i,bit in enumerate(s):
-                    out = (out << 1) | bit
-                    if not i % 32: 
-                        chords += [log(out,2) if out else 0]
-                        out = 0
-                print(chords)
-                # player.play_wave(synthesizer.generate_constant_wave(out, 0.1))
-                player.play_wave(synthesizer.generate_chord(chords, 0.01))
+            listen(args)
         if args.terminal_render: 
             print(f'{dirname}-{stringified_scheme}')
             print_spacetime(spacetime, args.zero, args.one)
@@ -214,7 +224,7 @@ def main(args):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(prog='aeca', description='Asynchronous Elementary Cellular Automata')
     parser.add_argument('-s', '--schemes',  nargs='+',  default=['1'*8],metavar='ASYNCHRONOUS-SCHEME', help='async scheme to run p0p1p2p3p4p5p6p7 for pn in [1,8]')
-    parser.add_argument('-r', '--rule',                 default=30,     metavar='RULE-ID',             help='rule in the Wolfram classification scheme', type=int)
+    parser.add_argument('-r', '--rules',    nargs='+',  default=30,     metavar='RULE-IDS',            help='rules in the Wolfram classification scheme')
     parser.add_argument('-t', '--timesteps',            default=LINES,  metavar='TIMESTEPS',           help='timesteps to run', type=int)
     parser.add_argument('-w', '--width',                default=COLS,   metavar='WIDTH',               help='space width', type=int)
     parser.add_argument('-0', '--zero',                 default='0',    metavar='CHAR',                help='replace zeroes by CHAR when using -o')
@@ -225,5 +235,8 @@ if __name__ == '__main__':
     parser.add_argument('-O', '--png-render',           nargs='*',      metavar='dir',                 help='render to file in an optionally chosen directory')
     parser.add_argument('-m', '--measure-complexity',   action='store_true',                           help='measure complexity')
     parser.add_argument('-I', '--initial-configuration',metavar='CONFIG',                              help='use CONFIG as initial configuration')
+    parser.add_argument('-p', '--pairs'                ,metavar='RULE_SCHEMES_JSON_FILE_PATH',         help='load rules/schemes json file')
+    parser.add_argument('-d', '--dct-check'            ,action='store_true',                           
+            help='check if majority problem is solvable by rule and defined schemes')
     args = parser.parse_args()
     main(args)

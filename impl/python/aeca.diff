@@ -1,0 +1,130 @@
+2d1
+< from curses import wrapper
+6d4
+< import curses
+63c61
+< def render_image(spacetime, rule, scheme, measure_complexity=False, save_to=None):
+---
+> def render_image(spacetime, rule, scheme, measure_complexity=False):
+85c83
+<     rule_transitions = get_rule_transitions(args.rule)
+---
+>     rule_transitions = get_rule_transitions(rule)
+87c85
+<     space = init_space if init_space else gen_mid_spacetime(args.width)[0]
+---
+>     space = init_space if init_space else gen_mid_spacetime(w)[0]
+114c112
+< def run_and_check(rule, w, t, scheme, init_space, save_to=None):
+---
+> def run_and_check(rule, w, t, scheme, init_space):
+120,132c118
+<     return all(run_and_check(rule, w, t, scheme, init_space, save_to=save_to) for init_space in gen_space_combo(w))
+< 
+< # def is_rule_conservative(rule, w, t, scheme=None, save_to=None):
+< #     from concurrent.futures import ProcessPoolExecutor
+< #     init_spaces = gen_space_combo(w)
+< #     scheme = scheme if scheme else [1]*8
+< #     with ProcessPoolExecutor() as executor:
+< #         le_tqdm = tqdm.tqdm(executor.map(run_and_check, *zip(*[[rule, w, t, scheme, init_space] for init_space in init_spaces])), leave=False, dynamic_ncols=True, total=2**w)
+< #         for conservative in le_tqdm:
+< #             le_tqdm.set_description(f'Rule {rule}-{scheme} is conservative: {conservative}')
+< #             if not conservative:
+< #                 return False
+< #         return True
+---
+>     return all(run_and_check(rule, w, t, scheme, init_space) for init_space in gen_space_combo(w))
+138,145c124,126
+<     # if args.conservative_check:
+<         # if args.timesteps != (2 ** args.width + 1):
+<         #     print('-c implies t=2**w+1', file=sys.stderr)
+<         #     sys.exit(1)
+<         # if (args.png_render is not None or args.terminal_render) and args.conservative_check:
+<         #     print('-c imples not using -o or -O', file=sys.stderr)
+<         #     sys.exit(1)
+<     if args.schemes:
+---
+>     if args.pairs:
+>         args.pairs = json.load(open(args.pairs))
+>     elif args.schemes:
+166a148,186
+> def listen(args):
+>     from synthesizer import Player, Synthesizer, Waveform
+>     player = Player()
+>     player.open_stream()
+>     synthesizer = Synthesizer(osc1_waveform=Waveform.sine, osc1_volume=1.0, use_osc2=False)
+>     maxn = 2**args.width
+>     from math import log
+>     for s in spacetime:
+>         out = 0
+>         chords = []
+>         for i,bit in enumerate(s):
+>             out = (out << 1) | bit
+>             if not i % 32: 
+>                 chords += [log(out,2) if out else 0]
+>                 out = 0
+>         print(chords)
+>         # player.play_wave(synthesizer.generate_constant_wave(out, 0.1))
+>         player.play_wave(synthesizer.generate_chord(chords, 0.01))
+> 
+> def spacetime_solves_majority_problem(spacetime):
+>     init_space_majority_state = max(spacetime[0], key=spacetime[0].count)
+>     for space in spacetime[1:]:
+>         if space.count(init_space_majority_state) == len(space):
+>             return True
+>     return False
+> 
+> def solves_majority_problem(rule, scheme, w, render=False):
+>     if not w % 2:
+>         print(f'Majority problem does not support w={w}')
+>         return False
+>     t = T(w)
+>     for init_space in gen_space_combo(w):
+>         spacetime = list(run_async(rule, w, t, scheme, init_space=init_space))
+>         if not spacetime_solves_majority_problem(spacetime):
+>             return False
+>         if args.png_render:
+>             render_image(spacetime, rule, scheme)
+>     return True
+> 
+168d187
+<     dirname = f'{args.rule:03d}-{args.width}x{args.timesteps}'
+169a189,196
+>     if args.dct_check:
+>         for rule,schemes in args.pairs.items():
+>             rule = int(rule)
+>             for scheme in schemes:
+>                 if solves_majority_problem(rule, scheme, args.width, render=args.png_render):
+>                     print(f'{rule:03d}-{scheme} solves the Majority Problem')
+>         sys.exit(0)
+>     dirname = f'{args.rules:03d}-{args.width}x{args.timesteps}'
+174d200
+<     # tqdm_schemes = [s for s in args.schemes if s not in conservative_schemes]
+185,201c211
+<             from synthesizer import Player, Synthesizer, Waveform
+<             player = Player()
+<             player.open_stream()
+<             synthesizer = Synthesizer(osc1_waveform=Waveform.sine, osc1_volume=1.0, use_osc2=False)
+<             maxn = 2**args.width
+<             from math import log
+<             for s in spacetime:
+<                 out = 0
+<                 chords = []
+<                 for i,bit in enumerate(s):
+<                     out = (out << 1) | bit
+<                     if not i % 32: 
+<                         chords += [log(out,2) if out else 0]
+<                         out = 0
+<                 print(chords)
+<                 # player.play_wave(synthesizer.generate_constant_wave(out, 0.1))
+<                 player.play_wave(synthesizer.generate_chord(chords, 0.01))
+---
+>             listen(args)
+217c227
+<     parser.add_argument('-r', '--rule',                 default=30,     metavar='RULE-ID',             help='rule in the Wolfram classification scheme', type=int)
+---
+>     parser.add_argument('-r', '--rules',    nargs='+',  default=30,     metavar='RULE-IDS',            help='rules in the Wolfram classification scheme')
+227a238,240
+>     parser.add_argument('-p', '--pairs'                ,metavar='RULE_SCHEMES_JSON_FILE_PATH',         help='load rules/schemes json file')
+>     parser.add_argument('-d', '--dct-check'            ,action='store_true',                           
+>             help='check if majority problem is solvable by rule and defined schemes')
