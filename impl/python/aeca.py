@@ -121,6 +121,8 @@ def normalize_args(args):
     if args.initial_configuration:
         args.initial_configuration = [int(c) for c in args.initial_configuration]
         args.width = len(args.initial_configuration)
+    if not args.timesteps:
+        args.timesteps = T(args.width)
     if args.pairs:
         args.pairs = json.load(open(args.pairs))
     elif args.schemes:
@@ -171,30 +173,32 @@ def spacetime_solves_majority_problem(spacetime):
             return True
     return False
 
-def solves_majority_problem(rule, scheme, w, render=False):
+def get_majority_problem_score(rule, scheme, w, render=False):
     if not w % 2:
         print(f'Majority problem does not support w={w}')
         return False
     t = T(w)
+    score = 0
     for init_space in gen_space_combo(w):
         spacetime = list(run_async(rule, w, t, scheme, init_space=init_space))
-        if not spacetime_solves_majority_problem(spacetime):
-            return False
-        if args.png_render:
-            render_image(spacetime, rule, scheme)
-    return True
+        score += int(spacetime_solves_majority_problem(spacetime))
+    return score
 
 def main(args):
     normalize_args(args)
     if args.dct_check:
+        scores = {}
         for rule,schemes in args.pairs.items():
             rule = int(rule)
-            for scheme in schemes:
-                if solves_majority_problem(rule, scheme, args.width, render=args.png_render):
-                    print(f'{rule:03d}-{scheme} solves the Majority Problem')
+            dirname = f'{rule:03d}-{args.width}x{args.timesteps}'
+            op.exists(dirname) or os.mkdir(dirname)
+            scores_filename = f'{dirname}/scores.json'
+            if not op.exists(scores_filename):
+                for scheme in schemes:
+                    score_rule_scheme = get_majority_problem_score(rule, scheme, args.width, render=args.png_render)
+                    scores[stringify_scheme(scheme)] = score_rule_scheme
+                json.dump(scores, open(scores_filename, 'w'))
         sys.exit(0)
-    dirname = f'{args.rules:03d}-{args.width}x{args.timesteps}'
-    op.exists(dirname) or os.mkdir(dirname)
     savepoint_file_path = f'{dirname}/{dirname}.pkl'
     conservative_schemes = pickle.load(open(savepoint_file_path, 'rb')) if op.exists(savepoint_file_path) else []
     tqdm_schemes = tqdm.tqdm([s for s in args.schemes if (s not in conservative_schemes or not args.conservative_check)], dynamic_ncols=True)
@@ -225,8 +229,8 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(prog='aeca', description='Asynchronous Elementary Cellular Automata')
     parser.add_argument('-s', '--schemes',  nargs='+',  default=['1'*8],metavar='ASYNCHRONOUS-SCHEME', help='async scheme to run p0p1p2p3p4p5p6p7 for pn in [1,8]')
     parser.add_argument('-r', '--rules',    nargs='+',  default=30,     metavar='RULE-IDS',            help='rules in the Wolfram classification scheme')
-    parser.add_argument('-t', '--timesteps',            default=LINES,  metavar='TIMESTEPS',           help='timesteps to run', type=int)
-    parser.add_argument('-w', '--width',                default=COLS,   metavar='WIDTH',               help='space width', type=int)
+    parser.add_argument('-t', '--timesteps',                            metavar='TIMESTEPS',           help='timesteps to run', type=int)
+    parser.add_argument('-w', '--width',                                metavar='WIDTH',               help='space width', type=int)
     parser.add_argument('-0', '--zero',                 default='0',    metavar='CHAR',                help='replace zeroes by CHAR when using -o')
     parser.add_argument('-1', '--one',                  default='1',    metavar='CHAR',                help='replace ones by CHAR when using -o')
     parser.add_argument('-c', '--conservative-check',   action='store_true',                           help='output table mapping (scheme,conservability)')
