@@ -9,28 +9,36 @@ import numpy as np
 import requests
 import pandas as pd
 
-dim = '7x129'
+def plot_dim(dim):
+   dirnames = glob(f'[0-9][0-9][0-9]-{dim}*')
+   global_scores = {}
+   for d in dirnames:
+      global_scores[d[:3]] = json.load(open(f'./{d}/scores.json')) 
 
-dirnames = glob(f'[0-9][0-9][0-9]-{dim}*')
-global_scores = {}
-for d in dirnames:
-   global_scores[d[:3]] = json.load(open(f'./{d}/scores.json')) 
+   df = pd.DataFrame(global_scores).transpose()
+   df.sort_index(inplace=True)
+   fig = plt.figure(figsize=(200,20))
+   ax = plt.subplot(111)
+   plt.margins(0,0)
 
-df = pd.DataFrame(global_scores).transpose().fillna(0)
-fig = plt.figure(figsize=(200,20))
-ax = plt.subplot(111)
-plt.margins(0,0)
-
-ax.set_xticks(np.arange(len(df.columns)))
-ax.set_yticks(np.arange(len(df.index)))
-ax.set_xticklabels(df.columns)
-ax.set_yticklabels(df.index)
-plt.setp(ax.get_xticklabels(), rotation=90, ha='center')
+   plt.xlabel('Esquema')
+   plt.ylabel('Regra')
+   ax.set_xticks(np.arange(len(df.columns)))
+   ax.set_yticks(np.arange(len(df.index)))
+   ax.set_xticklabels(df.columns)
+   ax.set_yticklabels(df.index)
+   plt.setp(ax.get_xticklabels(), rotation=90, ha='center')
 # plt.subplots_adjust(hspace=0.5)
 
-plt.title(dim)
-plt.imshow(df, aspect='auto', cmap='hot')
-plt.colorbar()
+   plt.title(dim)
+   cmap = plt.cm.viridis 
+   cmap.set_bad(color='black')
+   plt.imshow(df, aspect='auto', cmap=cmap)
+   plt.colorbar()
 
 # plt.show()
-plt.savefig(f'{dim}.png', bbox_inches='tight')
+   plt.savefig(f'{dim}.png', bbox_inches='tight')
+
+plot_dim('5x33')
+plot_dim('7x129')
+plot_dim('9x513')
