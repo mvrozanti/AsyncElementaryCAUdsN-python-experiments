@@ -1,0 +1,33 @@
+1. Título do trabalho: "Dois experimentos com atualização assíncrona por prioridade de vizinhança em autômatos celulares elementares.";
+
+2. Subtítulo do trabalho: "Avaliar a conservabilidade de estados de autômatos celulares elementares e verificar a possibilidade de um conjunto de
+    regras elementares resolverem o problema da maioria global.";
+
+3. Motivação e Objetivo
+- Evidenciar os motivos que o levaram desenvolver a pesquisa, bem como seus objetivos.
+    "A motivação para o desenvolvimento da pesquisa se deve a exploração das condições em que os autômatos celulares elementares são conservativos e verificar
+    se e quais regras elementares resolvem o problema da maioria global, com o propósito,rescpectivamente, de enumerar evoluções conservativas que podem ser usadas
+    para modelagem de ambientes em que há conservabilidade numérica e (+Acionar motivação da segunda etapa+).
+    O objetivo do trabalho consistiu em identificar e quantificar pares de regra e esquema que apresentam conservabilidade nas evoluções de autômatos
+    celulares elementares e verificar a possibilidade de um conjunto de regras elementares resolverem o problema da maioria global, ambas com atualização 
+    por prioridade da vizinhança."
+4. Metodologia
+- Mostrar sucintamente os passos que foram seguidos para atinfir os objetivos da pesquisa.
+    "O trabalho teve início com uma revisão da literatura específica sobre o tema da pesquisa. Esta pesquisa abrange conceitos fundamentais de
+    teoria da computação e o “estado da arte” em termos de análise de conservabilidade. O alicerce teórico foi obtido através de autores como: Wolfram;
+    Boccara; entre outros, além de pesquisas em periódicos científicos, sites, publicações em empresas, teses e dissertações em universidades e
+    publicações de associações técnicas. A leitura, análise e comparação da fundamentação teórica tiveram início com ACEs síncronos, modificados
+    em seguida para viabilizar o tipo de atualização assíncrona por prioridade de vizinhança, inicialmente apresentando os pares de regra e
+    esquema que apresentam conservabilidade e, posteriormente, apresentando a capacidade de diversos pares de regra e esquema em resolver o problema
+    da maioria global."
+
+5. Resultados
+- Mostrar os resultados preliminares, bem como aqueles que ainda serão atingidos
+
+6. Conclusões
+- Apresentar considerações finais
+++ Ressaltar se os objetivos foram ou não atingidos, o que se conclui com a investigação realizada, bem como outras considerações pertinentes.
+
+7. Referências
+- Apresentar referências bibliográficas citadas no poster
+
