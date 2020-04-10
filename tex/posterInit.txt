@@ -5,12 +5,13 @@
 
 3. Motivação e Objetivo
 - Evidenciar os motivos que o levaram desenvolver a pesquisa, bem como seus objetivos.
-    "A motivação para o desenvolvimento da pesquisa se deve a explorar as condições em que os autômatos celulares elementares são conservativos e verificar
+    "A motivação para o desenvolvimento da pesquisa se deve à explorar as condições em que os autômatos celulares elementares são conservativos e verificar
     se e quais regras elementares resolvem o problema da maioria global, com o propósito de enumerar tanto as evoluções conservativas quanto as regras elementares
-    que podem ser usadas para modelagem de ambientes em que há conservabilidade numérica ou classificação de densidade.
-    O objetivo do trabalho consistiu em identificar e quantificar pares de regra e esquema que apresentam conservabilidade nas evoluções de autômatos
+    que podem ser usadas para modelagem de ambientes em que há conservabilidade numérica ou classificação de densidade. (+++Alterar em dois periodos+++)
+    O objetivo do trabalho consiste em identificar e quantificar pares de regra e esquema que apresentam conservabilidade nas evoluções de autômatos
     celulares elementares e verificar a possibilidade de um conjunto de regras elementares resolverem o problema da maioria global, ambas com atualização 
     por prioridade da vizinhança."
+    
 4. Metodologia
 - Mostrar sucintamente os passos que foram seguidos para atinfir os objetivos da pesquisa.
     "O trabalho teve início com uma revisão da literatura específica sobre o tema da pesquisa. Esta pesquisa abrange conceitos fundamentais de
