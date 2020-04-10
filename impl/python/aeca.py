@@ -191,12 +191,18 @@ def main(args):
         for rule,schemes in args.pairs.items():
             rule = int(rule)
             dirname = f'{rule:03d}-{args.width}x{args.timesteps}'
+            prev_dirname = f'{rule:03d}-{args.width-2}x{T(args.width-2)}'
+            prev_scores_filename = f'{prev_dirname}/scores.json'
             op.exists(dirname) or os.mkdir(dirname)
             scores_filename = f'{dirname}/scores.json'
+            prev_scores = json.load(open(prev_scores_filename)) if op.exists(prev_scores_filename) else None
             if not op.exists(scores_filename):
                 for scheme in schemes:
-                    score_rule_scheme = get_majority_problem_score(rule, scheme, args.width, render=args.png_render)
-                    scores[stringify_scheme(scheme)] = score_rule_scheme
+                    if prev_scores and stringify_scheme(scheme) in prev_scores:
+                        if prev_scores[stringify_scheme(scheme)] != T(args.width-2) - 1:
+                            scores[stringify_scheme(scheme)] = None
+                            continue
+                    scores[stringify_scheme(scheme)] = get_majority_problem_score(rule, scheme, args.width, render=args.png_render) 
                 json.dump(scores, open(scores_filename, 'w'))
         sys.exit(0)
     savepoint_file_path = f'{dirname}/{dirname}.pkl'

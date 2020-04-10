@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 from glob import glob
 import code
+import sys
 import json
 
 from mpl_toolkits.mplot3d import Axes3D
@@ -16,7 +17,10 @@ def plot_dim(dim):
       global_scores[d[:3]] = json.load(open(f'./{d}/scores.json')) 
 
    df = pd.DataFrame(global_scores).transpose()
+   # code.interact(local=globals().update(locals()) or globals())
    df.sort_index(inplace=True)
+   df.to_csv(f'scores-DCT-{dim}.csv')
+   return
 
    fig = plt.figure(figsize=(200,20))
    ax = plt.subplot(111)
@@ -37,10 +41,9 @@ def plot_dim(dim):
    plt.imshow(df, aspect='auto', cmap=cmap)
    plt.colorbar()
 
-   df.to_csv(f'scores-DCT-{dim}.csv')
 # plt.show()
    # plt.savefig(f'{dim}.png', bbox_inches='tight')
 
 plot_dim('5x33')
 plot_dim('7x129')
-plot_dim('9x513')
+# plot_dim('9x513')
