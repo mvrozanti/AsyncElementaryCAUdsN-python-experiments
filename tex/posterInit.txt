@@ -5,9 +5,9 @@
 
 3. Motivação e Objetivo
 - Evidenciar os motivos que o levaram desenvolver a pesquisa, bem como seus objetivos.
-    "A motivação para o desenvolvimento da pesquisa se deve a exploração das condições em que os autômatos celulares elementares são conservativos e verificar
-    se e quais regras elementares resolvem o problema da maioria global, com o propósito,rescpectivamente, de enumerar evoluções conservativas que podem ser usadas
-    para modelagem de ambientes em que há conservabilidade numérica e (+Acionar motivação da segunda etapa+).
+    "A motivação para o desenvolvimento da pesquisa se deve a explorar as condições em que os autômatos celulares elementares são conservativos e verificar
+    se e quais regras elementares resolvem o problema da maioria global, com o propósito de enumerar tanto as evoluções conservativas quanto as regras elementares
+    que podem ser usadas para modelagem de ambientes em que há conservabilidade numérica ou classificação de densidade.
     O objetivo do trabalho consistiu em identificar e quantificar pares de regra e esquema que apresentam conservabilidade nas evoluções de autômatos
     celulares elementares e verificar a possibilidade de um conjunto de regras elementares resolverem o problema da maioria global, ambas com atualização 
     por prioridade da vizinhança."
@@ -23,10 +23,13 @@
 
 5. Resultados
 - Mostrar os resultados preliminares, bem como aqueles que ainda serão atingidos
+    Inserir resultado que ja temos no tcc de conservabilidade, acrescentar os resultados dos scores e citar os testes que ainda faltam
+    nenhum dos pares testados resolvem completamente a DCT desde N=7
 
 6. Conclusões
 - Apresentar considerações finais
 ++ Ressaltar se os objetivos foram ou não atingidos, o que se conclui com a investigação realizada, bem como outras considerações pertinentes.
+    Explicar os resultados atingidos.
 
 7. Referências
 - Apresentar referências bibliográficas citadas no poster
