@@ -71,7 +71,7 @@
 
 \newcommand{\abnTeXSite}{}
 
-\title{\protect\parbox{\textwidth}{\protect\centering \textbf{Conservabilidade de estados de autômatos celulares elementares com atualizações assíncronas por prioridade da vizinhança}}}
+\title{\protect\parbox{\textwidth}{\protect\centering \textbf{\titulo}}}
 
 \author{Marcelo Vironda Rozanti\\\abnTeXSite Felipe Stefanelli de Aguiar Silva\\\abnTeXSite} 
 
@@ -110,8 +110,14 @@
 
 \vspace*{\fill}
 
-\large{Conservabilidade de estados de autômatos celulares elementares com}
-\large{\centerline{atualizações assíncronas por prioridade da vizinhança}}
+% \large{Conservabilidade de estados de autômatos celulares elementares com}
+% \large{\centerline{atualizações assíncronas por prioridade da vizinhança}}
+
+\newcommand{\titulo}{
+  \large{\centerline{Dois experimentos com atualização assíncrona por prioridade}}
+  \large{\centerline{de vizinhança em autômatos celulares elementares}}
+}
+\titulo
 
 \vspace*{\fill}
 \large{\centerline{SÃO PAULO}}
@@ -387,16 +393,24 @@ No entanto, é possível ver que as prioridades das transições de estado ativa
   \caption{Cronograma de atividades}
   \centerline{
     \begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|l|l|} \hline
-      \multirow{2}{*}{ATIVIDADE}                 & \multicolumn{12}{|c|}{MÊS} 							     \\
-						                                            & 1    & 2    & 3    & 4    & 5    & 6    & 7    & 8    & 9    & 10   & 11   & 12   \\ \hline
-      Revisão bibliográfica                             & \ccy & \ccy &      &      &      &      &      & \ccy &      &      &      &      \\ \hline
-      Fundamentação teórica                             &      & \ccy & \ccy &      &      &      &      &      &      &      &      &      \\ \hline
-      Desenvolvimento e implementação em Python         &      & \ccy & \ccy &      &      &      &      &      &      &      &      &      \\ \hline
-      Conclusão e documentação final da pesquisa        &      &      &      & \ccy & \ccy &      &      &      &      &      &      &      \\ \hline
-      Simulação com \textit{r}=1                        &      &      &      & \ccy & \ccy &      &      &      &      &      &      &      \\ \hline
-      Simulação com \textit{r}=1.5                      &      &      &      &      &      & \ccy & \ccy &      &      &      &      &      \\ \hline
-      Análise das simulações                            &      &      &      &      &      & \ccy & \ccy &      &      &      &      &      \\ \hline
-      Conclusão e documentação final da pesquisa        &      &      &      &      &      &      &      & \ccy & \ccy & \ccy & \ccy & \ccy \\ \hline
+      \multirow{2}{*}{ATIVIDADE}                & \multicolumn{12}{|c|}{MÊS}     						    \\
+				                & 1    & 2    & 3    & 4    & 5    & 6    & 7    & 8    & 9    & 10   & 11   & 12   \\\hline
+      Revisão bibliográfica                             
+						& \ccy & \ccy &      &      &      &      &      & \ccy &      &      &      &      \\\hline
+      Fundamentação teórica                             
+						&      & \ccy & \ccy &      &      &      &      &      &      &      &      &      \\\hline
+      Desenvolvimento e implementação em Python         
+						&      & \ccy & \ccy &      &      &      &      &      &      &      &      &      \\\hline
+      Conclusão e documentação final da pesquisa        
+						&      &      &      & \ccy & \ccy &      &      &      &      &      &      &      \\\hline
+      Experimento 1                        
+						&      &      &      & \ccy & \ccy &      &      &      &      &      &      &      \\\hline
+      Experimento 2                      
+						&      &      &      &      &      & \ccy & \ccy &      &      &      &      &      \\\hline
+      Análise e validação dos experimentos                            
+						&      &      &      &      &      & \ccy & \ccy &      &      &      &      &      \\\hline
+      Conclusão e documentação final da pesquisa        
+						&      &      &      &      &      &      &      & \ccy & \ccy & \ccy & \ccy & \ccy \\\hline
     \end{tabular}
   }
 \end{table}
