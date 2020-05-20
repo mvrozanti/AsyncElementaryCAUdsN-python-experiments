@@ -110,9 +110,6 @@
 
 \vspace*{\fill}
 
-% \large{Conservabilidade de estados de autômatos celulares elementares com}
-% \large{\centerline{atualizações assíncronas por prioridade da vizinhança}}
-
 \newcommand{\titulo}{
   \large{\centerline{Dois experimentos com atualização assíncrona por prioridade}}
   \large{\centerline{de vizinhança em autômatos celulares elementares}}
@@ -139,10 +136,6 @@ Orientador: \orientador
 
 \large{\centerline{SÃO PAULO}}
 \large{\centerline{2019}}
-
-\begin{textblock}{6}(9,9)
-  % Projeto do Trabalho de Conclusão de Curso apresentado à Faculdade de Computação e Informática da Universidade Presbiteriana, desenvolvida como requisito parcial para aprovação na disciplina de Metodologia da Pesquisa em Computação, ministrada pelo professor Dr. Everton Knihs, do curso de Ciência da Computação.
-\end{textblock}
 
 \maketitle
 
@@ -177,8 +170,6 @@ Keywords: \@pdfkeywords
 
 \section{INTRODUÇÃO}
 
-% \tab Este projeto teve como objetivo explorar propriedades conservativas em autômatos celulares (ACs) elementares com atualização assíncrona baseada em prioridade da vizinhança. 
-
 \tab Autômatos Celulares (ACs) são uma categoria de sistemas discretos. Por sua própria simplicidade, estes sistemas têm ocupado uma posição privilegiada no estudo de complexidade nos mais diversos campos da ciência, de biologia teórica a economia, entre muitos outros. O desenvolvimento de ACs é tipicamente atribuído a John von Neumann através de suas tentativas de criar um modelo abstrato de autoreprodução biológica. Ao fim de 1950, foi notado que ACs poderiam ser vistos como computadores paralelos \cite[p. 876]{wolfram2002new}. Apesar de falta de investigação científica até 1970, um exemplo de AC se tornou muito famoso por seu comportamento complexo e regras simplesmente descritas inventadas por John Conway, \textit{The Game of Life}, que se popularizou após sua aparição na revista \textit{Scientific American}. 
 
 \tab Desde então, múltiplos estudos compreensivos foram realizados por cientistas ao redor do mundo, destacando os trabalhos feitos por Stephen Wolfram na década de 1980, culminando na publicação do livro A New Kind of Science em que Wolfram apresenta uma coleção de resultados a respeito de ACs, com uma série de descobertas revolucionárias. 
@@ -191,17 +182,13 @@ Keywords: \@pdfkeywords
 
 \tab Há uma infinidade de ACs passíveis de construção para modelagem ou solução de problemas. Um deles é a modelagem de tráfego de veículos, como é notado por \citeonline[p. 307]{rosenblueth2011model}:  ``Autômatos Celulares Elementares'', discutidos nos próximos capítulos, ``podem modelar tráfego também. Podemos presumir que um veículo se move para frente ou não dependendo apenas na presença ou ausência de outro veículo em sua frente. Supondo que um veículo se move uma célula para a direita se e apenas se uma a célula à direita está vazia, então a regra 184 corresponde ao tráfego se movendo à direita. Movimento aparente é criado do seguinte modo: se o estado de uma célula é 1 e a de seu vizinho à direita é 0, então esta regra atribui 0 ao estado da célula na próxima geração, eliminando o veículo de sua célula atual (que é representada por 110 e 010). Similarmente, se o estado atual da célula é 0 e de seu vizinho à esquerda é 1, então o próximo estado da célula é 1, aparentemente fazendo o veículo no vizinho da esquerda mover-se uma célula para a direita (cobrindo casos 100 e 101). Deve-se lidar com duas outras situações. Primeiro, um veículo não pode se mover se houver outro veículo diretamente em sua frente (i.e., 111 e 011). Segundo, se não há veículo na célula ou seu vizinho à esquerda, então na próxima geração a célula não terá um veículo também (i.e., 001 e 000).''.
 
-% ``Uma abordagem para reduzir o congestionamento seria construir estradas novas ou ampliar as existentes para fornecer faixas adicionais e consequentemente, aumentar a capacidade da infraestrutura rodoviária. No entanto, essa abordagem pode ser muito custosa e os atrasos podem piorar enquanto as obras rodoviárias estão em andamento. Às vezes é difícil melhorar a estrada existente devido a objetivos ambientais ou sociais. Outra abordagem pode ser controlar o tráfego de tal maneira que o congestionamento seja resolvido com o uso de semáforos ou fazendo ajustes nas marcações das estradas. No entanto, não é uma tarefa simples decidir qual abordagem seria mais eficaz para uma rede rodoviária específica, a fim de limitar tráfego congestionado. O uso de um modelo de tráfego é necessário para prever a comportamento dos veículos e as interações entre eles nas estradas.''
-
 \subsection{OBJETO DE PESQUISA} \label{objetopesq}
 
-\tab O objeto de pesquisa deste trabalho são Autômatos Celulares Elementares (ACEs) com atualização assíncrona por prioridade da vizinhança, em especial, na regra 184. 
+\tab O objeto de pesquisa deste trabalho são Autômatos Celulares Elementares (ACEs) com atualização assíncrona por prioridade da vizinhança. 
 
-% Esses conceitos são aprofundados no item \ref{referencial}.
+% O primeiro deles se trata de verificar se a regra 184, que é conservativa em modo síncrono, se mantém conservativa em algum esquema de atualização assíncrono, conforme a definição em de conservabilidade detalhada em \ref{num-conserv}. Considerando que é fato conhecido que nenhum AC síncrono é capaz de classificar densidade perfeitamente, o objetivo do segundo experimento foi verificar se algum ACE poderia adquirir essa capacidade em modo assíncrono.
 
-% \subsubsection{PROBLEMA DE PESQUISA} \label{problema}
-% \subsubsection{VARIÁVEIS} \label{varia}
-\tab Dentre o conjunto de esquemas de atualização não-equivalentes, o objetivo é encontrar quais pares $\langle\,R,E\,\rangle$ são conservativos. Dados os esquemas de atualização mencionados na seção \ref{referencial}, encontrar quais esquemas apresentam conservabilidade numérica.
+% \tab Dentre o conjunto de esquemas de atualização não-equivalentes, o objetivo é encontrar quais pares $\langle\,R,E\,\rangle$ são conservativos. Dados os esquemas de atualização mencionados na seção \ref{referencial}, encontrar quais esquemas apresentam conservabilidade numérica.
 
 \tab A implementação do simulador tem como parâmetros as seguintes variáveis:
 
@@ -212,8 +199,6 @@ Keywords: \@pdfkeywords
     \tab Conjunto ordenado de células do AC, cada uma com um estado definido.
   \item Time steps:\\
     \tab Quantidade de reticulados resultantes ou, de iterações da simulação. É a altura das evoluções, para ACEs.
-  % \item Regra de transição:\\
-  %   \tab Função que recebe uma vizinhança e produz o estado seguinte da célula central da vizinhança.
   \item Esquema de prioridades de atualização:\\
     \tab Ordem em que as vizinhanças são atualizadas nas microiterações.
 \end{itemize}
@@ -223,7 +208,9 @@ Estes conceitos são mais profundamente discutidos no item \ref{referencial}.
 \break
 
 \subsection{OBJETIVOS DO ESTUDO} 
-\tab O objetivo do presente trabalho foi identificar e quantificar pares $\langle\,R,E\,\rangle$ em que há conservabilidade nas evoluções de ACEs com atualização por prioridade da vizinhança. Para alcançar o objetivo geral proposto para a resolução do problema de pesquisa, os seguintes objetivos específicos foram estabelecidos:
+
+% \tab Os objetivos do presente trabalho foram identificar e quantificar pares $\langle\,R,E\,\rangle$ em que há conservabilidade nas evoluções de ACEs com atualização por prioridade da vizinhança. Para alcançar o objetivo geral proposto para a resolução do problema de pesquisa, os seguintes objetivos específicos foram estabelecidos:
+O primeiro deles se trata de verificar se a regra 184, que é conservativa em modo síncrono, se mantém conservativa em algum esquema de atualização assíncrono, conforme a definição em de conservabilidade detalhada em \ref{num-conserv}. Considerando que é fato conhecido que nenhum AC síncrono é capaz de classificar densidade perfeitamente, o objetivo do segundo experimento foi verificar se algum ACE poderia adquirir essa capacidade em modo assíncrono.
 
 \begin{itemize}
   \item Definição formal da estratégia de atualização.
@@ -273,11 +260,6 @@ Descrição dos capítulos:
 
 \tab ACEs formam a família de ACs com \textit{d}=1, \textit{k}=2 e \textit{r}=1, ou seja, são unidimensionais, com células binárias e vizinhanças definidas como 3 células contíguas. O reticulado é dito ter largura \textit{n}, isto é, tem \textit{n} células em cada reticulado da evolução e permanece constante até o fim das evoluções.
 
-% \begin{figure}[!htbp]
-% \centerline{\includegraphics[width=10cm]{imgs/typical-config.png}}
-% \caption{Nas renderizações, é convenção representar 1s como células em preto e 0s em branco. }
-% \end{figure}
-
 \tab Os ACEs são comumente representados por seu respectivo \textit{Wolfram code}, uma nomenclatura que dá a cada regra um identificador no intervalo \(\left[0, 255\right]\). Segundo \citeonline[p. 24]{wolfram2002new}, ``A linha superior em cada caixa dá uma das possíveis combinações de cores para uma célula e sua vizinhança imediata. A linha inferior então especifica qual será a cor da célula central no próximo passo em cada um desses casos.''
 
 \begin{figure}[!htbp]
@@ -299,16 +281,12 @@ Descrição dos capítulos:
 \subsection{CONSERVABILIDADE NUMÉRICA} \label{num-conserv}
 \tab Segundo \citeonline{boccara2002number}, ``Uma regra de AC \textit{f} de \textit{q} estados, unidimensional, de largura \textit{n} é conservativa se, para todas as configurações cíclicas de tamanho \textit{L} \(\geq\) \textit{n} satisfaz'':
 
-% ``A one-dimensional q-state n-input CA rule f is number-conserving if, for all cyclic configurations of length L \(\geq\) n, it satisfies'':
-
 \[f(x_1,x_2,...,x_{n-1},x_n) + f(x_2,x_3,...,x_n,x_{n+1}) + ... \]
 \tab \[ + \;   f(x_L,x_1,...,x_{n-2},x_{n-1} = x_1 + x_2 + ... + x_L\] 
 
 % \break
 
 \tab No contexto de ACEs, uma evolução é dita conservativa caso, para qualquer configuração inicial, a quantidade de um determinado estado é sempre a mesma para todas as iterações. Como é mencionado no item \ref{contex}, ACs conservativos podem ser usados para modelar ambientes em que há conservabilidade, como trânsito automobilístico, simulação de partículas, entre outros. A regra 184 é uma regra que, com execução síncrona e (como este trabalho apresenta) assíncrona, gera evoluções conservativas pela definição anterior de conservabilidade.
-
-
 
 \section{METODOLOGIA DA PESQUISA}
 \tab No que tange à Metodologia empregada neste TCC, o trabalho teve início com uma revisão da literatura específica sobre o tema da pesquisa. Esta pesquisa abrange conceitos fundamentais de teoria da computação e o ``estado da arte'' em termos de análise de conservabilidade.
