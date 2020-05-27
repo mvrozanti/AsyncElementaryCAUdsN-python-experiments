@@ -19,8 +19,10 @@ def plot_dim(dim):
    df = pd.DataFrame(global_scores).transpose()
    # code.interact(local=globals().update(locals()) or globals())
    df.sort_index(inplace=True)
+   df = df.transpose()
    df.to_csv(f'scores-DCT-{dim}.csv')
-   return
+   df = df.transpose()
+   # return
 
    fig = plt.figure(figsize=(200,20))
    ax = plt.subplot(111)
@@ -42,8 +44,8 @@ def plot_dim(dim):
    plt.colorbar()
 
 # plt.show()
-   # plt.savefig(f'{dim}.png', bbox_inches='tight')
+   plt.savefig(f'{dim}.png', bbox_inches='tight')
 
 plot_dim('5x33')
 plot_dim('7x129')
-# plot_dim('9x513')
+plot_dim('9x513')

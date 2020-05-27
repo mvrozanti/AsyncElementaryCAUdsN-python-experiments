@@ -24,13 +24,7 @@ def measure_complexity(space):
 
 T = lambda w: 2**w+1
 
-"""
-spacetime generation
-"""
-def gen_mid_spacetime(w): 
-    spacetime = [[0]*w]
-    spacetime[0][w//2] = 1
-    return spacetime
+gen_mid_spacetime = lambda w: [[1 if i == w//2 else 0 for i in range(w)]]
 
 read_schemes_from_file = lambda fp: json.load(open(fp))
 
