@@ -80,7 +80,7 @@
 \hypersetup{
   pdftitle={Conservabilidade de estados de autômatos celulares elementares com atualizações assíncronas por prioridade da vizinhança},
   pdfauthor={Marcelo Vironda Rozanti}{Felipe Stefanelli de Aguiar Silva},
-  pdfkeywords={Asynchronous priority based updating, Elementary Cellular Automata, New Kind of Science, Discrete dynamical systems, Number-conserving}, 
+  pdfkeywords={Asynchronous priority based updating, Elementary Cellular Automata, New Kind of Science, Discrete dynamical systems, Number-conserving, Density classification task, Majority problem, Parity problem }, 
   pdfproducer={Marcelo Vironda Rozanti},
   pdfcreator={vim+LaTeX+abnTeX2},
   colorlinks=true,
@@ -111,7 +111,7 @@
 \vspace*{\fill}
 
 \newcommand{\titulo}{
-  \large{\centerline{Dois experimentos com atualização assíncrona por prioridade}}
+  \large{\centerline{Três experimentos com atualização assíncrona por prioridade}}
   \large{\centerline{de vizinhança em autômatos celulares elementares}}
 }
 \titulo
@@ -140,17 +140,17 @@ Orientador: \orientador
 \maketitle
 
 \begin{abstract}
-  Autômatos Celulares são sistemas computacionais discretos que se têm provado úteis como modelos genéricos de complexidade e representação de diversas dinâmicas em uma variedade de áreas científicas. Estes sistemas podem ser especificados puramente em termos matemáticos e até implementados em estruturas físicas. Muitos deles podem computar funções e resolver problemas algorítmicos. O presente projeto explora um conjunto fundamental deles, chamados Autômatos Celulares Elementares, com a finalidade de avaliar a conservabilidade no espaço elementar através de um tipo específico de atualização assíncrona, baseada em prioridade da vizinhança.
- % com a esperança de encontrar, no espaço elementar, pares de esquemas de atualização e regras que possam ser usados em aplicações práticas onde haja ambientes dinâmicos que apresentem conservabilidade. 
+  Autômatos Celulares são sistemas computacionais discretos que se têm provado úteis como modelos genéricos de complexidade e representação de diversas dinâmicas em uma variedade de áreas científicas. Estes sistemas podem ser especificados puramente em termos matemáticos e até implementados em estruturas físicas. Muitos deles podem computar funções e resolver problemas algorítmicos. O presente projeto explora um conjunto fundamental deles, chamados Autômatos Celulares Elementares através de um tipo específico de atualização assíncrona, baseada em prioridade da vizinhança, à procura de regras que satisfaçam conservabilidade numérica, problema da maioria ou o problema da paridade. 
+
   % O código correspondende a este trabalho pode ser acessado no repositório \url{https://github.com/mvrozanti/TCC}.
 \end{abstract}
-Palavras-chave: Autômatos celulares elementares, atualização assíncrona por prioridade da vizinhança, New Kind of Science, Sistemas dinâmicos discretos, Conservabilidade
+Palavras-chave: Autômatos celulares elementares, Atualização assíncrona por prioridade da vizinhança, New Kind of Science, Sistemas dinâmicos discretos, Conservabilidade numérica, Problema da classificação de densidade, Problema da paridade
 
 \vfill
 
 \selectlanguage{english}
 \begin{abstract}
-  Cellular Automata are discrete computational systems that have proved useful as general models of complexity and representations of dynamics on a variety of scientific fields. These systems can be specified in purely mathematical terms and be implemented in physical structures. Many of them can compute functions and solve algorithmic problems. The present project attempts to explore a fundamental subset of them, called Elementary Cellular Automata with a specific kind of neighbourhood-priority-based asynchronous updating in the search of number-conserving models, which can be used for many practical applications. 
+  Cellular Automata are discrete computational systems that have proved useful as general models of complexity and representations of dynamics on a variety of scientific fields. These systems can be specified in purely mathematical terms and be implemented in physical structures. Many of them can compute functions and solve algorithmic problems. The present project attempts to explore a fundamental subset of them, called Elementary Cellular Automata with a specific kind of neighbourhood-priority-based asynchronous updating in the search of either number-conserving, density-classifying or parity-solving rules. 
   %The implementation developed is hosted at \url{https://github.com/mvrozanti/TCC}.
 \end{abstract}
 Keywords: \@pdfkeywords
@@ -198,7 +198,7 @@ Keywords: \@pdfkeywords
   \item Configuração inicial:\\
     \tab Conjunto ordenado de células do AC, cada uma com um estado definido.
   \item Time steps:\\
-    \tab Quantidade de reticulados resultantes ou, de iterações da simulação. É a altura das evoluções, para ACEs.
+    \tab Reticulados resultantes ou iterações da simulação. É a altura das evoluções, para ACEs.
   \item Esquema de prioridades de atualização:\\
     \tab Ordem em que as vizinhanças são atualizadas nas microiterações.
 \end{itemize}
@@ -209,15 +209,17 @@ Estes conceitos são mais profundamente discutidos no item \ref{referencial}.
 
 \subsection{OBJETIVOS DO ESTUDO} 
 
-% \tab Os objetivos do presente trabalho foram identificar e quantificar pares $\langle\,R,E\,\rangle$ em que há conservabilidade nas evoluções de ACEs com atualização por prioridade da vizinhança. Para alcançar o objetivo geral proposto para a resolução do problema de pesquisa, os seguintes objetivos específicos foram estabelecidos:
-O primeiro deles se trata de verificar se a regra 184, que é conservativa em modo síncrono, se mantém conservativa em algum esquema de atualização assíncrono, conforme a definição em de conservabilidade detalhada em \ref{num-conserv}. Considerando que é fato conhecido que nenhum AC síncrono é capaz de classificar densidade perfeitamente, o objetivo do segundo experimento foi verificar se algum ACE poderia adquirir essa capacidade em modo assíncrono.
+\tab O primeiro objetivo se trata de verificar se a regra 184, que é conservativa em modo síncrono, se mantém conservativa em algum esquema de atualização assíncrono, conforme a definição em de conservabilidade detalhada em \ref{num-conserv}. 
+
+\tab Considerando que é fato conhecido que nenhum AC síncrono é capaz de classificar densidade perfeitamente, o objetivo do segundo experimento foi verificar se algum ACE poderia adquirir essa capacidade em modo assíncrono.
+
+\tab É também um fato conhecido <+> problema da paridade
 
 \begin{itemize}
   \item Definição formal da estratégia de atualização.
-  \item Definição de conservabilidade.
-  \item Identificação de conservabilidade.
+  \item Definição de conservabilidade, problema da maioria e problema da paridade
   \item Renderização das evoluções temporais.
-  \item Otimização da pesquisa via filtragem de esquemas equivalentes.
+  \item Otimização da pesquisa via filtragem de esquemas equivalentes independentes.
 \end{itemize}
 
 \subsection{JUSTIFICATIVA}

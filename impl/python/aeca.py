@@ -178,8 +178,45 @@ def get_majority_problem_score(rule, scheme, w, render=False):
         score += int(spacetime_solves_majority_problem(spacetime))
     return score
 
+def spacetime_solves_parity_problem(spacetime):
+    should_converge_to = spacetime[0].count(1) % 2
+    for space in spacetime[1:]:
+        if space.count(should_converge_to) == len(space):
+            return True
+    return False
+
+def get_parity_problem_score(rule, scheme, w, render=False):
+    if not w % 2:
+        print(f'Parity problem does not support w={w}')
+        return False
+    t = T(w)
+    score = 0
+    for init_space in gen_space_combo(w):
+        spacetime = list(run_async(rule, w, t, scheme, init_space=init_space))
+        score += int(spacetime_solves_parity_problem(spacetime))
+    return score
+
 def main(args):
     normalize_args(args)
+    if args.parity_check:
+        scores = {}
+        for rule,schemes in args.pairs.items():
+            rule = int(rule)
+            dirname = f'{rule:03d}-{args.width}x{args.timesteps}'
+            prev_dirname = f'{rule:03d}-{args.width-2}x{T(args.width-2)}'
+            prev_scores_filename = f'{prev_dirname}/scores.json'
+            op.exists(dirname) or os.mkdir(dirname)
+            scores_filename = f'{dirname}/scores.json'
+            prev_scores = json.load(open(prev_scores_filename)) if op.exists(prev_scores_filename) else None
+            if not op.exists(scores_filename):
+                for scheme in schemes:
+                    if prev_scores and stringify_scheme(scheme) in prev_scores:
+                        if prev_scores[stringify_scheme(scheme)] != T(args.width-2) - 1:
+                            scores[stringify_scheme(scheme)] = None
+                            continue
+                    scores[stringify_scheme(scheme)] = get_majority_problem_score(rule, scheme, args.width, render=args.png_render) 
+                json.dump(scores, open(scores_filename, 'w'))
+        sys.exit(0)
     if args.dct_check:
         scores = {}
         for rule,schemes in args.pairs.items():
@@ -241,6 +278,8 @@ if __name__ == '__main__':
     parser.add_argument('-I', '--initial-configuration',metavar='CONFIG',                              help='use CONFIG as initial configuration')
     parser.add_argument('-p', '--pairs'                ,metavar='RULE_SCHEMES_JSON_FILE_PATH',         help='load rules/schemes json file')
     parser.add_argument('-d', '--dct-check'            ,action='store_true',                           
-            help='check if majority problem is solvable by rule and defined schemes')
+            help='check if majority problem is solvable by defined rules and schemes')
+    parser.add_argument('-P', '--parity-check'         ,action='store_true',                           
+            help='check if parity problem is solvable by defined rules and schemes')
     args = parser.parse_args()
     main(args)
