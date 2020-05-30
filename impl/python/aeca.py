@@ -214,7 +214,7 @@ def main(args):
                         if prev_scores[stringify_scheme(scheme)] != T(args.width-2) - 1:
                             scores[stringify_scheme(scheme)] = None
                             continue
-                    scores[stringify_scheme(scheme)] = get_majority_problem_score(rule, scheme, args.width, render=args.png_render) 
+                    scores[stringify_scheme(scheme)] = get_parity_problem_score(rule, scheme, args.width, render=args.png_render) 
                 json.dump(scores, open(scores_filename, 'w'))
         sys.exit(0)
     if args.dct_check:
