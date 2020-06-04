@@ -11,6 +11,7 @@ import sys
 import os.path as op
 import tqdm
 import time
+import pandas as pd
 
 try:
     LINES, COLS = [int(d) for d in os.popen('stty size', 'r').read().split()]
@@ -28,7 +29,7 @@ gen_mid_spacetime = lambda w: [[1 if i == w//2 else 0 for i in range(w)]]
 
 read_schemes_from_file = lambda fp: json.load(open(fp))
 
-stringify_scheme = lambda s: ''.join([str(c) for c in s])
+strs = lambda s: ''.join([str(c) for c in s]) # stringify scheme
 
 gen_space_combo = lambda w: itertools.product([0, 1], repeat=w) # all possible configurations for w-wide space
 
@@ -120,7 +121,7 @@ def normalize_args(args):
     if args.pairs:
         args.pairs = json.load(open(args.pairs))
     elif args.schemes:
-        prev_dirname = f'{args.rule:03d}-{args.width-1}x{T(args.width-1)}'
+        prev_dirname = f'{args.rule:03d}-{args.width-2}x{T(args.width-2)}'
         schemes_json = f'{prev_dirname}/{prev_dirname}.json'
         if all([str.isdigit(c) for scheme in args.schemes for c in scheme]):
             if len(args.schemes[0]) != 8:
@@ -196,45 +197,54 @@ def get_parity_problem_score(rule, scheme, w, render=False):
         score += int(spacetime_solves_parity_problem(spacetime))
     return score
 
+def should_run_for_next_w(scores_w, cur_w): # {w: {rule: {scheme: score}}}
+    # code.interact(banner='', local=globals().update(locals()) or globals(), exitmsg='')
+    if cur_w-2 not in scores_w:
+        return True
+    for rule in scores_w[cur_w-2]:
+        for scheme in scores_w[cur_w-2][rule]:
+            if scores_w[cur_w-2][rule][scheme] == T(cur_w-2)-1:
+                return True # problem remains undecided
+    return False # negative decision
+
+def should_run_pair(scores_w, cur_w, rule, scheme):
+    if cur_w-2 not in scores_w:
+        return True
+    if rule not in scores_w[cur_w-2]:
+        return True
+    if strs(scheme) not in scores_w[cur_w-2][rule]:
+        return True
+    return scores_w[cur_w-2][rule][strs(scheme)] == T(cur_w-2) - 1
+
 def main(args):
     normalize_args(args)
-    if args.parity_check:
-        scores = {}
-        for rule,schemes in args.pairs.items():
-            rule = int(rule)
-            dirname = f'{rule:03d}-{args.width}x{args.timesteps}'
-            prev_dirname = f'{rule:03d}-{args.width-2}x{T(args.width-2)}'
-            prev_scores_filename = f'{prev_dirname}/scores.json'
-            op.exists(dirname) or os.mkdir(dirname)
-            scores_filename = f'{dirname}/scores.json'
-            prev_scores = json.load(open(prev_scores_filename)) if op.exists(prev_scores_filename) else None
-            if not op.exists(scores_filename):
+    if args.parity_check or args.dct_check:
+        scores_w = {}
+        cur_w = args.width
+        while should_run_for_next_w(scores_w, cur_w):
+            print(f'Running w={cur_w}')
+            for rule,schemes in args.pairs.items():
+                rule = int(rule)
                 for scheme in schemes:
-                    if prev_scores and stringify_scheme(scheme) in prev_scores:
-                        if prev_scores[stringify_scheme(scheme)] != T(args.width-2) - 1:
-                            scores[stringify_scheme(scheme)] = None
-                            continue
-                    scores[stringify_scheme(scheme)] = get_parity_problem_score(rule, scheme, args.width, render=args.png_render) 
-                json.dump(scores, open(scores_filename, 'w'))
-        sys.exit(0)
-    if args.dct_check:
-        scores = {}
-        for rule,schemes in args.pairs.items():
-            rule = int(rule)
-            dirname = f'{rule:03d}-{args.width}x{args.timesteps}'
-            prev_dirname = f'{rule:03d}-{args.width-2}x{T(args.width-2)}'
-            prev_scores_filename = f'{prev_dirname}/scores.json'
-            op.exists(dirname) or os.mkdir(dirname)
-            scores_filename = f'{dirname}/scores.json'
-            prev_scores = json.load(open(prev_scores_filename)) if op.exists(prev_scores_filename) else None
-            if not op.exists(scores_filename):
-                for scheme in schemes:
-                    if prev_scores and stringify_scheme(scheme) in prev_scores:
-                        if prev_scores[stringify_scheme(scheme)] != T(args.width-2) - 1:
-                            scores[stringify_scheme(scheme)] = None
-                            continue
-                    scores[stringify_scheme(scheme)] = get_majority_problem_score(rule, scheme, args.width, render=args.png_render) 
-                json.dump(scores, open(scores_filename, 'w'))
+                    sscheme = strs(scheme)
+                    if should_run_pair(scores_w, cur_w, rule, scheme):
+                        if args.parity_check:
+                            score_w_rule_scheme = get_parity_problem_score(rule, scheme, cur_w, render=args.png_render)
+                        elif args.dct_check:
+                            score_w_rule_scheme = get_majority_problem_score(rule, scheme, cur_w, render=args.png_render)
+                    else:
+                        score_w_rule_scheme = None
+                    if cur_w not in scores_w:
+                        scores_w[cur_w] = {}
+                    if rule not in scores_w[cur_w]:
+                        scores_w[cur_w][rule] = {}
+                    scores_w[cur_w][rule][strs(scheme)] = score_w_rule_scheme
+            cur_w += 2
+        for w in scores_w:
+            df = pd.DataFrame(scores_w[w]).T
+            df.sort_index(inplace=True)
+            df = df.T
+            df.to_csv(f'scores-{w}x{T(w)}.csv')
         sys.exit(0)
     savepoint_file_path = f'{dirname}/{dirname}.pkl'
     conservative_schemes = pickle.load(open(savepoint_file_path, 'rb')) if op.exists(savepoint_file_path) else []
@@ -277,6 +287,8 @@ if __name__ == '__main__':
     parser.add_argument('-m', '--measure-complexity',   action='store_true',                           help='measure complexity')
     parser.add_argument('-I', '--initial-configuration',metavar='CONFIG',                              help='use CONFIG as initial configuration')
     parser.add_argument('-p', '--pairs'                ,metavar='RULE_SCHEMES_JSON_FILE_PATH',         help='load rules/schemes json file')
+    parser.add_argument('-T', '--test-check'           ,action='store_true',                           
+            help='check if test problem is solvable by defined rules and schemes')
     parser.add_argument('-d', '--dct-check'            ,action='store_true',                           
             help='check if majority problem is solvable by defined rules and schemes')
     parser.add_argument('-P', '--parity-check'         ,action='store_true',                           

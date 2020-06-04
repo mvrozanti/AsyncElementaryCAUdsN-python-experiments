@@ -22,7 +22,7 @@ def plot_dim(dim):
    df = df.transpose()
    df.to_csv(f'scores-DCT-{dim}.csv')
    df = df.transpose()
-   # return
+   return
 
    fig = plt.figure(figsize=(200,20))
    ax = plt.subplot(111)
