@@ -182,6 +182,8 @@ Keywords: \@pdfkeywords
 
 \tab Há uma infinidade de ACs passíveis de construção para modelagem ou solução de problemas. Um deles é a modelagem de tráfego de veículos, como é notado por \citeonline[p. 307]{rosenblueth2011model}:  ``Autômatos Celulares Elementares'', discutidos nos próximos capítulos, ``podem modelar tráfego também. Podemos presumir que um veículo se move para frente ou não dependendo apenas na presença ou ausência de outro veículo em sua frente. Supondo que um veículo se move uma célula para a direita se e apenas se uma a célula à direita está vazia, então a regra 184 corresponde ao tráfego se movendo à direita. Movimento aparente é criado do seguinte modo: se o estado de uma célula é 1 e a de seu vizinho à direita é 0, então esta regra atribui 0 ao estado da célula na próxima geração, eliminando o veículo de sua célula atual (que é representada por 110 e 010). Similarmente, se o estado atual da célula é 0 e de seu vizinho à esquerda é 1, então o próximo estado da célula é 1, aparentemente fazendo o veículo no vizinho da esquerda mover-se uma célula para a direita (cobrindo casos 100 e 101). Deve-se lidar com duas outras situações. Primeiro, um veículo não pode se mover se houver outro veículo diretamente em sua frente (i.e., 111 e 011). Segundo, se não há veículo na célula ou seu vizinho à esquerda, então na próxima geração a célula não terá um veículo também (i.e., 001 e 000).''.
 
+% \tab Já as 
+
 \subsection{OBJETO DE PESQUISA} \label{objetopesq}
 
 \tab O objeto de pesquisa deste trabalho são Autômatos Celulares Elementares (ACEs) com atualização assíncrona por prioridade da vizinhança. 
@@ -216,10 +218,10 @@ Estes conceitos são mais profundamente discutidos no item \ref{referencial}.
 \tab É também um fato conhecido que o problema da paridade, detalhado em \ref{parity-problem}, não pode ser resolvido por ACEs de raio menor ou igual a dois executados em modo síncrono. O objetivo do terceiro experimento foi verificar se ACEs de raio um executados com a estratégia descrita em \ref{tiposatt} seriam capazes de resolver este problema.
 
 \begin{itemize}
-  \item Definição formal da estratégia de atualização.
-  \item Definição de conservabilidade, problema da maioria e problema da paridade.
+  \item Definição formal da estratégia de atualização;
+  \item Definição e identificação da propridade e problemas estudados;
   \item Renderização das evoluções temporais.
-  \item Otimização da pesquisa via filtragem de esquemas equivalentes independentes.
+  % \item Otimização da pesquisa via filtragem de esquemas equivalentes independentes.
 \end{itemize}
 
 \subsection{JUSTIFICATIVA}
@@ -231,10 +233,19 @@ Estes conceitos são mais profundamente discutidos no item \ref{referencial}.
   \item Capacidade de resolver o problema da paridade.
 \end{itemize}
 
-\tab É sabido que há cinco regras <+> conservabilidade
+\subsubsection{Experimento 1}
+
+\tab É sabido que há cinco regras que apresentam conservabilidade numérica em suas evoluções: 170, 184, 204, 226 e 240. A motivação para o primeiro experimento foi descobrir se, no esquema de atualização usado, essa propriedade é mantida para a regra 184 (que é equivalente à regra 226), que foi escolhida por ser a mais rica do ponto de vista dinâmico dentre as cinco, empatada com a 226.
+
+\subsubsection{Experimento 2}
+<+>
+
+\subsubsection{Experimento 3}
+<+>
 
 \subsection{ORGANIZAÇÃO E DELIMITAÇÃO DO ESTUDO} \label{delimitacao}
-\tab A pesquisa se limita a ACEs com o tipo de atualização evidenciado no item \ref{ref_ace}, com largura de reticulados testados até \textit{n}=15 e com \textit{r}=1 e, numa segunda fase, \textit{r}=1.5. Os esquemas de atualização foram filtrados a fim de eliminar esquemas equivalentes, que produzem evoluções idênticas para quaisquer configurações iniciais, de modo que restassem 4683 esquemas no total. Cada esquema contém a prioridade de cada uma das 8 vizinhanças possíveis do espaço elementar, correspondendo às vizinhanças, respectivamente: (111, 110, 101, 100, 011, 010, 001, 000).  Em cada esquema, o número 1 indica que a vizinhança será a primeira a ser atualizada (ou seja, máxima prioridade), o número 2 indica que a vizinhança será a segunda a ser atualizada, e assim por diante. 
+
+\tab A pesquisa se limita a ACEs com o tipo de atualização evidenciado no item \ref{ref_ace}, com largura de reticulados testados até \textit{n}=15 e com \textit{r}=1. No primeiro experimento, os esquemas de atualização foram filtrados a fim de eliminar esquemas equivalentes, que produzem evoluções idênticas para quaisquer configurações iniciais, de modo que restassem 4683 esquemas no total. No segundo e no terceiro experimento foram selecionadas regras \textit{balanceadas} (as que têm quatro transições de estado para cada um dos estados, 0 e 1) que tivessem no máximo 75 esquemas independentes, com o objetivo de diminuir as demandas computacionais. Cada esquema contém a prioridade de cada uma das 8 vizinhanças possíveis do espaço elementar, correspondendo às vizinhanças, respectivamente: (111, 110, 101, 100, 011, 010, 001, 000).  Em cada esquema, o número 1 indica que a vizinhança será a primeira a ser atualizada (ou seja, máxima prioridade), o número 2 indica que a vizinhança será a segunda a ser atualizada, e assim por diante. 
 
 % \subsection{ORGANIZAÇÃO DO ESTUDO}
 
@@ -272,20 +283,26 @@ Descrição dos capítulos:
 
 \tab Os ACEs são comumente representados por seu respectivo \textit{Wolfram code}, uma nomenclatura que dá a cada regra um identificador no intervalo \(\left[0, 255\right]\). Segundo \citeonline[p. 24]{wolfram2002new}, ``A linha superior em cada caixa dá uma das possíveis combinações de cores para uma célula e sua vizinhança imediata. A linha inferior então especifica qual será a cor da célula central no próximo passo em cada um desses casos.''
 
-\begin{figure}[!htbp]
-  \centerline{\includegraphics[width=8cm]{imgs/256ecas.png}}
-  \caption{Ilustração das 256 regras elementares. }
-\end{figure}
+% \begin{figure}[!htbp]
+%   \centerline{\includegraphics[width=8cm]{imgs/ElementaryCA.png}}
+%   \caption{Ilustração das 256 regras elementares. }
+% \end{figure}
+% \break
 
-\break
 \subsubsection{ATUALIZAÇÃO ASSÍNCRONA \\POR PRIORIDADE DA VIZINHANÇA} \label{tiposatt}
 \tab Parte imprescindível da definição de um AC é a ordem de atualização das células no reticulado. Apesar de os ACs serem fundamentalmente concebidos com o comportamento de atualização síncrona, é possível se utilizar das mais diversas e criativas estratégias de atualização.
 
-\tab No presente trabalho foi empregado um tipo inédito de estratégia de atualização: em função da prioridade da vizinhança, que consiste em cada uma das 8 regras de transição estar associada a uma prioridade no intervalo \(\left[1, 8\right]\), (e.g.: 12344321). Esse tipo de atualização requer uma distinção das iterações globais e locais (microiterações):  as prioridades de vizinhanças são iteradas sequencialmente de menor a maior e para cada prioridade, o reticulado é varrido e atualizam-se apenas as células que tenham vizinhança com a prioridade atual, mantendo-se o estado das vizinhanças que não estejam na prioridade atual da iteração. Ao fim da varredura do reticulado, o processo se repete para a próxima prioridade, agora iterando sobre o reticulado gerado no processo descrito anteriormente. O reticulado resultante após iterar sobre todas as prioridades é chamado de iteração global (ou macroiteração) e é incluído nas renderizações, o que não acontece com as microiterações.
+\tab No presente trabalho foi empregado uma nova estratégia de atualização: por "prioridade da vizinhança", em que os esquemas associados contém a prioridade da atualização de cada uma das 8 possíveis vizinhanças do espaço elementar, as quais deverão ser seguidas deterministicamente durante as evoluções temporais.  
 
-\tab Esse modo de atualização inclui também a atualização síncrona, que pode ser simulada quando as prioridades do esquema têm mesmo valor (11111111, 22222222, ..., etc). Diferentes esquemas de prioridade aplicados a uma mesma regra podem gerar evoluções equivalentes para quaisquer configurações iniciais. Estes esquemas são chamados esquemas equivalentes. As evoluções podem ser identificadas como um par $\langle\,R,E\,\rangle$, onde \textit{R} é a regra e \textit{E} é um esquema de prioridade. 
+\tab Esse tipo de atualização requer uma distinção das iterações globais e locais (microiterações):  as prioridades de vizinhanças são iteradas sequencialmente de menor a maior e para cada prioridade, o reticulado é varrido e atualizam-se apenas as células que tenham vizinhança com a prioridade atual, mantendo-se o estado das vizinhanças que não estejam na prioridade atual da iteração. Ao fim da varredura do reticulado, o processo se repete para a próxima prioridade, agora iterando sobre o reticulado gerado no processo descrito anteriormente, com uma prioridade menor. O reticulado resultante após iterar sobre todas as prioridades é chamado de iteração global (ou macroiteração) e é incluído nas renderizações, o que não acontece com as microiterações.
 
-\tab No presente trabalho, são filtrados os esquemas simetricamente equivalentes, isto é, os esquemas semi-totalísticos: ``Regras totalísticas dependem apenas do número total de células pretas em uma vizinhança; regras semi-totalísticas [...] também dependem da cor da célula central'' de acordo com \citeonline{wolfram2002new}. Para ACEs, é possível gerar 1.194.165 combinações de pares $\langle\,R,E\,\rangle$. 
+\tab Esse modo de atualização inclui também a atualização síncrona, que pode ser simulada quando as prioridades do esquema têm mesmo valor (11111111, 22222222, ..., etc). As evoluções podem ser identificadas como um par $\langle\,R,E\,\rangle$, onde \textit{R} é a regra e \textit{E} é um esquema de prioridade. 
+
+\tab É importante notar que diferentes esquemas de prioridade podem ser equivalentes: quando esquemas de prioridade equivalentes são aplicados a uma mesma regra, são geradas evoluções iguais. Um exemplo entre esquemas equivalentes pode ser entre os esquemas 11111112 e 11111113, em que as prioridades da última transição são aparentemente diferentes, mas efetivamente iguais. Outro caso é a equivalência entre os oito esquemas síncronos: 11111111, 22222222, 33333333, etc. Para experimentos feitos neste trabalho, foram filtrados esses dois casos, de modo que não houvesse redundância nas execuções, reduzindo o custo computacional.
+
+\tab Além desses dois tipos de equivalência entre esquemas, é possível haver equivalência entre esquemas apenas quando são pareados a uma determinada regra, em função de suas transições não-ativas, como é o caso do que acontece no primeiro experimento, discutido no capítulo \ref{resultados}.
+
+% No presente trabalho, são filtrados os esquemas simetricamente equivalentes, isto é, os esquemas semi-totalísticos: ``Regras totalísticas dependem apenas do número total de células pretas em uma vizinhança; regras semi-totalísticas [...] também dependem da cor da célula central'' de acordo com \citeonline{wolfram2002new}.
 
 % \break 
 \subsection{CONSERVABILIDADE NUMÉRICA} \label{num-conserv}
@@ -298,16 +315,25 @@ Descrição dos capítulos:
 
 \tab No contexto de ACEs, uma evolução é dita conservativa caso, para qualquer configuração inicial, a quantidade de um determinado estado é sempre a mesma para todas as iterações. Como é mencionado no item \ref{contex}, ACs conservativos podem ser usados para modelar ambientes em que há conservabilidade, como trânsito automobilístico, simulação de partículas, entre outros. A regra 184 é uma regra que, com execução síncrona e (como este trabalho apresenta) assíncrona, gera evoluções conservativas pela definição anterior de conservabilidade.
 
+\subsection{CLASSIFICAÇÃO DE DENSIDADE} \label{dct}
+\tab Segundo \citeonline[p. 1]{capcarrere1996two}, ``um exemplo dessa computação emergente é utilizar um AC para determinar a densidade global de bits em uma configuração de estado inicial. Conhecido como o problema de classificação de densidade, o AC unidimensional de dois estados é apresentado com uma configuração inicial arbitrária e deve convergir no tempo para um estado de apenas 1s se a configuração inicial contiver uma densidade de 1s > 0,5, e de apenas 0s se essa densidade < 0,5; para uma densidade inicial de 0,5, o comportamento do AC é indefinido''. Em outras palavras, capacidade de classificação de densidade se dá quando o reticulado cíclico de um ACE torna-se totalmente preenchido pelo estado predominante na configuração inicial.
+
+\subsection{PROBLEMA DA PARIDADE} \label{parity-problem}
+\tab Segundo \citeonline[p. 1]{betel2012parity}, ``Consideramos o problema de paridade em autômatos celulares unidimensionais, binários e circulares: se a configuração inicial contém um número ímpar de 1s, a reticulado inteira deve convergir para 1s; caso contrário, deve convergir para 0s''. Assim como o problema da maioria, ``é fácil ver que o problema é mal-definido para reticulados de tamanho ímpar (que, por definição, nunca seriam capazes de convergir para 1)''. É possível entender, então, que a solução do problema da paridade se dá quando o reticulado cíclico de um ACE torna-se totalmente preenchido pelo estado de quantidade ímpar na configuração inicial.  
+
 \section{METODOLOGIA DA PESQUISA}
 \tab No que tange à Metodologia empregada neste TCC, o trabalho teve início com uma revisão da literatura específica sobre o tema da pesquisa. Esta pesquisa abrange conceitos fundamentais de teoria da computação e o ``estado da arte'' em termos de análise de conservabilidade.
 
 \tab Este alicerce teórico foi obtido através de autores como: Wolfram; Boccara;
 entre outros, além de pesquisas em periódicos científicos, sites, publicações em empresas, teses e dissertações em universidades e publicações de associações técnicas.  A leitura, análise e comparação da fundamentação teórica tiveram início com ACEs síncronos, modificados em seguida para viabilizar o tipo de atualização mencionado no item \ref{tiposatt}.
 
-\subsection{ETAPAS DA PESQUISA}
-\tab Para definir as etapas da pesquisa, foi necessário examinar as delimitações de estudo (item \ref{delimitacao}), desenvolvendo uma implementação que atendesse à execução dos ACE com esquemas totalmente distintos, como descrito no Cronograma apresentado no item \ref{cron}. No decorrer da fundamentação teórica foram realizados experimentos para verificação de conservabilidade inicialmente em modo de atualização síncrona e então assíncrona, com o objetivo de verificar conservabilidade. 
+\tab A capacidade de classificação de densidade e a capacidade de resolução do problema da paridade foram medidas através da contagem de configurações iniciais em que cada par $\langle\,R,E\,\rangle$ resolve o problema em questão.
 
-\tab Os 4683 esquemas de atualização mencionados no item \ref{ref_ace} foram testados primeiramente contra a regra 184, que é conservativa em modo síncrono. A extensão de evoluções celulares se limitou a n=15, como é explicitado no item \ref{delimitacao}.
+\subsection{ETAPAS DA PESQUISA}
+\tab Para definir as etapas da pesquisa, foi necessário examinar as delimitações de estudo (item \ref{delimitacao}), desenvolvendo uma implementação que atendesse à execução dos ACE com esquemas de atualização por prioridade de vizinhança, como descrito no Cronograma apresentado no item \ref{cron}. No decorrer da fundamentação teórica foram realizados três experimentos. 
+
+% \tab Os 4683 esquemas de atualização mencionados no item \ref{ref_ace} foram testados primeiramente contra a regra 184, que é conservativa em modo síncrono.
+% A extensão de evoluções celulares se limitou a n=15, como é explicitado no item \ref{delimitacao}.
 
 % \break
 
@@ -316,9 +342,9 @@ Assim, pode-se dizer que as etapas desenvolvidas neste estudo foram:
 \begin{enumerate}
   \item Revisão bibliográfica;
   \item Fundamentação teórica;
-  \item Desenvolvimento e implementação em Python;
-  \item Simulação;
-  \item Análise das simulações;
+  \item Desenvolvimento e implementação em Python dos ACEs discutidos;
+  \item Execução dos experimentos;
+  \item Análise das execuções;
   \item Conclusão e documentação final da pesquisa.
 \end{enumerate}
 
@@ -329,7 +355,9 @@ Assim, pode-se dizer que as etapas desenvolvidas neste estudo foram:
 
 \break
 
-\section{RESULTADOS DOS EXPERIMENTOS}
+\section{RESULTADOS DOS EXPERIMENTOS} \label{resultados}
+
+\textbf{Experimento 1}
 
 A simulação da regra 184 para todos os esquemas de prioridade não-equivalentes até largura \textit{n}=15 mostra em quais esquemas a regra permanece conservativa:
 
@@ -337,7 +365,7 @@ A simulação da regra 184 para todos os esquemas de prioridade não-equivalente
   \begin{minipage}[htb]{.4\linewidth}
     \centering
     \fbox{\includegraphics[width=0.1\linewidth]{imgs/184-5x33-11111111.png}}
-    \caption{As evoluções geradas por esses pares $\langle\,R,E\,\rangle$ são idênticas}
+    \caption{Todos os esquemas assíncronos conservativos da regra 184 são equivalentes}
     \label{fig:evolucoes}
     % \rule{6cm}{6cm} %to simulate an actual figure
   \end{minipage}%
@@ -368,7 +396,9 @@ A simulação da regra 184 para todos os esquemas de prioridade não-equivalente
 \tab As prioridades com underscore significam que qualquer prioridade pode ser colocada em seu lugar. Isto se deve a, nesses índices, as transições de estado serem não-ativas e, portanto, serem irrelevantes em que ordem são atualizadas.
 No entanto, é possível ver que as prioridades das transições de estado ativas são iguais entre si, que são todas representações equivalentes da execução síncrona.
 
-\tab A seguir será apresentadada a análise dos ACEs com o tipo de atualização proposto para \textit{r}=1.5.
+\textbf{Experimentos 2 e 3}
+
+\tab Em relação à capacidade de classificação de densidade, a execução das regras e esquemas de prioridade independentes selecionadas até comprimento n=7 bastou para mostrar que nenhuma das regras elementares testadas foi capaz de classificar a densidade totalmente, qualquer que fosse o esquema de atualização independente utilizado.
 
 \break
 
@@ -395,8 +425,10 @@ No entanto, é possível ver que as prioridades das transições de estado ativa
 						&      &      &      & \ccy & \ccy &      &      &      &      &      &      &      \\\hline
       Experimento 2                      
 						&      &      &      &      &      & \ccy & \ccy &      &      &      &      &      \\\hline
+      Experimento 3                      
+						&      &      &      &      &      &      &      &      &      & \ccy & \ccy &      \\\hline
       Análise e validação dos experimentos                            
-						&      &      &      &      &      & \ccy & \ccy &      &      &      &      &      \\\hline
+						&      &      &      &      &      & \ccy & \ccy &      &      &      & \ccy &      \\\hline
       Conclusão e documentação final da pesquisa        
 						&      &      &      &      &      &      &      & \ccy & \ccy & \ccy & \ccy & \ccy \\\hline
     \end{tabular}
