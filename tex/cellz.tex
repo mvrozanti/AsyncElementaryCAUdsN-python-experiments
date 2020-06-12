@@ -180,7 +180,7 @@ Keywords: \@pdfkeywords
 
 \tab A motivação inicial para o estudo de ACs por parte de von Neumann não era matemática mas tinha como diretriz encontrar uma forma viável de tratar do problema de como fazer máquinas se reproduzirem. Hoje é sabido que esses sistemas são aplicáveis para resolver problemas relativos a classificação de densidade, simulação de partículas, compressão de dados, design estrutural, representação de comportamentos dinâmicos como trânsito em cidades ou movimentação de seres vivos entre muitos outros.
 
-\tab Há uma infinidade de ACs passíveis de construção para modelagem ou solução de problemas. Um deles é a modelagem de tráfego de veículos, como é notado por \citeonline[p. 307]{rosenblueth2011model}:  ``Autômatos Celulares Elementares'', discutidos nos próximos capítulos, ``podem modelar tráfego também. Podemos presumir que um veículo se move para frente ou não dependendo apenas na presença ou ausência de outro veículo em sua frente. Supondo que um veículo se move uma célula para a direita se e apenas se uma a célula à direita está vazia, então a regra 184 corresponde ao tráfego se movendo à direita. Movimento aparente é criado do seguinte modo: se o estado de uma célula é 1 e a de seu vizinho à direita é 0, então esta regra atribui 0 ao estado da célula na próxima geração, eliminando o veículo de sua célula atual (que é representada por 110 e 010). Similarmente, se o estado atual da célula é 0 e de seu vizinho à esquerda é 1, então o próximo estado da célula é 1, aparentemente fazendo o veículo no vizinho da esquerda mover-se uma célula para a direita (cobrindo casos 100 e 101). Deve-se lidar com duas outras situações. Primeiro, um veículo não pode se mover se houver outro veículo diretamente em sua frente (i.e., 111 e 011). Segundo, se não há veículo na célula ou seu vizinho à esquerda, então na próxima geração a célula não terá um veículo também (i.e., 001 e 000).''.
+\tab Há uma infinidade de ACs passíveis de construção para modelagem ou solução de problemas. Um deles é a modelagem de tráfego de veículos, como é notado por \citeonline[p. 307]{rosenblueth2011model}:  ``Autômatos Celulares Elementares'', discutidos nos próximos capítulos, ``podem modelar tráfego também. Podemos presumir que um veículo se move para frente ou não dependendo apenas na presença ou ausência de outro veículo em sua frente. Supondo que um veículo se move uma célula para a direita se e apenas se uma a célula à direita está vazia, então a regra 184 corresponde ao tráfego se movendo à direita. Movimento aparente é criado do seguinte modo: se o estado de uma célula é 1 e a de seu vizinho à direita é 0, então esta regra atribui 0 ao estado da célula na próxima geração, eliminando o veículo de sua célula atual (que é representada por 110 e 010). Similarmente, se o estado atual da célula é 0 e de seu vizinho à esquerda é 1, então o próximo estado da célula é 1, aparentemente fazendo o veículo no vizinho da esquerda mover-se uma célula para a direita (cobrindo casos 100 e 101). Deve-se lidar com duas outras situações. Primeiro, um veículo não pode se mover se houver outro veículo diretamente em sua frente (i.e., 111 e 011). Segundo, se não há veículo na célula ou seu vizinho à esquerda, então na próxima geração a célula não terá um veículo também (i.e., 001 e 000)''.
 
 % \tab Já as 
 
@@ -237,15 +237,15 @@ Estes conceitos são mais profundamente discutidos no item \ref{referencial}.
 
 \tab É sabido que há cinco regras que apresentam conservabilidade numérica em suas evoluções: 170, 184, 204, 226 e 240. A motivação para o primeiro experimento foi descobrir se, no esquema de atualização usado, essa propriedade é mantida para a regra 184 (que é equivalente à regra 226), que foi escolhida por ser a mais rica do ponto de vista dinâmico dentre as cinco, empatada com a 226.
 
-\subsubsection{Experimento 2}
-<+>
+\break
 
-\subsubsection{Experimento 3}
-<+>
+\subsubsection{Experimentos 2 e 3}
+
+\tab A motivação para os dois últimos experimentos a respeito do problema da maioria e problema da paridade é estudar que se os ACEs com atualização assíncrona por prioridade eram capazes de resolver esses problemas de decisão emblemáticos no contexto de ACs.
 
 \subsection{ORGANIZAÇÃO E DELIMITAÇÃO DO ESTUDO} \label{delimitacao}
 
-\tab A pesquisa se limita a ACEs com o tipo de atualização evidenciado no item \ref{ref_ace}, com largura de reticulados testados até \textit{n}=15 e com \textit{r}=1. No primeiro experimento, os esquemas de atualização foram filtrados a fim de eliminar esquemas equivalentes, que produzem evoluções idênticas para quaisquer configurações iniciais, de modo que restassem 4683 esquemas no total. No segundo e no terceiro experimento foram selecionadas regras \textit{balanceadas} (as que têm quatro transições de estado para cada um dos estados, 0 e 1) que tivessem no máximo 75 esquemas independentes, com o objetivo de diminuir as demandas computacionais. Cada esquema contém a prioridade de cada uma das 8 vizinhanças possíveis do espaço elementar, correspondendo às vizinhanças, respectivamente: (111, 110, 101, 100, 011, 010, 001, 000).  Em cada esquema, o número 1 indica que a vizinhança será a primeira a ser atualizada (ou seja, máxima prioridade), o número 2 indica que a vizinhança será a segunda a ser atualizada, e assim por diante. 
+\tab A pesquisa se limita a ACEs com o tipo de atualização evidenciado no item \ref{ref_ace}, com largura de reticulados testados até \textit{n}=15 e com \textit{r}=1. Para o primeiro experimento, foram testados esquemas de atualização \textit{independentes} para o ACE 184, i.e., os esquemas cujas dinâmicas são definidas pelas transições \textit{ativas} de estado da regra, as que mudam o estado da célula central. No segundo e no terceiro experimento foram selecionadas regras \textit{balanceadas} (as que têm quatro transições de estado para cada um dos estados, 0 e 1) que tivessem no máximo 75 esquemas independentes por regra; o balanceamento se deve a uma condição necessária do problema e a restrição em 75 esquemas para diminuir as demandas computacionais.Cada esquema contém a prioridade de cada uma das 8 vizinhanças possíveis do espaço elementar, correspondendo às vizinhanças, respectivamente: (111, 110, 101, 100, 011, 010, 001, 000).  Em cada esquema, o número 1 indica que a vizinhança será a primeira a ser atualizada (ou seja, máxima prioridade), o número 2 indica que a vizinhança será a segunda a ser atualizada, e assim por diante. 
 
 % \subsection{ORGANIZAÇÃO DO ESTUDO}
 
@@ -267,7 +267,6 @@ Descrição dos capítulos:
 \section{REFERENCIAL TEÓRICO} \label{referencial}
 \tab Em relação ao referencial teórico estudado neste TCC, foi de suma importância entender os seguintes tópicos:
 
-% \subsection{AUTÔMATOS CELULARES} \label{ref_ac}
 \subsection{AUTÔMATOS CELULARES ELEMENTARES} \label{ref_ace}
 
 \tab Um AC pode ser descrito simplesmente por seu \textit{reticulado} e sua \textit{regra de transição}. O reticulado é um conjunto finito \textit{d-dimensional} ordenado de células onde cada célula no índice \textbf{i} tem um estado entre \textit{k} estados. As regras de transição definem o novo estado de uma determinada célula em função de sua vizinhança de tamanho \textit{2r+1}, sendo \textit{r} raio do AC. O comportamento da aplicação das regras de transição nas bordas do espaço pode ser especificado de várias formas, muitas vezes como conexo com a borda oposta, tornando o espaço efetivamente contínuo. 
@@ -281,7 +280,9 @@ Descrição dos capítulos:
 
 \tab ACEs formam a família de ACs com \textit{d}=1, \textit{k}=2 e \textit{r}=1, ou seja, são unidimensionais, com células binárias e vizinhanças definidas como 3 células contíguas. O reticulado é dito ter largura \textit{n}, isto é, tem \textit{n} células em cada reticulado da evolução e permanece constante até o fim das evoluções.
 
-\tab Os ACEs são comumente representados por seu respectivo \textit{Wolfram code}, uma nomenclatura que dá a cada regra um identificador no intervalo \(\left[0, 255\right]\). Segundo \citeonline[p. 24]{wolfram2002new}, ``A linha superior em cada caixa dá uma das possíveis combinações de cores para uma célula e sua vizinhança imediata. A linha inferior então especifica qual será a cor da célula central no próximo passo em cada um desses casos.''
+\tab Os ACEs são enumerados por suas regras de transição, de 0 a 255, o que é conhecido como número de Wolfram. Segundo \citeonline[p. 24]{wolfram2002new}, ``A linha superior em cada caixa dá uma das possíveis combinações de cores para uma célula e sua vizinhança imediata. A linha inferior então especifica qual será a cor da célula central no próximo passo em cada um desses casos.''
+
+\tab Uma definição direta de regra de transição consiste na enumeração de todas as combinações de estado possíveis da vizinhança de uma célula, e do próximo estado associado a elas, o que define a função local a ser usada na evolução temporal do reticulado.
 
 % \begin{figure}[!htbp]
 %   \centerline{\includegraphics[width=8cm]{imgs/ElementaryCA.png}}
@@ -289,7 +290,7 @@ Descrição dos capítulos:
 % \end{figure}
 % \break
 
-\subsubsection{ATUALIZAÇÃO ASSÍNCRONA \\POR PRIORIDADE DA VIZINHANÇA} \label{tiposatt}
+\subsection{ATUALIZAÇÃO ASSÍNCRONA \\POR PRIORIDADE DA VIZINHANÇA} \label{tiposatt}
 \tab Parte imprescindível da definição de um AC é a ordem de atualização das células no reticulado. Apesar de os ACs serem fundamentalmente concebidos com o comportamento de atualização síncrona, é possível se utilizar das mais diversas e criativas estratégias de atualização.
 
 \tab No presente trabalho foi empregado uma nova estratégia de atualização: por "prioridade da vizinhança", em que os esquemas associados contém a prioridade da atualização de cada uma das 8 possíveis vizinhanças do espaço elementar, as quais deverão ser seguidas deterministicamente durante as evoluções temporais.  
@@ -319,13 +320,15 @@ Descrição dos capítulos:
 \tab Segundo \citeonline[p. 1]{capcarrere1996two}, ``um exemplo dessa computação emergente é utilizar um AC para determinar a densidade global de bits em uma configuração de estado inicial. Conhecido como o problema de classificação de densidade, o AC unidimensional de dois estados é apresentado com uma configuração inicial arbitrária e deve convergir no tempo para um estado de apenas 1s se a configuração inicial contiver uma densidade de 1s > 0,5, e de apenas 0s se essa densidade < 0,5; para uma densidade inicial de 0,5, o comportamento do AC é indefinido''. Em outras palavras, capacidade de classificação de densidade se dá quando o reticulado cíclico de um ACE torna-se totalmente preenchido pelo estado predominante na configuração inicial.
 
 \subsection{PROBLEMA DA PARIDADE} \label{parity-problem}
-\tab Segundo \citeonline[p. 1]{betel2012parity}, ``Consideramos o problema de paridade em autômatos celulares unidimensionais, binários e circulares: se a configuração inicial contém um número ímpar de 1s, a reticulado inteira deve convergir para 1s; caso contrário, deve convergir para 0s''. Assim como o problema da maioria, ``é fácil ver que o problema é mal-definido para reticulados de tamanho ímpar (que, por definição, nunca seriam capazes de convergir para 1)''. É possível entender, então, que a solução do problema da paridade se dá quando o reticulado cíclico de um ACE torna-se totalmente preenchido pelo estado de quantidade ímpar na configuração inicial.  
+\tab Segundo \citeonline[p. 1]{betel2012parity}, ``Consideramos o problema de paridade em autômatos celulares unidimensionais, binários e circulares: se a configuração inicial contém um número ímpar de 1s, a reticulado inteira deve convergir para 1s; caso contrário, deve convergir para 0s''. Assim como o problema da maioria, ``é fácil ver que o problema é mal-definido para reticulados de tamanho ímpar (que, por definição, nunca seriam capazes de convergir para 1)''. É possível entender, então, que a solução do problema da paridade se dá quando o reticulado cíclico de um ACE torna-se totalmente preenchido pelo estado de quantidade (necessariamente) ímpar na configuração inicial.  
 
 \section{METODOLOGIA DA PESQUISA}
 \tab No que tange à Metodologia empregada neste TCC, o trabalho teve início com uma revisão da literatura específica sobre o tema da pesquisa. Esta pesquisa abrange conceitos fundamentais de teoria da computação e o ``estado da arte'' em termos de análise de conservabilidade.
 
 \tab Este alicerce teórico foi obtido através de autores como: Wolfram; Boccara;
 entre outros, além de pesquisas em periódicos científicos, sites, publicações em empresas, teses e dissertações em universidades e publicações de associações técnicas.  A leitura, análise e comparação da fundamentação teórica tiveram início com ACEs síncronos, modificados em seguida para viabilizar o tipo de atualização mencionado no item \ref{tiposatt}.
+
+\tab Os três experimentos foram de natureza computacional. Foram testados comprimentos de reticulado (\textit{n}) sucessivamente maiores, de \textit{n}=5 em diante. Para o primeiro experimento, foram testados esquemas de atualização \textit{independentes} para o ACE 184, i.e., os esquemas cujas dinâmicas são definidas pelas transições \textit{ativas} de estado da regra, as que mudam o estado da célula central. Para o segundo experimento, foram escolhidas regras \textit{balanceadas} (as que têm quatro transições de estado para cada um dos estados, 0 e 1) e que tivessem no máximo 75 esquemas independentes por regra; o balanceamento se deve a uma condição necessária do problema e a restrição em 75 esquemas para diminuir as demandas computacionais.
 
 \tab A capacidade de classificação de densidade e a capacidade de resolução do problema da paridade foram medidas através da contagem de configurações iniciais em que cada par $\langle\,R,E\,\rangle$ resolve o problema em questão.
 
@@ -359,13 +362,14 @@ Assim, pode-se dizer que as etapas desenvolvidas neste estudo foram:
 
 \textbf{Experimento 1}
 
-A simulação da regra 184 para todos os esquemas de prioridade não-equivalentes até largura \textit{n}=15 mostra em quais esquemas a regra permanece conservativa:
+% A simulação da regra 184 para todos os esquemas de prioridade não-equivalentes até largura \textit{n}=15 mostra em quais esquemas a regra permanece conservativa:
+\tab Em relação à conservabilidade, a execução da regra 184 com todas as configurações iniciais de comprimento até \textit{n}=15, e com todos os seus esquemas de prioridade independentes, resultou num conjunto de esquemas assíncronos em que a regra permanece conservativa, como é mostrado na figura \ref{fig:evolucoes}. Nota-se, entretanto, que todos correspondem ao modo síncrono, já que eles só diferem entre si nas prioridades das transições inativas, e as prioridades das ativas são as mesmas em cada esquema.
 
 \begin{figure}[h]
   \begin{minipage}[htb]{.4\linewidth}
     \centering
     \fbox{\includegraphics[width=0.1\linewidth]{imgs/184-5x33-11111111.png}}
-    \caption{Todos os esquemas assíncronos conservativos da regra 184 são equivalentes}
+    \caption{Todos os esquemas assíncronos conservativos da regra 184 são equivalentes.}
     \label{fig:evolucoes}
     % \rule{6cm}{6cm} %to simulate an actual figure
   \end{minipage}%
@@ -398,7 +402,7 @@ No entanto, é possível ver que as prioridades das transições de estado ativa
 
 \textbf{Experimentos 2 e 3}
 
-\tab Em relação à capacidade de classificação de densidade, a execução das regras e esquemas de prioridade independentes selecionadas até comprimento n=7 bastou para mostrar que nenhuma das regras elementares testadas foi capaz de classificar a densidade totalmente, qualquer que fosse o esquema de atualização independente utilizado.
+\tab Em relação à capacidade de classificação de densidade, a execução das regras e esquemas de prioridade independentes selecionadas até comprimento \textit{n}=7 bastou para mostrar que nenhuma das regras elementares testadas foi capaz de classificar a densidade nem resolver o problema da paridade totalmente, qualquer que fosse o esquema de atualização independente utilizado.
 
 \break
 
@@ -414,7 +418,7 @@ No entanto, é possível ver que as prioridades das transições de estado ativa
       \multirow{2}{*}{ATIVIDADE}                & \multicolumn{12}{|c|}{MÊS}     						    \\
 				                & 1    & 2    & 3    & 4    & 5    & 6    & 7    & 8    & 9    & 10   & 11   & 12   \\\hline
       Revisão bibliográfica                             
-						& \ccy & \ccy &      &      &      &      &      & \ccy &      &      &      &      \\\hline
+						& \ccy & \ccy &      &      &      &      &      & \ccy &      & \ccy & \ccy &      \\\hline
       Fundamentação teórica                             
 						&      & \ccy & \ccy &      &      &      &      &      &      &      &      &      \\\hline
       Desenvolvimento e implementação em Python         
