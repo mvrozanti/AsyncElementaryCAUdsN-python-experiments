@@ -1,4 +1,4 @@
-\documentclass[a4paper]{ltxdoc}
+\documentclass[a4paper,12pt]{ltxdoc}
 \usepackage{lmodern}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
@@ -13,6 +13,15 @@
 \usepackage{mathtools}
 \usepackage{multirow}
 \usepackage{longtable}
+\usepackage{sbc-template}
+\usepackage{natbib}
+\usepackage{geometry}
+  \geometry{
+    top=3.5cm,
+    left=3cm,
+    right=3cm,
+    bottom=2.5cm
+  }
 
 \usepackage[english,brazil]{babel}
 \selectlanguage{brazil}
@@ -52,7 +61,7 @@
     escapeinside={\%*}{*)},
     breaklines=true,
     commentstyle=\color{thegrey},
-    keywords=[0]{\fichacatalografica,\errata,\folhadeaprovacao,\dedicatoria,\agradecimentos,\epigrafe,\resumo,\siglas,\simbolos,\citacao,\alineas,\subalineas,\incisos},
+    keywords=[0]{\fichacatalografica,\errata,\folhadeaprovacao,\dedicatoria,\agradecimentos,\epigrafe,\siglas,\simbolos,\citacao,\alineas,\subalineas,\incisos},
     keywordstyle=[0]\color{thered},
     keywords=[1]{},
     keywordstyle=[1]\color{thegreen},
@@ -66,13 +75,14 @@
   \lstnewenvironment{verbatim}[1][]{\lstset{##1}}{}
 }
 
-\usepackage[alf]{abntex2cite}
+% \usepackage[alf]{abntex2cite}
 
 % \newcommand{\abnTeXSite}{}
 
+\parindent 1.27cm
 \title{\protect\parbox{\textwidth}{\protect\centering \textbf{\titulo}}}
 
-\date{\today}
+\date{}
 
 \hypersetup{
   pdftitle={Conservabilidade de estados de autômatos celulares elementares com atualizações assíncronas por prioridade da vizinhança},
@@ -88,38 +98,40 @@
 \CodelineIndex
 \hyphenpenalty=1000
 
+\addto\captionsbrazil{\renewcommand\abstractname{}}
+\addto\captionsenglish{\renewcommand\abstractname{}}
+
 \begin{document}
 
 \newcommand{\titulo}{
   \large{\centerline{Três Experimentos com Atualização Assíncrona por Prioridade}}
   \large{\centerline{de Vizinhança em Autômatos Celulares Elementares}}
   \\~\\
-  \normalfont{\normalsize{Marcelo Vironda Rozanti\\Felipe Stefanelli de Aguiar Silva\\Prof. Dr. Pedro Paulo Balbi de Oliveira\\Faculdade de Computação e Informática - Universidade Presbiteriana Mackenzie São Paulo, Brasil}}
+  \normalfont{\normalsize{Marcelo Vironda Rozanti\\Felipe Stefanelli de Aguiar Silva\\Prof. Dr. Pedro Paulo Balbi de Oliveira\\Faculdade de Computação e Informática - Universidade Presbiteriana Mackenzie \\São Paulo, SP -- Brasil}}
 }
 
 \maketitle
-
-\begin{abstract}
-  Autômatos Celulares são sistemas computacionais discretos que se têm provado úteis como modelos genéricos de complexidade e representação de diversas dinâmicas em uma variedade de áreas científicas. Estes sistemas são essencialmente computados usando funções locais e podem até ser implementados em estruturas físicas. Muitos deles podem computar funções e resolver problemas algorítmicos. O presente projeto explora um conjunto fundamental deles, chamados Autômatos Celulares Elementares através de um tipo específico de atualização assíncrona, baseada em prioridade da vizinhança, à procura de regras que satisfaçam conservabilidade numérica, e que resolvam os problemas de decisão de determinação de maioria e de paridade. 
-
-  % O código correspondende a este trabalho pode ser acessado no repositório \url{https://github.com/mvrozanti/TCC}.
-\end{abstract}
-Palavras-chave: Autômatos celulares elementares, Atualização assíncrona por prioridade da vizinhança, New Kind of Science, Sistemas dinâmicos discretos, Conservabilidade numérica, Problema da classificação de densidade, Problema da maioria, Problema da paridade
-
-% \vfill
 
 \selectlanguage{english}
 \begin{abstract}
   Cellular Automata are discrete computational systems that have proved useful as general models of complexity and representations of dynamics on a variety of scientific fields. These systems are essentially computed using local functions and can even be implemented in physical structures. Many of them can compute functions and solve algorithmic problems . The present project attempts to explore a fundamental subset of them, called Elementary Cellular Automata with a specific kind of neighbourhood-priority-based asynchronous updating in the hopes of finding either number-conserving, density-classifying or parity-solving rules.
   %The implementation developed is hosted at \url{https://github.com/mvrozanti/TCC}.
 \end{abstract}
-Keywords: Update schedule by Neighbourhood priority, Elementary Cellular Automata, New Kind of Science, Discrete dynamical systems, Number-conserving, Density classification task, Majority problem, Parity problem
+% Keywords: Update schedule by Neighbourhood priority, Elementary Cellular Automata, New Kind of Science, Discrete dynamical systems, Number-conserving, Density classification task, Majority problem, Parity problem
+
+\selectlanguage{brazil}
+\begin{resumo}
+  Autômatos Celulares são sistemas computacionais discretos que se têm provado úteis como modelos genéricos de complexidade e representação de diversas dinâmicas em uma variedade de áreas científicas. Estes sistemas são essencialmente computados usando funções locais e podem até ser implementados em estruturas físicas. Muitos deles podem computar funções e resolver problemas algorítmicos. O presente projeto explora um conjunto fundamental deles, chamados Autômatos Celulares Elementares através de um tipo específico de atualização assíncrona, baseada em prioridade da vizinhança, à procura de regras que satisfaçam conservabilidade numérica, e que resolvam os problemas de decisão de determinação de maioria e de paridade.
+
+  % O código correspondende a este trabalho pode ser acessado no repositório \url{https://github.com/mvrozanti/TCC}.
+\end{resumo}
+% Palavras-chave: Autômatos celulares elementares, Atualização assíncrona por prioridade da vizinhança, New Kind of Science, Sistemas dinâmicos discretos, Conservabilidade numérica, Problema da classificação de densidade, Problema da maioria, Problema da paridade
 
 \renewcommand{\contentsname}{\centerline{\Large Sumário}}
 
-\section{INTRODUÇÃO}
+\section{Introdução}
 
-\tab Autômatos Celulares (ACs) são uma categoria de sistemas discretos. Por sua própria simplicidade, estes sistemas têm ocupado uma posição privilegiada no estudo de complexidade nos mais diversos campos da ciência, de biologia teórica a economia, entre muitos outros. O desenvolvimento de ACs é tipicamente atribuído a John von Neumann através de suas tentativas de criar um modelo abstrato de autoreprodução biológica. Ao fim de 1950, foi notado que ACs poderiam ser vistos como computadores paralelos \cite[p. 876]{wolfram2002new}. Apesar de falta de investigação científica até 1970, um exemplo de AC se tornou muito famoso por seu comportamento complexo e regras simplesmente descritas inventadas por John Conway, \textit{The Game of Life}, que se popularizou após sua aparição na revista \textit{Scientific American}. 
+Autômatos Celulares (ACs) são uma categoria de sistemas discretos. Por sua própria simplicidade, estes sistemas têm ocupado uma posição privilegiada no estudo de complexidade nos mais diversos campos da ciência, de biologia teórica a economia, entre muitos outros. O desenvolvimento de ACs é tipicamente atribuído a John von Neumann através de suas tentativas de criar um modelo abstrato de autoreprodução biológica. Ao fim de 1950, foi notado que ACs poderiam ser vistos como computadores paralelos \cite[p. 876]{wolfram2002new}. Apesar de falta de investigação científica até 1970, um exemplo de AC se tornou muito famoso por seu comportamento complexo e regras simplesmente descritas inventadas por John Conway, \textit{The Game of Life}, que se popularizou após sua aparição na revista \textit{Scientific American}. 
 
 \tab Desde então, múltiplos estudos compreensivos foram realizados por cientistas ao redor do mundo, destacando os trabalhos feitos por Stephen Wolfram na década de 1980, culminando na publicação do livro A New Kind of Science em que Wolfram apresenta uma coleção de resultados a respeito de ACs, com uma série de descobertas revolucionárias. 
 
@@ -127,11 +139,11 @@ Keywords: Update schedule by Neighbourhood priority, Elementary Cellular Automat
 
 \tab A seguir, são apresentados conceitos e experimentos relacionados a Autômatos Celulares Elementares. Apesar de tradicionalmente executados sincronamente, neste trabalho para todas as execuções é usada uma nova estratégia assíncrona de atualização.
 
-\subsection{CONTEXTUALIZAÇÃO E RELEVÂNCIA} \label{contex}
+\subsection{Contextualização e Relevância} \label{contex}
 
 \tab A motivação inicial para o estudo de ACs por parte de von Neumann não era matemática mas tinha como diretriz encontrar uma forma viável de tratar do problema de como fazer máquinas se reproduzirem. Hoje é sabido que esses sistemas são aplicáveis para resolver problemas relativos a classificação de densidade, simulação de partículas, compressão de dados, design estrutural, representação de comportamentos dinâmicos como trânsito em cidades ou movimentação de seres vivos entre muitos outros.
 
-\tab Há uma infinidade de ACs passíveis de construção para modelagem ou solução de problemas. Um deles é a modelagem de tráfego de veículos, como é notado por \citeonline[p. 307]{rosenblueth2011model}:  ``Autômatos Celulares Elementares'', discutidos nas próximas seções, ``podem modelar tráfego também. Podemos presumir que um veículo se move para frente ou não dependendo apenas na presença ou ausência de outro veículo em sua frente. Supondo que um veículo se move uma célula para a direita se e apenas se uma a célula à direita está vazia, então a regra 184 corresponde ao tráfego se movendo à direita.''
+\tab Há uma infinidade de ACs passíveis de construção para modelagem ou solução de problemas. Um deles é a modelagem de tráfego de veículos, como é notado por \cite[p. 307]{rosenblueth2011model}:  ``Autômatos Celulares Elementares'', discutidos nas próximas seções, ``podem modelar tráfego também. Podemos presumir que um veículo se move para frente ou não dependendo apenas na presença ou ausência de outro veículo em sua frente. Supondo que um veículo se move uma célula para a direita se e apenas se uma a célula à direita está vazia, então a regra 184 corresponde ao tráfego se movendo à direita.''
 
 % Movimento aparente é criado do seguinte modo: se o estado de uma célula é 1 e a de seu vizinho à direita é 0, então esta regra atribui 0 ao estado da célula na próxima geração, eliminando o veículo de sua célula atual (que é representada por 110 e 010). Similarmente, se o estado atual da célula é 0 e de seu vizinho à esquerda é 1, então o próximo estado da célula é 1, aparentemente fazendo o veículo no vizinho da esquerda mover-se uma célula para a direita (cobrindo casos 100 e 101). Deve-se lidar com duas outras situações. Primeiro, um veículo não pode se mover se houver outro veículo diretamente em sua frente (i.e., 111 e 011). Segundo, se não há veículo na célula ou seu vizinho à esquerda, então na próxima geração a célula não terá um veículo também (i.e., 001 e 000)''.
 
@@ -139,9 +151,9 @@ Keywords: Update schedule by Neighbourhood priority, Elementary Cellular Automat
 
 % \break
 
-\subsection{OBJETIVOS DO ESTUDO} 
+\subsection{Objetivos do Estudo} 
 
-\tab A motivação para o presente trabalho é estudar três importantes propriedades nos ACEs executados com a estratégia definida na subseção \ref{udsn}: 
+A motivação para o presente trabalho é estudar três importantes propriedades nos ACEs executados com a estratégia definida na subseção \ref{udsn}: 
 
 \begin{itemize}
   \item Conservabilidade numérica;
@@ -163,17 +175,17 @@ Keywords: Update schedule by Neighbourhood priority, Elementary Cellular Automat
   \item Definir e identificar a propridade e problemas estudados;
 \end{itemize}
 
-\section{REFERENCIAL TEÓRICO} \label{referencial}
-\tab Em relação ao referencial teórico estudado neste TCC, foi de suma importância entender os seguintes tópicos:
+\section{Referencial Teórico} \label{referencial}
+Em relação ao referencial teórico estudado neste TCC, foi de suma importância entender os seguintes tópicos:
 
-\subsection{AUTÔMATOS CELULARES} \label{ref_ac}
-\tab Como diz \citeonline{wolfram1983cellular}, ``Sistemas matemáticos de simples construção são capazes de comportamento altamente complexo com muitas características''. ACs são um exemplo desse tipo de sistemas. ACs são compostos por células, cada uma com um estado. Eles podem ter \textit{d} dimensões e \textit{k} estados finitos, os quais devem ser estipulados previamente e são necessariamente computados através de funções locais, isto é, através da vizinhança entre as células.
+\subsection{Autômatos Celulares} \label{ref_ac}
+Como diz \cite{wolfram1983cellular}, ``Sistemas matemáticos de simples construção são capazes de comportamento altamente complexo com muitas características''. ACs são um exemplo desse tipo de sistemas. ACs são compostos por células, cada uma com um estado. Eles podem ter \textit{d} dimensões e \textit{k} estados finitos, os quais devem ser estipulados previamente e são necessariamente computados através de funções locais, isto é, através da vizinhança entre as células.
 
 \tab Wolfram diz ainda, ``Autômatos celulares são simples idealizações matemáticas de sistemas naturais. Eles consistem de um reticulado de locais idênticos discretos, com cada local tomando um conjunto finito de valores inteiros. Os valores dos locais evoluem em fases temporais'', também chamadas de \textit{time steps}, ``discretas de acordo com regras determinísticas que especificam o valor de cada local em termos dos valores dos locais adjacentes''. É importante notar que todo AC depende de uma \textit{configuração inicial}, que é um reticulado de necessariamente \textit{d}-dimensões com cada célula com um estado pertencendo ao conjunto de \textit{k} estados.
 
-\subsection{AUTÔMATOS CELULARES ELEMENTARES} \label{ref_ace}
+\subsection{Autômatos Celulares Elementares} \label{ref_ace}
 
-\tab ACEs formam a família de ACs com \textit{d}=1, \textit{k}=2 e \textit{r}=1, ou seja, são unidimensionais, com células binárias e vizinhanças definidas como 3 células contíguas. O reticulado é necessariamente ordenado e é dito ter comprimento \textit{n}, isto é, tem \textit{n} células em cada reticulado da evolução e permanece constante até o fim das evoluções.
+ACEs formam a família de ACs com \textit{d}=1, \textit{k}=2 e \textit{r}=1, ou seja, são unidimensionais, com células binárias e vizinhanças definidas como 3 células contíguas. O reticulado é necessariamente ordenado e é dito ter comprimento \textit{n}, isto é, tem \textit{n} células em cada reticulado da evolução e permanece constante até o fim das evoluções.
 
 \tab Assim como ACs, as regras de transição de um ACE definem o novo estado de uma determinada célula em função de sua vizinhança. O comportamento da aplicação das regras de transição nas bordas do reticulado pode ser especificado de várias formas, muitas vezes como conexo com a borda oposta, tornando o reticulado efetivamente circular e contínuo, que é o tipo estudado neste trabalho.
 
@@ -184,14 +196,14 @@ Keywords: Update schedule by Neighbourhood priority, Elementary Cellular Automat
   \caption{Ilustração das regras de transição para a regra 22 no código Wolfram. }
 \end{figure}
 
-\tab Os ACEs são enumerados por suas regras de transição, de 0 a 255, o que é conhecido como número de Wolfram. Segundo \citeonline[p. 24]{wolfram2002new}, ``A linha superior em cada caixa dá uma das possíveis combinações de cores para uma célula e sua vizinhança imediata. A linha inferior então especifica qual será a cor da célula central no próximo passo em cada um desses casos.''
+\tab Os ACEs são enumerados por suas regras de transição, de 0 a 255, o que é conhecido como número de Wolfram. Segundo \cite[p. 24]{wolfram2002new}, ``A linha superior em cada caixa dá uma das possíveis combinações de cores para uma célula e sua vizinhança imediata. A linha inferior então especifica qual será a cor da célula central no próximo passo em cada um desses casos.''
 
 \tab Uma definição direta de regra de transição consiste na enumeração de todas as combinações de estado possíveis da vizinhança de uma célula, e do próximo estado associado a elas, o que define a função local a ser usada na evolução temporal do reticulado.
 
 % \break
 
-\subsection{ATUALIZAÇÃO ASSÍNCRONA \\POR PRIORIDADE DA VIZINHANÇA} \label{udsn}
-\tab Parte imprescindível da definição de um AC é a ordem de atualização das células no reticulado. Apesar de os ACs serem fundamentalmente concebidos com o comportamento de atualização síncrona, é possível se utilizar das mais diversas e criativas estratégias de atualização.
+\subsection{Atualização Assíncrona por Prioridade da Vizinhança} \label{udsn}
+Parte imprescindível da definição de um AC é a ordem de atualização das células no reticulado. Apesar de os ACs serem fundamentalmente concebidos com o comportamento de atualização síncrona, é possível se utilizar das mais diversas e criativas estratégias de atualização.
 
 \tab No presente trabalho foi empregado uma nova estratégia de atualização: por "prioridade da vizinhança", em que os esquemas associados contém a prioridade da atualização de cada uma das 8 possíveis vizinhanças do espaço elementar, as quais deverão ser seguidas deterministicamente durante as evoluções temporais.  
 
@@ -205,8 +217,8 @@ Keywords: Update schedule by Neighbourhood priority, Elementary Cellular Automat
 
 \break
 
-\subsection{CONSERVABILIDADE NUMÉRICA} \label{num-conserv}
-\tab Segundo \citeonline{boccara2002number}, ``Uma regra de AC \textit{f} de \textit{q} estados, unidimensional, de comprimento \textit{n} é conservativa se, para todas as configurações cíclicas de tamanho \textit{L} \(\geq\) \textit{n} satisfaz'':
+\subsection{Conservabilidade Numérica} \label{num-conserv}
+Segundo \cite{boccara2002number}, ``Uma regra de AC \textit{f} de \textit{q} estados, unidimensional, de comprimento \textit{n} é conservativa se, para todas as configurações cíclicas de tamanho \textit{L} \(\geq\) \textit{n} satisfaz'':
 
 \[f(x_1,x_2,...,x_{n-1},x_n) + f(x_2,x_3,...,x_n,x_{n+1}) + ... \]
 \tab \[ + \;   f(x_L,x_1,...,x_{n-2},x_{n-1} = x_1 + x_2 + ... + x_L\] 
@@ -214,34 +226,34 @@ Keywords: Update schedule by Neighbourhood priority, Elementary Cellular Automat
 \tab No contexto de ACEs, uma evolução é dita conservativa caso, para qualquer configuração inicial, a soma dos estados presentes numa configuração é sempre a mesma para todas as iterações. Como é mencionado na subseção \ref{contex}, ACs conservativos podem ser usados para modelar ambientes em que há conservabilidade, como trânsito automobilístico, simulação de partículas, entre outros. A regra 184 é uma regra que, em execução síncrona, gera evoluções conservativas pela definição anterior de conservabilidade. 
 % Na seção \ref{resultados} são apresentados os esquemas em que a regra 184 permanece conservativa com a estratégia de atualização discutida em \ref{udsn}.
 
-\subsection{CLASSIFICAÇÃO DE DENSIDADE} \label{dct}
-\tab Segundo \citeonline[p. 1]{capcarrere1996two}, ``um exemplo dessa computação emergente é utilizar um AC para determinar a densidade global de bits em uma configuração de estado inicial. Conhecido como o problema de classificação de densidade, o AC unidimensional de dois estados é apresentado com uma configuração inicial arbitrária e deve convergir no tempo para um estado de apenas 1s se a configuração inicial contiver uma densidade de 1s > 0,5, e de apenas 0s se essa densidade < 0,5; para uma densidade inicial de 0,5, o comportamento do AC é indefinido''. Em outras palavras, capacidade de classificação de densidade se dá quando o reticulado cíclico de um ACE torna-se totalmente preenchido pelo estado predominante na configuração inicial.
+\subsection{Classificação de Densidade} \label{dct}
+Segundo \cite[p. 1]{capcarrere1996two}, ``um exemplo dessa computação emergente é utilizar um AC para determinar a densidade global de bits em uma configuração de estado inicial. Conhecido como o problema de classificação de densidade, o AC unidimensional de dois estados é apresentado com uma configuração inicial arbitrária e deve convergir no tempo para um estado de apenas 1s se a configuração inicial contiver uma densidade de 1s > 0,5, e de apenas 0s se essa densidade < 0,5; para uma densidade inicial de 0,5, o comportamento do AC é indefinido''. Em outras palavras, capacidade de classificação de densidade se dá quando o reticulado cíclico de um ACE torna-se totalmente preenchido pelo estado predominante na configuração inicial.
 
-\subsection{PROBLEMA DA PARIDADE} \label{parity-problem}
-\tab Segundo \citeonline[p. 1]{betel2012parity}, ``Consideramos o problema de paridade em autômatos celulares unidimensionais, binários e circulares: se a configuração inicial contém um número ímpar de 1s, a reticulado inteira deve convergir para 1s; caso contrário, deve convergir para 0s''. Assim como o problema da maioria, ``é fácil ver que o problema é mal-definido para reticulados de tamanho ímpar (que, por definição, nunca seriam capazes de convergir para 1)''. É possível entender, então, que a solução do problema da paridade se dá quando o reticulado cíclico de um ACE torna-se totalmente preenchido pelo estado de quantidade ímpar na configuração inicial.  
+\subsection{Problema da Paridade} \label{parity-problem}
+Segundo \cite[p. 1]{betel2012parity}, ``Consideramos o problema de paridade em autômatos celulares unidimensionais, binários e circulares: se a configuração inicial contém um número ímpar de 1s, a reticulado inteira deve convergir para 1s; caso contrário, deve convergir para 0s''. Assim como o problema da maioria, ``é fácil ver que o problema é mal-definido para reticulados de tamanho ímpar (que, por definição, nunca seriam capazes de convergir para 1)''. É possível entender, então, que a solução do problema da paridade se dá quando o reticulado cíclico de um ACE torna-se totalmente preenchido pelo estado de quantidade ímpar na configuração inicial.  
 
-\section{METODOLOGIA DA PESQUISA}
+\section{Metodologia da Pesquisa}
 
-\tab No que tange à Metodologia empregada neste TCC, o trabalho teve início com uma revisão da literatura específica sobre o tema da pesquisa. Esta pesquisa abrange conceitos fundamentais de teoria da computação e o ``estado da arte'' em termos de análise de conservabilidade.
+No que tange à Metodologia empregada neste TCC, o trabalho teve início com uma revisão da literatura específica sobre o tema da pesquisa. Esta pesquisa abrange conceitos fundamentais de teoria da computação e o ``estado da arte'' em termos de análise de conservabilidade.
 
 \tab Este alicerce teórico foi obtido através de autores como: Wolfram; Boccara;
 entre outros, além de pesquisas em periódicos científicos, sites, publicações em empresas, teses e dissertações em universidades e publicações de associações técnicas.  A leitura, análise e comparação da fundamentação teórica tiveram início com ACEs síncronos, modificados em seguida para viabilizar o tipo de atualização mencionado na subseção \ref{udsn}.
 
 \tab A capacidade de classificação de densidade e a capacidade de resolução do problema da paridade foram medidas através da contagem de configurações iniciais em que cada par $\langle\,R,E\,\rangle$ resolve o problema em questão.
 
-\subsection{ORGANIZAÇÃO E DELIMITAÇÃO DO ESTUDO} \label{delimitacao}
+\subsection{Organização e Delimitação do Estudo} \label{delimitacao}
 
-\tab A pesquisa se limita a ACEs com o tipo de atualização evidenciado na subseção \ref{ref_ace}, com comprimento de reticulados testados até \textit{n}=15 e com \textit{r}=1. 
+A pesquisa se limita a ACEs com o tipo de atualização evidenciado na subseção \ref{ref_ace}, com comprimento de reticulados testados até \textit{n}=15 e com \textit{r}=1. 
 
 \tab Para o primeiro experimento, foram testados esquemas de atualização \textit{independentes} para o ACE 184, i.e., os esquemas cujas dinâmicas são definidas pelas transições \textit{ativas} de estado da regra, as que mudam o estado da célula central. 
 
 \tab Os três experimentos foram de natureza computacional. Foram testados comprimentos de reticulado (\textit{n}) sucessivamente maiores, de \textit{n}=5 em diante. Para o primeiro experimento, foram testados esquemas de atualização \textit{independentes} para o ACE 184, i.e., os esquemas cujas dinâmicas são definidas pelas transições \textit{ativas} de estado da regra, as que mudam o estado da célula central. Para o segundo e o terceiro experimento, foram escolhidas regras \textit{balanceadas} (as que têm quatro transições de estado para cada um dos estados, 0 e 1) e que tivessem no máximo 75 esquemas independentes por regra; o balanceamento se deve a uma condição necessária do problema e a restrição em 75 esquemas para diminuir as demandas computacionais.
 
-\section{RESULTADOS DOS EXPERIMENTOS} \label{resultados}
+\section{Resultados dos Experimentos} \label{resultados}
 
 \textbf{Experimento 1}
 
-\tab É sabido que há cinco regras que apresentam conservabilidade numérica em suas evoluções: 170, 184, 204, 226 e 240. A motivação para o primeiro experimento foi descobrir se, no esquema de atualização usado, essa propriedade é mantida para a regra 184 (que é equivalente à regra 226), que foi escolhida por ser a mais rica do ponto de vista dinâmico dentre as cinco, empatada com a 226.
+É sabido que há cinco regras que apresentam conservabilidade numérica em suas evoluções: 170, 184, 204, 226 e 240. A motivação para o primeiro experimento foi descobrir se, no esquema de atualização usado, essa propriedade é mantida para a regra 184 (que é equivalente à regra 226), que foi escolhida por ser a mais rica do ponto de vista dinâmico dentre as cinco, empatada com a 226.
 
 \tab Em relação à conservabilidade, a execução da regra 184 com todas as configurações iniciais de comprimento até \textit{n}=15, e com todos os seus esquemas de prioridade independentes, resultou num conjunto de esquemas assíncronos em que a regra permanece conservativa, como é mostrado na figura \ref{fig:evolucoes}. Nota-se, entretanto, que todos correspondem ao modo síncrono, já que eles só diferem entre si nas prioridades das transições inativas, e as prioridades das ativas são as mesmas em cada esquema.
 
@@ -374,9 +386,9 @@ A seguir são apresentadas as regras a quantidade de esquemas testados para elas
   \end{longtable}
 \end{center}
 
-\section{CONSIDERAÇÕES FINAIS} \label{comentarios-finais}
+\section{Considerações Finais} \label{comentarios-finais}
 
-\tab Esta pesquisa é um passo no estudo sobre ACEs com atualização assíncrona por prioridade da vizinhança. Para tanto, realizamos os três experimentos acima descritos.
+Esta pesquisa é um passo no estudo sobre ACEs com atualização assíncrona por prioridade da vizinhança. Para tanto, realizamos os três experimentos acima descritos.
 
 \tab O primeiro experimento mostrou que a regra 184 permanece conservativa apenas em esquemas de atualização equivalentes ao modo síncrono. Já o segundo experimento revelou que, para os esquemas de atualização testados, não havia pares $\langle\,R,E\,\rangle$ que resolvessem o problema da maioria. Por fim, o terceiro experimento demonstrou que não havia pares $\langle\,R,E\,\rangle$ que resolvessem o problema da paridade.
 
@@ -388,7 +400,9 @@ A seguir são apresentadas as regras a quantidade de esquemas testados para elas
 
 % \tab Queremos agradecer nosso orientador, Prof. Dr. Pedro Paulo Balbi de Oliveira pelo forte, contínuo e atencioso apoio ao longo do desenvolvimento desta pesquisa.
 
-\addcontentsline{toc}{section}{Referências}
-\bibliography{cellz} \label{bib}
+% \addcontentsline{toc}{section}{Referências}
+% \bibliography{cellz} \label{bib}
+\bibliographystyle{sbc}
+\bibliography{cellz}
 
 \end{document}
