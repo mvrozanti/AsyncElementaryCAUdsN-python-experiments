@@ -15,6 +15,7 @@
 \usepackage{longtable}
 
 \usepackage[english,brazil]{babel}
+\selectlanguage{brazil}
 \addto\captionsbrazil{
   \renewcommand{\bibname}{Refer\^encias}
   \renewcommand{\indexname}{\'Indice}
@@ -67,7 +68,7 @@
 
 \usepackage[alf]{abntex2cite}
 
-\newcommand{\abnTeXSite}{}
+% \newcommand{\abnTeXSite}{}
 
 \title{\protect\parbox{\textwidth}{\protect\centering \textbf{\titulo}}}
 
@@ -93,19 +94,19 @@
   \large{\centerline{Três Experimentos com Atualização Assíncrona por Prioridade}}
   \large{\centerline{de Vizinhança em Autômatos Celulares Elementares}}
   \\~\\
-  \normalfont{\normalsize{Marcelo Vironda Rozanti\\~\\Felipe Stefanelli de Aguiar Silva\\~\\Prof. Dr. Pedro Paulo Balbi de Oliveira\\~\\Faculdade de Computação e Informática - Universidade Presbiteriana Mackenzie\\ São Paulo, Brasil}}
+  \normalfont{\normalsize{Marcelo Vironda Rozanti\\Felipe Stefanelli de Aguiar Silva\\Prof. Dr. Pedro Paulo Balbi de Oliveira\\Faculdade de Computação e Informática - Universidade Presbiteriana Mackenzie São Paulo, Brasil}}
 }
 
 \maketitle
 
 \begin{abstract}
-  Autômatos Celulares são sistemas computacionais discretos que se têm provado úteis como modelos genéricos de complexidade e representação de diversas dinâmicas em uma variedade de áreas científicas. Estes sistemas são essencialmente computados usando funções locais e podem até ser implementados em estruturas físicas. Muitos deles podem computar funções e resolver problemas algorítmicos. O presente projeto explora um conjunto fundamental deles, chamados Autômatos Celulares Elementares através de um tipo específico de atualização assíncrona, baseada em prioridade da vizinhança, à procura de regras que satisfaçam conservabilidade numérica, problema da maioria ou o problema da paridade. 
+  Autômatos Celulares são sistemas computacionais discretos que se têm provado úteis como modelos genéricos de complexidade e representação de diversas dinâmicas em uma variedade de áreas científicas. Estes sistemas são essencialmente computados usando funções locais e podem até ser implementados em estruturas físicas. Muitos deles podem computar funções e resolver problemas algorítmicos. O presente projeto explora um conjunto fundamental deles, chamados Autômatos Celulares Elementares através de um tipo específico de atualização assíncrona, baseada em prioridade da vizinhança, à procura de regras que satisfaçam conservabilidade numérica, e que resolvam os problemas de decisão de determinação de maioria e de paridade. 
 
   % O código correspondende a este trabalho pode ser acessado no repositório \url{https://github.com/mvrozanti/TCC}.
 \end{abstract}
 Palavras-chave: Autômatos celulares elementares, Atualização assíncrona por prioridade da vizinhança, New Kind of Science, Sistemas dinâmicos discretos, Conservabilidade numérica, Problema da classificação de densidade, Problema da maioria, Problema da paridade
 
-\vfill
+% \vfill
 
 \selectlanguage{english}
 \begin{abstract}
@@ -114,16 +115,7 @@ Palavras-chave: Autômatos celulares elementares, Atualização assíncrona por 
 \end{abstract}
 Keywords: Update schedule by Neighbourhood priority, Elementary Cellular Automata, New Kind of Science, Discrete dynamical systems, Number-conserving, Density classification task, Majority problem, Parity problem
 
-\selectlanguage{brazil}
 \renewcommand{\contentsname}{\centerline{\Large Sumário}}
-
-\tableofcontents
-
-\listoftables
-
-\listoffigures
-
-\break
 
 \section{INTRODUÇÃO}
 
@@ -145,7 +137,7 @@ Keywords: Update schedule by Neighbourhood priority, Elementary Cellular Automat
 
 \tab ACs são também capazes de resolver problemas globais de decisão. Dois exemplos emblemáticos são o Problema da Maioria, também chamado de Problema da classificação de densidade e o Problema da paridade. Ambos problemas dependem que as funções locais preservem a informação sobre a vizinhança ao longo do processamento global, de modo que a evolução eventualmente gere um reticulado totalmente preenchido de células com um único estado (no contexto de Autômatos Celulares Elementares, 0 ou 1).
 
-\break
+% \break
 
 \subsection{OBJETIVOS DO ESTUDO} 
 
@@ -196,7 +188,7 @@ Keywords: Update schedule by Neighbourhood priority, Elementary Cellular Automat
 
 \tab Uma definição direta de regra de transição consiste na enumeração de todas as combinações de estado possíveis da vizinhança de uma célula, e do próximo estado associado a elas, o que define a função local a ser usada na evolução temporal do reticulado.
 
-\break
+% \break
 
 \subsection{ATUALIZAÇÃO ASSÍNCRONA \\POR PRIORIDADE DA VIZINHANÇA} \label{udsn}
 \tab Parte imprescindível da definição de um AC é a ordem de atualização das células no reticulado. Apesar de os ACs serem fundamentalmente concebidos com o comportamento de atualização síncrona, é possível se utilizar das mais diversas e criativas estratégias de atualização.
@@ -362,9 +354,9 @@ A seguir são apresentadas as regras a quantidade de esquemas testados para elas
     Regra & Qtd. Esquemas     	\\\hline
     23 & 4683 \\\hline
     27 & 4683 \\\hline
+    ... & ... \\ \hline
+    ... & ... \\ \hline
     39 & 4683 \\\hline
-    ... & ... \\ \hline
-    ... & ... \\ \hline
     43 & 4683 \\\hline
     53 & 4683 \\\hline
     54 & 4683 \\\hline
@@ -390,12 +382,11 @@ A seguir são apresentadas as regras a quantidade de esquemas testados para elas
 
 \tab É importante apontar que as conclusões mostradas aqui não incluíram todos os esquemas de atualização possíveis pelo alto custo computacional e que é necessário notar que esta estratégia de atualização é recente e ainda há muitos testes a serem feitos, seja para identificar propriedades estáticas ou verificar a capacidade de resolver problemas de decisão.
 
+\tab A única regra que não foi analisada no contexto dos problemas de decisão discutidos foi a regra 51 (chamada regra inversora, que muda 0s para 1s e vice-versa), e que contém a máxima quantidade possível de esquemas de atualização independentes (545.835 esquemas).
 
-\tab Nesse sentido, entendemos que atingimos o objetivo de estudar três importantes propriedades nos ACEs executados com a estratégia de atualização assíncrona por prioridade da vizinhança: conservabilidade numérica, capacidade de classificação de densidade e capacidade de resolver o problema da maioria. 
+\tab Estudamos três importantes propriedades nos ACEs executados com a estratégia de atualização assíncrona por prioridade da vizinhança: conservabilidade numérica, capacidade de classificação de densidade e capacidade de resolver o problema da maioria. 
 
-\tab O presente trabalho consiste em uma pequena contribuição ao estudo de ACs.
-
-\tab Queremos agradecer nosso orientador, Prof. Dr. Pedro Paulo Balbi de Oliveira pelo forte, contínuo e atencioso apoio ao longo do desenvolvimento desta pesquisa.
+% \tab Queremos agradecer nosso orientador, Prof. Dr. Pedro Paulo Balbi de Oliveira pelo forte, contínuo e atencioso apoio ao longo do desenvolvimento desta pesquisa.
 
 \addcontentsline{toc}{section}{Referências}
 \bibliography{cellz} \label{bib}
