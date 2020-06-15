@@ -99,6 +99,10 @@
 
 \begin{document}
 
+% \pagestyle{empty}
+% \pagestyle{plain}
+% \pagenumbering{arabic}
+\def\instnum{}
 \newcommand{\titulo}{
   \large{\centerline{Três Experimentos com Atualização Assíncrona por Prioridade}}
   \large{\centerline{de Vizinhança em Autômatos Celulares Elementares}}
@@ -106,7 +110,9 @@
   \normalfont{\normalsize{Marcelo Vironda Rozanti\\Felipe Stefanelli de Aguiar Silva\\Prof. Dr. Pedro Paulo Balbi de Oliveira\\Faculdade de Computação e Informática - Universidade Presbiteriana Mackenzie \\São Paulo, SP -- Brasil}}
 }
 
+% \thispagestyle{empty}
 \maketitle
+% \pagenumbering{gobble}
 
 \selectlanguage{english}
 \begin{abstract}
@@ -137,7 +143,7 @@ Autômatos Celulares (ACs) são uma categoria de sistemas discretos. Por sua pr�
 
 \subsection{Contextualização e Relevância} \label{contex}
 
-\tab A motivação inicial para o estudo de ACs por parte de von Neumann não era matemática mas tinha como diretriz encontrar uma forma viável de tratar do problema de como fazer máquinas se reproduzirem. Hoje é sabido que esses sistemas são aplicáveis para resolver problemas relativos a classificação de densidade, simulação de partículas, compressão de dados, design estrutural, representação de comportamentos dinâmicos como trânsito em cidades ou movimentação de seres vivos entre muitos outros.
+A motivação inicial para o estudo de ACs por parte de von Neumann não era matemática mas tinha como diretriz encontrar uma forma viável de tratar do problema de como fazer máquinas se reproduzirem. Hoje é sabido que esses sistemas são aplicáveis para resolver problemas relativos a classificação de densidade, simulação de partículas, compressão de dados, design estrutural, representação de comportamentos dinâmicos como trânsito em cidades ou movimentação de seres vivos entre muitos outros.
 
 \tab Há uma infinidade de ACs passíveis de construção para modelagem ou solução de problemas. Um deles é a modelagem de tráfego de veículos, como é notado por \cite[p. 307]{rosenblueth2011model}:  ``Autômatos Celulares Elementares'', discutidos nas próximas seções, ``podem modelar tráfego também. Podemos presumir que um veículo se move para frente ou não dependendo apenas na presença ou ausência de outro veículo em sua frente. Supondo que um veículo se move uma célula para a direita se e apenas se uma a célula à direita está vazia, então a regra 184 corresponde ao tráfego se movendo à direita.''
 
@@ -254,7 +260,7 @@ A pesquisa se limita a ACEs com o tipo de atualização evidenciado na subseçã
 \tab Em relação à conservabilidade, a execução da regra 184 com todas as configurações iniciais de comprimento até \textit{n}=15, e com todos os seus esquemas de prioridade independentes, resultou num conjunto de esquemas assíncronos em que a regra permanece conservativa, como é mostrado na figura \ref{fig:evolucoes}. Nota-se, entretanto, que todos correspondem ao modo síncrono, já que eles só diferem entre si nas prioridades das transições inativas, e as prioridades das ativas são as mesmas em cada esquema.
 
 \begin{figure}[h]
-  \begin{minipage}[htb]{.4\linewidth}
+  \begin{minipage}[htb]{.5\linewidth}
     \centering
     \fbox{\includegraphics[width=0.1\linewidth]{imgs/184-5x33-11111111.png}}
     \caption{Todos os esquemas assíncronos conservativos da regra 184 são equivalentes.}
@@ -297,7 +303,10 @@ A seguir são apresentadas as regras a quantidade de esquemas testados para elas
 
 
 \begin{center}
-\begin{longtable}{ | c | c | } \hline
+% \caption{Primeiro conjunto de regras e quantidade de esquemas testados}
+\begin{longtable}{ | c | c | } 
+\caption{Primeiro conjunto de regras e quantidade de esquemas testados}\\
+  \hline
  Regra & Qtd. Esquemas     \\\hline
   29 & 75  \\ \hline
   30 & 75  \\ \hline
@@ -310,12 +319,12 @@ A seguir são apresentadas as regras a quantidade de esquemas testados para elas
   78 & 3   \\ \hline
   85 & 75  \\ \hline
   86 & 75  \\ \hline
+  ... & ... \\ \hline
+  ... & ... \\ \hline
   89 & 75  \\ \hline
   90 & 75  \\ \hline
   92 & 3   \\ \hline
   101 & 75 \\ \hline
-  ... & ... \\ \hline
-  ... & ... \\ \hline
   102 & 75 \\ \hline
   105 & 75 \\ \hline
   106 & 75 \\ \hline
@@ -352,18 +361,20 @@ A seguir são apresentadas as regras a quantidade de esquemas testados para elas
   226 & 75 \\ \hline
   228 & 3  \\ \hline
   232 & 3  \\ \hline
-\caption{Segundo conjunto de regras e quantidade de esquemas testados}\\
 \end{longtable}
 \end{center}
+\break
 
 
 \begin{center}
-  \begin{longtable}{ | c | c | } \hline
+  \begin{longtable}{ | c | c | } 
+  \caption{Segundo conjunto de regras e quantidade de esquemas testados}\\
+    \hline
     Regra & Qtd. Esquemas     	\\\hline
     23 & 4683 \\\hline
     27 & 4683 \\\hline
-    ... & ... \\ \hline
-    ... & ... \\ \hline
+    % ... & ... \\ \hline
+    % ... & ... \\ \hline
     39 & 4683 \\\hline
     43 & 4683 \\\hline
     53 & 4683 \\\hline
@@ -378,7 +389,6 @@ A seguir são apresentadas as regras a quantidade de esquemas testados para elas
     163 & 4683 \\\hline
     177 & 4683 \\\hline
     178 & 4683 \\\hline
-  \caption{Segundo conjunto de regras e quantidade de esquemas testados}\\
   \end{longtable}
 \end{center}
 
