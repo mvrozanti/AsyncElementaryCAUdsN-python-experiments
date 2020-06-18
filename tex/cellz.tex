@@ -75,7 +75,13 @@
   \lstnewenvironment{verbatim}[1][]{\lstset{##1}}{}
 }
 
-\parindent 1.27cm
+\titlespacing{\section}      {0pt}{12pt}{10pt}
+\titlespacing{\subsection}   {0pt}{12pt}{10pt}
+\titlespacing{\subsubsection}{0pt}{12pt}{10pt}
+
+\usepackage{parskip}
+\setlength{\parindent}{0pt}
+% \parindent 1.27cm
 \title{\protect\parbox{\textwidth}{\protect\centering \textbf{\titulo}}}
 
 \date{}
@@ -97,6 +103,8 @@
 \addto\captionsbrazil{\renewcommand\abstractname{}}
 \addto\captionsenglish{\renewcommand\abstractname{}}
 
+\usepackage{courier}
+% \renewcommand{\ttdefault}{pcr}
 \begin{document}
 
 % \pagestyle{empty}
@@ -107,7 +115,8 @@
   \large{\centerline{Três Experimentos com Atualização Assíncrona por Prioridade}}
   \large{\centerline{de Vizinhança em Autômatos Celulares Elementares}}
   \\~\\
-  \normalfont{\normalsize{Marcelo Vironda Rozanti\\Felipe Stefanelli de Aguiar Silva\\Prof. Dr. Pedro Paulo Balbi de Oliveira\\Faculdade de Computação e Informática - Universidade Presbiteriana Mackenzie \\São Paulo, SP -- Brasil}}
+  \normalfont{\normalsize{Marcelo Vironda Rozanti\\Felipe Stefanelli de Aguiar Silva\\Prof. Dr. Pedro Paulo Balbi de Oliveira\\Faculdade de Computação e Informática - Universidade Presbiteriana Mackenzie \\São Paulo, SP -- Brasil}}\\
+  % \fontsize{10pt}{0pt}\texttt{mvrozanti@hotmail.com}
 }
 
 % \thispagestyle{empty}
@@ -135,9 +144,8 @@
 
 Autômatos Celulares (ACs) são uma categoria de sistemas discretos. Por sua própria simplicidade, estes sistemas têm ocupado uma posição privilegiada no estudo de complexidade nos mais diversos campos da ciência, de biologia teórica a economia, entre muitos outros. O desenvolvimento de ACs é tipicamente atribuído a John von Neumann através de suas tentativas de criar um modelo abstrato de autoreprodução biológica. Ao fim de 1950, foi notado que ACs poderiam ser vistos como computadores paralelos \cite[p. 876]{wolfram2002new}. Apesar de falta de investigação científica até 1970, um exemplo de AC se tornou muito famoso por seu comportamento complexo e regras simplesmente descritas inventadas por John Conway, \textit{The Game of Life}, que se popularizou após sua aparição na revista \textit{Scientific American}. 
 
-\tab Desde então, múltiplos estudos compreensivos foram realizados por cientistas ao redor do mundo, destacando os trabalhos feitos por Stephen Wolfram na década de 1980, culminando na publicação do livro A New Kind of Science em que Wolfram apresenta uma coleção de resultados a respeito de ACs, com uma série de descobertas revolucionárias. 
-
-\tab Esta é uma pesquisa exploratória, dada a natureza desconhecida das propriedades de Autômatos Celulares Elementares com o tipo de atualização mencionado na subseção \ref{udsn}. Baseada em medidas objetivas e dados verificáveis, esta pesquisa foi voltada para encontrar caminhos, formas, maneiras e procedimentos para atingir um determinado fim, buscando definir um processo ou uma ferramenta que leve à solução do problema proposto. Quanto aos meios, foram utilizados os recursos mencionados na Bibliografia.
+\tab Desde então, múltiplos estudos compreensivos foram realizados por cientistas ao redor do mundo, destacando os trabalhos feitos por Stephen Wolfram na década de 1980, culminando na publicação do livro A New Kind of Science em que Wolfram apresenta uma coleção de resultados a respeito de ACs, com uma série de descobertas revolucionárias.  
+Esta é uma pesquisa exploratória, dada a natureza desconhecida das propriedades de Autômatos Celulares Elementares com o tipo de atualização mencionado na subseção \ref{udsn}. Baseada em medidas objetivas e dados verificáveis, esta pesquisa foi voltada para encontrar caminhos, formas, maneiras e procedimentos para atingir um determinado fim, buscando definir um processo ou uma ferramenta que leve à solução do problema proposto. Quanto aos meios, foram utilizados os recursos mencionados na Bibliografia.
 
 \tab A seguir, são apresentados conceitos e experimentos relacionados a Autômatos Celulares Elementares. Apesar de tradicionalmente executados sincronamente, neste trabalho para todas as execuções é usada uma nova estratégia assíncrona de atualização.
 
@@ -207,7 +215,7 @@ ACEs formam a família de ACs com \textit{d}=1, \textit{q}=2 e \textit{r}=1, ou 
 \subsection{Atualização Assíncrona por Prioridade da Vizinhança} \label{udsn}
 Parte imprescindível da definição de um AC é a ordem de atualização das células no reticulado. Apesar de os ACs serem fundamentalmente concebidos com o comportamento de atualização síncrona, é possível se utilizar das mais diversas e criativas estratégias de atualização.
 
-\tab No presente trabalho foi empregado uma nova estratégia de atualização: por "prioridade da vizinhança", em que os esquemas associados contém a prioridade da atualização de cada uma das 8 possíveis vizinhanças do espaço elementar, as quais deverão ser seguidas deterministicamente durante as evoluções temporais.  
+\tab No presente trabalho foi empregada uma nova estratégia de atualização: por "prioridade da vizinhança", em que os esquemas associados contém a prioridade da atualização de cada uma das 8 possíveis vizinhanças do espaço elementar, as quais deverão ser seguidas deterministicamente durante as evoluções temporais.  
 
 \tab Esse tipo de atualização requer uma distinção das iterações globais e locais (microiterações):  as prioridades de vizinhanças são iteradas sequencialmente de menor a maior e para cada prioridade, o reticulado é varrido e atualizam-se apenas as células que tenham vizinhança com a prioridade atual, mantendo-se o estado das vizinhanças que não estejam na prioridade atual da iteração. Ao fim da varredura do reticulado, o processo se repete para a próxima prioridade, agora iterando sobre o reticulado gerado no processo descrito anteriormente, com uma prioridade menor. O reticulado resultante após iterar sobre todas as prioridades é chamado de iteração global (ou macroiteração) e é incluído nas renderizações, o que não acontece com as microiterações.
 
@@ -223,7 +231,7 @@ Parte imprescindível da definição de um AC é a ordem de atualização das c�
 Segundo \cite{boccara2002number}, ``Uma regra de AC \textit{f} de \textit{q} estados, unidimensional, de comprimento \textit{n} é conservativa se, para todas as configurações cíclicas de tamanho \textit{L} \(\geq\) \textit{n} satisfaz'':
 
 \[f(x_1,x_2,...,x_{n-1},x_n) + f(x_2,x_3,...,x_n,x_{n+1}) + ... \]
-\tab \[ + \;   f(x_L,x_1,...,x_{n-2},x_{n-1} = x_1 + x_2 + ... + x_L\] 
+\[ + \;   f(x_L,x_1,...,x_{n-2},x_{n-1} = x_1 + x_2 + ... + x_L\] 
 
 \tab No contexto de ACEs, uma evolução é dita conservativa caso, para qualquer configuração inicial, a soma dos estados presentes numa configuração é sempre a mesma para todas as iterações. Como é mencionado na subseção \ref{contex}, ACs conservativos podem ser usados para modelar ambientes em que há conservabilidade, como trânsito automobilístico, simulação de partículas, entre outros. A regra 184 é uma regra que, em execução síncrona, gera evoluções conservativas pela definição anterior de conservabilidade. 
 % Na seção \ref{resultados} são apresentados os esquemas em que a regra 184 permanece conservativa com a estratégia de atualização discutida em \ref{udsn}.
@@ -251,11 +259,12 @@ A pesquisa se limita a ACEs com o tipo de atualização evidenciado na subseçã
 
 \tab Os três experimentos foram de natureza computacional. Foram testados comprimentos de reticulado (\textit{n}) sucessivamente maiores, de \textit{n}=5 em diante. Para o primeiro experimento, foram testados esquemas de atualização \textit{independentes} para o ACE 184, i.e., os esquemas cujas dinâmicas são definidas pelas transições \textit{ativas} de estado da regra, as que mudam o estado da célula central. Para o segundo e o terceiro experimento, foram escolhidas regras \textit{balanceadas} (as que têm quatro transições de estado para cada um dos estados, 0 e 1) e que tivessem no máximo 75 esquemas independentes por regra; o balanceamento se deve a uma condição necessária do problema e a restrição em 75 esquemas para diminuir as demandas computacionais.
 
+\break
 \section{Resultados dos Experimentos} \label{resultados}
 
 \textbf{Experimento 1}
 
-É sabido que há cinco regras que apresentam conservabilidade numérica em suas evoluções: 170, 184, 204, 226 e 240. A motivação para o primeiro experimento foi descobrir se, no esquema de atualização usado, essa propriedade é mantida para a regra 184 (que é equivalente à regra 226), que foi escolhida por ser a mais rica do ponto de vista dinâmico dentre as cinco, empatada com a 226.
+\tab É sabido que há cinco regras que apresentam conservabilidade numérica em suas evoluções: 170, 184, 204, 226 e 240. A motivação para o primeiro experimento foi descobrir se, no esquema de atualização usado, essa propriedade é mantida para a regra 184 (que é equivalente à regra 226), que foi escolhida por ser a mais rica do ponto de vista dinâmico dentre as cinco, empatada com a 226.
 
 \tab Em relação à conservabilidade, a execução da regra 184 com todas as configurações iniciais de comprimento até \textit{n}=15, e com todos os seus esquemas de prioridade independentes, resultou num conjunto de esquemas assíncronos em que a regra permanece conservativa, como é mostrado na figura \ref{fig:evolucoes}. Nota-se, entretanto, que todos correspondem ao modo síncrono, já que eles só diferem entre si nas prioridades das transições inativas, e as prioridades das ativas são as mesmas em cada esquema.
 
@@ -295,12 +304,13 @@ No entanto, é possível ver que as prioridades das transições de estado ativa
 
 \textbf{Experimentos 2 e 3}
 
-\tab A motivação para os dois últimos experimentos a respeito do problema da maioria e problema da paridade foi estudar se os ACEs com atualização assíncrona por prioridade eram capazes de resolver esses problemas de decisão emblemáticos no contexto de ACs.
+A motivação para os dois últimos experimentos a respeito do problema da maioria e problema da paridade foi estudar se os ACEs com atualização assíncrona por prioridade eram capazes de resolver esses problemas de decisão emblemáticos no contexto de ACs.
 
 \tab A execução das regras e esquemas de prioridade independentes selecionadas até comprimento \textit{n}=7 bastou para mostrar que nenhuma das regras elementares testadas foi capaz de classificar a densidade nem resolver o problema da paridade totalmente, qualquer que fosse o esquema de atualização independente utilizado.
 
-A seguir são apresentadas as regras a quantidade de esquemas testados para elas no presente trabalho.
+\tab A seguir são apresentadas as regras a quantidade de esquemas testados para elas no presente trabalho.
 
+\break
 
 \begin{center}
 % \caption{Primeiro conjunto de regras e quantidade de esquemas testados}
@@ -319,8 +329,6 @@ A seguir são apresentadas as regras a quantidade de esquemas testados para elas
   78 & 3   \\ \hline
   85 & 75  \\ \hline
   86 & 75  \\ \hline
-  ... & ... \\ \hline
-  ... & ... \\ \hline
   89 & 75  \\ \hline
   90 & 75  \\ \hline
   92 & 3   \\ \hline
@@ -351,6 +359,8 @@ A seguir são apresentadas as regras a quantidade de esquemas testados para elas
   197 & 3  \\ \hline
   198 & 3  \\ \hline
   201 & 3  \\ \hline
+  ... & ... \\ \hline
+  ... & ... \\ \hline
   202 & 3  \\ \hline
   204 & 1  \\ \hline
   209 & 75 \\ \hline
@@ -363,7 +373,7 @@ A seguir são apresentadas as regras a quantidade de esquemas testados para elas
   232 & 3  \\ \hline
 \end{longtable}
 \end{center}
-\break
+% \break
 
 
 \begin{center}
@@ -404,7 +414,9 @@ Esta pesquisa é um passo no estudo sobre ACEs com atualização assíncrona por
 
 \tab Estudamos três importantes propriedades nos ACEs executados com a estratégia de atualização assíncrona por prioridade da vizinhança: conservabilidade numérica, capacidade de classificação de densidade e capacidade de resolver o problema da maioria. 
 
-% \tab Queremos agradecer nosso orientador, Prof. Dr. Pedro Paulo Balbi de Oliveira pelo forte, contínuo e atencioso apoio ao longo do desenvolvimento desta pesquisa.
+% \break
+
+% Queremos agradecer nosso orientador, Prof. Dr. Pedro Paulo Balbi de Oliveira pelo forte, contínuo e atencioso apoio ao longo do desenvolvimento desta pesquisa.
 
 % \addcontentsline{toc}{section}{Referências}
 % \bibliography{cellz} \label{bib}
