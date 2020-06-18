@@ -1,3 +1,0 @@
-AC: autômato celular; (em inglês: CA)
-
-Amphirical: http://mathworld.wolfram.com/Amphichiral.html
