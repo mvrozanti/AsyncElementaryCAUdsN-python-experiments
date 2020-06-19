@@ -33,9 +33,8 @@ def get_majority_problem_score(rule, scheme, n):
 pairs = load_pairs_for_exp_2_and_3()
 scores_n = {}
 cur_n = 5
-code.interact(banner='', local=globals().update(locals()) or globals(), exitmsg='')
 while should_run_for_next_n(scores_n, cur_n):
-    for rule,schemes in pairs.items():
+    for rule,schemes in tqdm(pairs.items()):
         rule = int(rule)
         for scheme in schemes:
             if should_run_pair(scores_n, cur_n, rule, scheme):
