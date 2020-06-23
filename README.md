@@ -45,7 +45,7 @@ To run each of the experiments, simply execute:
 
 `python exp1.py`
 
-The first experiment prints the independent update schemes that correspond to the synchronous update mode of rule 184.
+The first experiment prints the independent update schemes where rule 184 remains conservative. As it turns out, all of them are equivalent to the synchronous update mode.
 
 # Experiments 2 & 3
 
@@ -66,4 +66,3 @@ The cell value is the amount of initial configurations in which that pair is abl
 ![08](res/artigo-08.png)
 ![09](res/artigo-09.png)
 ![10](res/artigo-10.png)
-
