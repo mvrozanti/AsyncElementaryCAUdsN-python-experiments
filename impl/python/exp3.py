@@ -34,6 +34,7 @@ def get_parity_problem_score(rule, scheme, n):
 pairs = load_pairs_for_exp_2_and_3()
 scores_n = {}
 cur_n = 5
+
 while should_run_for_next_n(scores_n, cur_n):
     for rule,schemes in pairs.items():
         rule = int(rule)

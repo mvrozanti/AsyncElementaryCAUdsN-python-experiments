@@ -11,6 +11,7 @@ import itertools
 import json
 from tqdm import tqdm
 import pandas as pd
+import sys
 
 def lattice_solves_majority_problem(lattice):
     init_space_majority_state = max(lattice[0], key=lattice[0].count)
@@ -22,7 +23,7 @@ def lattice_solves_majority_problem(lattice):
 def get_majority_problem_score(rule, scheme, n):
     if not n % 2:
         print(f'Majority problem does not support n={n}')
-        return False
+        sys.exit(1)
     t = T(n)
     score = 0
     for ic in gen_lattice_combo(n):
@@ -33,8 +34,9 @@ def get_majority_problem_score(rule, scheme, n):
 pairs = load_pairs_for_exp_2_and_3()
 scores_n = {}
 cur_n = 5
+
 while should_run_for_next_n(scores_n, cur_n):
-    for rule,schemes in tqdm(pairs.items()):
+    for rule,schemes in pairs.items():
         rule = int(rule)
         for scheme in schemes:
             if should_run_pair(scores_n, cur_n, rule, scheme):
@@ -51,4 +53,4 @@ for n in scores_n:
     df = pd.DataFrame(scores_n[n]).T
     df.sort_index(inplace=True)
     df = df.T
-    df.to_csv(f'scores-DCT-{cur_n}x{T(cur_n)}.csv')
+    df.to_csv(f'scores-DCT-{n}x{T(n)}.csv')
