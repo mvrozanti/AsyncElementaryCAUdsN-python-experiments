@@ -1,15 +1,4 @@
-![01](res/artigo-01.png)
-![02](res/artigo-02.png)
-![03](res/artigo-03.png)
-![04](res/artigo-04.png)
-![05](res/artigo-05.png)
-![06](res/artigo-06.png)
-![07](res/artigo-07.png)
-![08](res/artigo-08.png)
-![09](res/artigo-09.png)
-![10](res/artigo-10.png)
-
-# Usage
+# Main file usage
 
 ```
 usage: aecaudsn.py [-h] [-n LENGTH] [-t TIMESTEPS] [-r RULE-ID] [-s ASYNCHRONOUS-SCHEME]
@@ -48,3 +37,33 @@ optional arguments:
   -o FORMAT, --output FORMAT
                         Render to FORMAT file. Valid values are 'txt' and 'png'. Default is 'txt'.
 ```
+
+# Experiments
+To run each of the experiments, simply execute: 
+
+## Experiment 1
+
+`python exp1.py`
+
+The first experiment prints the independent update schemes that correspond to the synchronous update mode of rule 184.
+
+# Experiments 2 & 3
+
+`python exp2.py # majority problem`
+`python exp3.py # parity problem`
+
+When finishing execution, each of these programs outputs a csv file for each valid (odd and greater than 3) lattice length, where each cell corresponds to a pair of Wolfram-code rule and an asynchronous update scheme. 
+
+The cell value is the amount of initial configurations in which that pair is able to solve the respective decision problem. A pair is perfectly successful for a *n*-length lattice only if it solves the decision problem for all initial configurations.
+
+![01](res/artigo-01.png)
+![02](res/artigo-02.png)
+![03](res/artigo-03.png)
+![04](res/artigo-04.png)
+![05](res/artigo-05.png)
+![06](res/artigo-06.png)
+![07](res/artigo-07.png)
+![08](res/artigo-08.png)
+![09](res/artigo-09.png)
+![10](res/artigo-10.png)
+
