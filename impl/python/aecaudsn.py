@@ -88,7 +88,7 @@ def validate_args(args):
     args.length > 2                                    or mexit("Lattices's length must be greater than 2.")
     if not args.timesteps:
         args.timesteps = T(args.length)
-    args.timesteps > 0                                 or mexit('Timestep amount must be greater than 0.')
+    args.timesteps > 0                                 or mexit('Timestep count must be greater than 0.')
     args.output = args.output.lower()
     args.output in ['txt', 'png']                      or mexit('Output must be one of: txt, png.')
     if args.initial_configuration:
@@ -133,10 +133,10 @@ Unless specified, this program assumes timesteps=2^length+1.
     parser.add_argument('-r' , '--rule'                  , metavar='RULE-ID'             , help='''Wolfram-code identifier.
             ''' , type=int, required=not help)
     parser.add_argument('-s' , '--scheme'                , metavar='ASYNCHRONOUS-SCHEME' , help='''Neighborhood priority.
-Example: 12345678.
+Example: 12345678
 This argument also supports an irrelevant priority. 
-Theses cases are represented by an underscore, like in 1_1_1_1_.
-            ''', required=True)
+Theses cases are represented by an underscore, as in 1_1_1_1_.
+            ''', required=not help)
     parser.add_argument('-I' , '--initial-configuration' , metavar='CONFIG'              , help='''Initial configuration. 
 Unless specified, this program generates lattices for all possible configurations. The length of CONFIG must match LENGTH parameter.
 Example: 0001000
@@ -170,11 +170,10 @@ def should_run_pair(scores_n, cur_n, rule, scheme):
 
 def load_pairs_for_exp_2_and_3():
     uit1 = json.load(open('pairs-1.json'))
-    # uit2 = json.load(open('pairs-2.json'))
+    uit2 = json.load(open('pairs-2.json'))
     selected_pairs = {}
     for rule in uit1:
         selected_pairs[rule] = uit1[rule]
-        # selected_pairs[rule] = [tuple(s) for s in uit1[rule]]
-    # for rule in uit2:
-    #     selected_pairs[rule] = [tuple(s) for s in uit2[rule]]
+    for rule in uit2:
+        selected_pairs[rule] = uit2[rule]
     return selected_pairs
