@@ -47,9 +47,10 @@ To run each of the experiments, simply execute:
 
 The first experiment prints the independent update schemes where rule 184 remains conservative. As it turns out, all of them are equivalent to the synchronous update mode.
 
-# Experiments 2 & 3
+## Experiments 2 & 3
 
 `python exp2.py # majority problem`
+
 `python exp3.py # parity problem`
 
 When finishing execution, each of these programs outputs a csv file for each valid (odd and greater than 3) lattice length, where each cell corresponds to a pair of Wolfram-code rule and an asynchronous update scheme. 
