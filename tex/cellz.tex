@@ -6,9 +6,11 @@
 \usepackage{parskip}
 \usepackage{microtype}
 \usepackage{morefloats}
+\usepackage{float}
 \usepackage[absolute]{textpos}
 \usepackage{tabularx}
 \usepackage[table]{xcolor}
+\usepackage{booktabs}
 \usepackage{graphicx}
 \usepackage{mathtools}
 \usepackage{multirow}
@@ -141,28 +143,32 @@
 
 \section{Introdução}
 
-Autômatos Celulares (ACs) são uma categoria de sistemas discretos. Por sua própria simplicidade, estes sistemas têm ocupado uma posição privilegiada no estudo de complexidade nos mais diversos campos da ciência, de biologia teórica a economia, entre muitos outros. O desenvolvimento de ACs é tipicamente atribuído a John von Neumann através de suas tentativas de criar um modelo abstrato de autoreprodução biológica. Ao fim de 1950, foi notado que ACs poderiam ser vistos como computadores paralelos \cite[p. 876]{wolfram2002new}. Apesar de falta de investigação científica até 1970, um exemplo de AC se tornou muito famoso por seu comportamento complexo e regras simplesmente descritas inventadas por John Conway, \textit{The Game of Life}, que se popularizou após sua aparição na revista \textit{Scientific American}. 
+Autômatos Celulares (ACs) são uma categoria de sistemas discretos. Por sua própria simplicidade, estes sistemas têm ocupado uma posição privilegiada no estudo de complexidade nos mais diversos campos da ciência, de biologia teórica a economia, entre muitos outros. O desenvolvimento de ACs é tipicamente atribuído a John von Neumann através de suas tentativas de criar um modelo abstrato de autorreprodução biológica. Ao fim de 1950, foi notado que ACs poderiam ser vistos como computadores paralelos \cite[p. 876]{wolfram2002new}. Apesar de falta de investigação científica até 1970, um exemplo de AC se tornou muito famoso por seu comportamento complexo e regras simplesmente descritas inventadas por John Conway, \textit{The Game of Life}, que se popularizou após sua aparição na revista \textit{Scientific American} \cite{gardner1970mathematical}. 
 
-\tab Desde então, múltiplos estudos compreensivos foram realizados por cientistas ao redor do mundo, destacando os trabalhos feitos por Stephen Wolfram na década de 1980, culminando na publicação do livro A New Kind of Science em que Wolfram apresenta uma coleção de resultados a respeito de ACs, com uma série de descobertas revolucionárias.  
+\tab Desde então, múltiplos estudos foram realizados por cientistas ao redor do mundo, destacando os trabalhos feitos por Stephen Wolfram na década de 1980, culminando na publicação do livro A New Kind of Science em que Wolfram apresenta uma coleção de resultados a respeito de ACs, com uma série de descobertas revolucionárias.  
 Esta é uma pesquisa exploratória, dada a natureza desconhecida das propriedades de Autômatos Celulares Elementares com o tipo de atualização mencionado na subseção \ref{udsn}. Baseada em medidas objetivas e dados verificáveis, esta pesquisa foi voltada para encontrar caminhos, formas, maneiras e procedimentos para atingir um determinado fim, buscando definir um processo ou uma ferramenta que leve à solução do problema proposto. Quanto aos meios, foram utilizados os recursos mencionados na Bibliografia.
 
-\tab A seguir, são apresentados conceitos e experimentos relacionados a Autômatos Celulares Elementares. Apesar de tradicionalmente executados sincronamente, neste trabalho para todas as execuções é usada uma nova estratégia assíncrona de atualização.
+\tab A seguir, são apresentados conceitos e experimentos relacionados a Autômatos Celulares Elementares assícronos.
 
 \subsection{Contextualização e Relevância} \label{contex}
 
-A motivação inicial para o estudo de ACs por parte de von Neumann não era matemática mas tinha como diretriz encontrar uma forma viável de tratar do problema de como fazer máquinas se reproduzirem. Hoje é sabido que esses sistemas são aplicáveis para resolver problemas relativos a classificação de densidade, simulação de partículas, compressão de dados, design estrutural, representação de comportamentos dinâmicos como trânsito em cidades ou movimentação de seres vivos entre muitos outros.
+A motivação inicial para o estudo de ACs por parte de von Neumann não era matemática mas tinha como diretriz encontrar uma forma viável de tratar do problema de como fazer máquinas se reproduzirem. Hoje é sabido que esses sistemas são aplicáveis para resolver problemas relativos a classificação de densidade \cite{mitchell1994evolving}, simulação de partículas \cite{salem1985thermodynamics}, compressão de dados \cite{lafe1997data}, design estrutural \cite{abdalla2002structural}, representação de comportamentos dinâmicos como trânsito em cidades ou movimentação de seres vivos \cite{rosenblueth2011model} entre muitos outros.
 
-\tab Há uma infinidade de ACs passíveis de construção para modelagem ou solução de problemas. Um deles é a modelagem de tráfego de veículos, como é notado por \cite[p. 307]{rosenblueth2011model}:  ``Autômatos Celulares Elementares'', discutidos nas próximas seções, ``podem modelar tráfego também. Podemos presumir que um veículo se move para frente ou não dependendo apenas na presença ou ausência de outro veículo em sua frente. Supondo que um veículo se move uma célula para a direita se e apenas se uma a célula à direita está vazia, então a regra 184 corresponde ao tráfego se movendo à direita.''
+\tab Apesar de ACs serem executados tradicionalmente em modo síncrono, há múltiplos tipos de atualização de células, que produzem comportamentos diferentes dos síncronos. Comportamentos interessantes podem desaparecer em modo assíncrono mas outros podem emergir. 
+% Vários tipos de atualização assícrona foram descritos por autores diferentes, de formas diferentes.  
+Quando executados de forma assíncrona, ACs definem vários esquemas possíveis de atualização, como o esquema independente aleatório, o esquema de ordem aleatória, o esquema cíclico, entre outros.
 
-% Movimento aparente é criado do seguinte modo: se o estado de uma célula é 1 e a de seu vizinho à direita é 0, então esta regra atribui 0 ao estado da célula na próxima geração, eliminando o veículo de sua célula atual (que é representada por 110 e 010). Similarmente, se o estado atual da célula é 0 e de seu vizinho à esquerda é 1, então o próximo estado da célula é 1, aparentemente fazendo o veículo no vizinho da esquerda mover-se uma célula para a direita (cobrindo casos 100 e 101). Deve-se lidar com duas outras situações. Primeiro, um veículo não pode se mover se houver outro veículo diretamente em sua frente (i.e., 111 e 011). Segundo, se não há veículo na célula ou seu vizinho à esquerda, então na próxima geração a célula não terá um veículo também (i.e., 001 e 000)''.
+\tab O tipo de assincronia usado nesta pesquisa, a atualização assíncrona por prioridade da vizinhança, é novo e ainda pouco estudado. Sua definição é aprofundada na subseção \ref{udsn}.
 
-\tab ACs são também capazes de resolver problemas globais de decisão. Dois exemplos emblemáticos são o Problema da Maioria, também chamado de Problema da classificação de densidade e o Problema da paridade. Ambos problemas dependem que as funções locais preservem a informação sobre a vizinhança ao longo do processamento global, de modo que a evolução eventualmente gere um reticulado totalmente preenchido de células com um único estado (no contexto de Autômatos Celulares Elementares, 0 ou 1).
+% \tab Há uma infinidade de ACs passíveis de construção para modelagem ou solução de problemas. Um deles é a modelagem de tráfego de veículos, como é notado por \cite[p. 307]{rosenblueth2011model}.'
+%
+% \tab ACs são também capazes de resolver problemas globais de decisão. Dois exemplos emblemáticos são o Problema da Maioria, também chamado de Problema da classificação de densidade e o Problema da paridade. Ambos problemas dependem que as funções locais preservem a informação sobre a vizinhança ao longo do processamento global, de modo que a evolução eventualmente gere um reticulado totalmente preenchido de células com um único estado (no contexto de Autômatos Celulares Elementares, 0 ou 1).
 
 % \break
 
 \subsection{Objetivos do Estudo} 
 
-A motivação para o presente trabalho é estudar três importantes propriedades nos ACEs executados com a estratégia definida na subseção \ref{udsn}: 
+A motivação para o presente trabalho é estudar três importantes propriedades nos ACEs executados com o tipo de atualização em pauta: 
 
 \begin{itemize}
   \item Conservabilidade numérica;
@@ -188,7 +194,7 @@ A motivação para o presente trabalho é estudar três importantes propriedades
 Em relação ao referencial teórico estudado neste TCC, foi de suma importância entender os seguintes tópicos:
 
 \subsection{Autômatos Celulares} \label{ref_ac}
-Como diz \cite{wolfram1983cellular}, ``Sistemas matemáticos de simples construção são capazes de comportamento altamente complexo com muitas características''. ACs são um exemplo desse tipo de sistemas. ACs são compostos por células, cada uma com um estado. Eles podem ter \textit{d} dimensões e \textit{q} estados finitos, os quais devem ser estipulados previamente e são necessariamente computados através de funções locais, isto é, através da vizinhança entre as células.
+De acordo com \cite{wolfram1983cellular}, ``Sistemas matemáticos de simples construção são capazes de comportamento altamente complexo com muitas características''. ACs são um exemplo desse tipo de sistemas. ACs são compostos por células, cada uma com um estado. Eles podem ter \textit{d} dimensões e \textit{q} estados finitos, os quais devem ser estipulados previamente e são necessariamente computados através de funções locais, isto é, através da vizinhança entre as células.
 
 \tab Wolfram diz ainda, ``Autômatos celulares são simples idealizações matemáticas de sistemas naturais. Eles consistem de um reticulado de locais idênticos discretos, com cada local tomando um conjunto finito de valores inteiros. Os valores dos locais evoluem em fases temporais'', também chamadas de \textit{time steps}, ``discretas de acordo com regras determinísticas que especificam o valor de cada local em termos dos valores dos locais adjacentes''. É importante notar que todo AC depende de uma \textit{configuração inicial}, que é um reticulado de necessariamente \textit{d}-dimensões com cada célula com um estado pertencendo ao conjunto de \textit{q} estados.
 
@@ -212,7 +218,7 @@ ACEs formam a família de ACs com \textit{d}=1, \textit{q}=2 e \textit{r}=1, ou 
 % \break
 
 \subsection{Atualização Assíncrona por Prioridade da Vizinhança} \label{udsn}
-Parte imprescindível da definição de um AC é a ordem de atualização das células no reticulado. Apesar de os ACs serem fundamentalmente concebidos com o comportamento de atualização síncrona, é possível se utilizar das mais diversas e criativas estratégias de atualização.
+Parte imprescindível da definição de um AC é a ordem de atualização das células no reticulado. Apesar de os ACs serem fundamentalmente concebidos com o comportamento de atualização síncrona, é possível utilizar outras estratégias.
 
 \tab No presente trabalho foi empregada uma nova estratégia de atualização: por "prioridade da vizinhança", em que os esquemas associados contém a prioridade da atualização de cada uma das 8 possíveis vizinhanças do espaço elementar, as quais deverão ser seguidas deterministicamente durante as evoluções temporais.  
 
@@ -263,7 +269,7 @@ A pesquisa se limita a ACEs com o tipo de atualização evidenciado na subseçã
 
 \textbf{Experimento 1}
 
-\tab É sabido que há cinco regras que apresentam conservabilidade numérica em suas evoluções: 170, 184, 204, 226 e 240. A motivação para o primeiro experimento foi descobrir se, no esquema de atualização usado, essa propriedade é mantida para a regra 184 (que é equivalente à regra 226), que foi escolhida por ser a mais rica do ponto de vista dinâmico dentre as cinco, empatada com a 226.
+\tab É sabido que há cinco regras que apresentam conservabilidade numérica no caso síncrono: 170, 184, 204, 226 e 240. As regras 170 e 240 são dinamicamente equivalentes e produzem um comportamento de bit-shifting (para esquerda e direita, respectivamente), que é muito simples. A regra 204, por sua vez, é mais simples ainda, chamada de regra identidade, em que não há mudança no reticulado ao longo de sua evolução. A motivação para o primeiro experimento foi descobrir se, no esquema de atualização usado, essa propriedade é mantida para a regra 184 (que é equivalente à regra 226), que foi escolhida por ser a mais rica do ponto de vista dinâmico dentre as cinco, empatada com a 226.
 
 \tab Em relação à conservabilidade, a execução da regra 184 com todas as configurações iniciais de comprimento até \textit{n}=15, e com todos os seus esquemas de prioridade independentes, resultou num conjunto de esquemas assíncronos em que a regra permanece conservativa, como é mostrado na figura \ref{fig:evolucoes}. Nota-se, entretanto, que todos correspondem ao modo síncrono, já que eles só diferem entre si nas prioridades das transições inativas, e as prioridades das ativas são as mesmas em cada esquema.
 
@@ -309,14 +315,15 @@ A motivação para os dois últimos experimentos a respeito do problema da maior
 
 \tab A seguir são apresentadas as regras a quantidade de esquemas testados para elas no presente trabalho.
 
-\break
-
-\begin{center}
-% \caption{Primeiro conjunto de regras e quantidade de esquemas testados}
-\begin{longtable}{ | c | c | } 
-\caption{Primeiro conjunto de regras e quantidade de esquemas testados}\\
-  \hline
- Regra & Qtd. Esquemas     \\\hline
+\setlength{\aboverulesep}{0pt}
+\setlength{\belowrulesep}{0pt}
+\begin{table}[H]
+  \caption{Primeiro conjunto de regras e quantidade de esquemas testados}
+  \begin{minipage}{.4\textwidth}
+    \centering
+    \begin{tabular}{| c | c |}
+      \hline Regra & Qtd. Esquemas\\\hline
+      % \midrule 
   29 & 75  \\ \hline
   30 & 75  \\ \hline
   45 & 75  \\ \hline
@@ -343,6 +350,15 @@ A motivação para os dois últimos experimentos a respeito do problema da maior
   141 & 3  \\ \hline
   142 & 3  \\ \hline
   149 & 75 \\ \hline
+  \hline
+    \end{tabular}
+  \end{minipage}
+  \begin{minipage}{.4\textwidth}
+    \centering
+    \begin{tabular}{ | c | c | }
+    \hline
+      \hline Regra & Qtd. Esquemas\\
+      \midrule 
   150 & 75 \\ \hline
   153 & 75 \\ \hline
   154 & 75 \\ \hline
@@ -358,8 +374,6 @@ A motivação para os dois últimos experimentos a respeito do problema da maior
   197 & 3  \\ \hline
   198 & 3  \\ \hline
   201 & 3  \\ \hline
-  ... & ... \\ \hline
-  ... & ... \\ \hline
   202 & 3  \\ \hline
   204 & 1  \\ \hline
   209 & 75 \\ \hline
@@ -370,10 +384,73 @@ A motivação para os dois últimos experimentos a respeito do problema da maior
   226 & 75 \\ \hline
   228 & 3  \\ \hline
   232 & 3  \\ \hline
-\end{longtable}
-\end{center}
-% \break
+    \end{tabular}
+  \end{minipage}
+\end{table}
 
+% \begin{center}
+% % \caption{Primeiro conjunto de regras e quantidade de esquemas testados}
+% \begin{longtable}{ | c | c | } 
+% \caption{Primeiro conjunto de regras e quantidade de esquemas testados}\\
+%   \hline
+%  Regra & Qtd. Esquemas     \\\hline
+%   29 & 75  \\ \hline
+%   30 & 75  \\ \hline
+%   45 & 75  \\ \hline
+%   46 & 75  \\ \hline
+%   60 & 75  \\ \hline
+%   71 & 75  \\ \hline
+%   75 & 75  \\ \hline
+%   77 & 3   \\ \hline
+%   78 & 3   \\ \hline
+%   85 & 75  \\ \hline
+%   86 & 75  \\ \hline
+%   89 & 75  \\ \hline
+%   90 & 75  \\ \hline
+%   92 & 3   \\ \hline
+%   101 & 75 \\ \hline
+%   102 & 75 \\ \hline
+%   105 & 75 \\ \hline
+%   106 & 75 \\ \hline
+%   108 & 3  \\ \hline
+%   116 & 75 \\ \hline
+%   120 & 75 \\ \hline
+%   135 & 75 \\ \hline
+%   139 & 75 \\ \hline
+%   141 & 3  \\ \hline
+%   142 & 3  \\ \hline
+%   149 & 75 \\ \hline
+%   150 & 75 \\ \hline
+%   153 & 75 \\ \hline
+%   154 & 75 \\ \hline
+%   156 & 3  \\ \hline
+%   165 & 75 \\ \hline
+%   166 & 75 \\ \hline
+%   169 & 75 \\ \hline
+%   170 & 75 \\ \hline
+%   172 & 3  \\ \hline
+%   180 & 75 \\ \hline
+%   184 & 75 \\ \hline
+%   195 & 75 \\ \hline
+%   197 & 3  \\ \hline
+%   198 & 3  \\ \hline
+%   201 & 3  \\ \hline
+%   ... & ... \\ \hline
+%   ... & ... \\ \hline
+%   202 & 3  \\ \hline
+%   204 & 1  \\ \hline
+%   209 & 75 \\ \hline
+%   210 & 75 \\ \hline
+%   212 & 3  \\ \hline
+%   216 & 3  \\ \hline
+%   225 & 75 \\ \hline
+%   226 & 75 \\ \hline
+%   228 & 3  \\ \hline
+%   232 & 3  \\ \hline
+% \end{longtable}
+% \end{center}
+
+\break
 
 \begin{center}
   \begin{longtable}{ | c | c | } 
