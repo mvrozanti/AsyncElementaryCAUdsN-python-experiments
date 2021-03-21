@@ -41,6 +41,8 @@ def print_lattice(lattice, file_=sys.stdout):
 
 def render_image(lattice, filename):
     from PIL import Image
+    if type(lattice) != list:
+        lattice = list(lattice)
     w,t = len(lattice[0]), len(lattice)
     im = Image.new('RGB', (w, t))
     pixels = []
